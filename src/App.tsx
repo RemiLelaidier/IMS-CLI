@@ -4,7 +4,8 @@ import './App.css';
 import { AppBar } from 'material-ui';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import { Pages } from './components/types'
+import { StudentPage } from './components/pages/StudentPage';
+import { Pages } from './components/types';
 
 interface IAppState {
   logged: boolean;
@@ -26,8 +27,20 @@ class App extends React.Component<{}, IAppState> {
         <AppBar
           title="StaMIAGE" 
         />
+        <StudentPage 
+          onChangePage={this.onChangePage}
+          onSubmit={this.onSubmit}
+        />
       </MuiThemeProvider>
     );
+  }
+
+  public onSubmit(data: any) {
+    console.log(data);
+  }
+
+  public onChangePage(page: Pages) {
+    console.log(page);
   }
 }
 
