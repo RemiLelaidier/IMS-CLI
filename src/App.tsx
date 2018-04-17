@@ -1,23 +1,32 @@
 import * as React from 'react';
-
-
-
 import './App.css';
 
-import logo from './logo.svg';
+import { AppBar } from 'material-ui';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-class App extends React.Component {
+import { Pages } from './components/types'
+
+interface IAppState {
+  logged: boolean;
+  page: Pages;
+}
+
+class App extends React.Component<{}, IAppState> {
+  constructor (props: any) {
+    super(props);
+    this.state = {
+      logged: false,
+      page: Pages.home
+    }
+  }
+
   public render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </div>
+      <MuiThemeProvider>
+        <AppBar
+          title="StaMIAGE" 
+        />
+      </MuiThemeProvider>
     );
   }
 }
