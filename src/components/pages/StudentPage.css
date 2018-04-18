@@ -1,0 +1,14 @@
+.stepper-content {
+    margin: 12px;
+}
+
+.fukol-parent {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -.5em;
+}
+
+.fukol-child {
+    flex: 1 0 5em;
+    margin: .5em;
+}
