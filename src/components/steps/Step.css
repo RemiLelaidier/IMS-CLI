@@ -1,0 +1,19 @@
+.fukol-parent {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -.5em;
+}
+
+.fukol-child {
+    flex: 1 0 5em;
+    margin: .5em;
+}
+
+.input-text {
+    margin: 10px;
+}
+
+.input-date {
+    display: inline-block;
+    margin: 10px;
+}

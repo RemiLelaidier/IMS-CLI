@@ -19,6 +19,9 @@ class App extends React.Component<{}, IAppState> {
       logged: false,
       page: Pages.home
     }
+
+    this.onChangePage = this.onChangePage.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   public render() {

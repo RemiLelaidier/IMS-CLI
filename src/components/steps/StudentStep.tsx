@@ -1,21 +1,18 @@
 import { DatePicker, MenuItem, SelectField, TextField } from 'material-ui';
 import * as React from 'react';
 
+import './Step.css';
+
 export default class StudentStep extends React.Component {
 
     public render() {
-        const inputStyle: React.CSSProperties = {margin: '10px'};
-        const dateStyle: React.CSSProperties = {
-            display: 'inline-block',
-            margin: '10px'
-        };
         return(
             <div>
                 <div className="fukol-parent">
                     <div className="fukol-child">
                         <SelectField
                             floatingLabelText="Promotion"
-                            style={inputStyle}
+                            className="input-text"
                         >
                             <MenuItem>Licence 3</MenuItem>
                             <MenuItem>Master 1</MenuItem>
@@ -23,7 +20,7 @@ export default class StudentStep extends React.Component {
                         </SelectField>
                         <SelectField
                             floatingLabelText="Sexe"
-                            style={inputStyle}
+                            className="input-text"
                         >
                             <MenuItem>M</MenuItem>
                             <MenuItem>F</MenuItem>
@@ -35,11 +32,11 @@ export default class StudentStep extends React.Component {
                     <div className="fukol-child">
                         <TextField 
                             floatingLabelText="Nom"
-                            style={inputStyle}
+                            className="input-text"
                         />
                         <TextField 
                             floatingLabelText="Prénom"
-                            style={inputStyle}
+                            className="input-text"
                         />
                     </div>
                 </div>
@@ -47,15 +44,15 @@ export default class StudentStep extends React.Component {
                     <div className="fukol-child">
                         <TextField 
                             floatingLabelText="Numéro de SS"
-                            style={inputStyle}
+                            className="input-text"
                         />
                         <TextField 
                             floatingLabelText="Numéro étudiant"
-                            style={inputStyle}
+                            className="input-text"
                         />
                         <TextField
                             floatingLabelText="Email"
-                            style={inputStyle} 
+                            className="input-text" 
                         />
                     </div>
                 </div>
@@ -63,11 +60,11 @@ export default class StudentStep extends React.Component {
                     <div className="fukol-child">
                         <DatePicker
                             floatingLabelText="Date de naissance"
-                            style={dateStyle}
+                            className="input-date"
                         />
                         <TextField 
                             floatingLabelText="Téléphone"
-                            style={inputStyle}
+                            className="input-text"
                         />
                     </div>
                 </div>
@@ -75,7 +72,7 @@ export default class StudentStep extends React.Component {
                     <div className="fukol-child">
                         <TextField 
                             floatingLabelText="Adresse"
-                            style={inputStyle}
+                            className="input-text"
                         />
                     </div>
                 </div>

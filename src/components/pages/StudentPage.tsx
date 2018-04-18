@@ -3,6 +3,7 @@ import * as React from 'react';
 import { FlatButton, RaisedButton } from 'material-ui';
 import { Step, StepLabel, Stepper } from 'material-ui/Stepper';
 
+import InsuranceStep from '../steps/InsuranceStep';
 import StudentStep from '../steps/StudentStep';
 
 import './StudentPage.css';
@@ -96,6 +97,8 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
         switch (stepIndex) {
             case 0:
                 return (<StudentStep />);
+            case 1:
+                return (<InsuranceStep />);
             default:
                 return;
         }
