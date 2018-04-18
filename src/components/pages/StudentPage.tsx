@@ -64,7 +64,7 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
                         onClick={this.handlePrev}
                     />
                     <RaisedButton
-                        label={this.state.stepIndex === 6 ? 'Terminé' : 'Suivant'}
+                        label={this.state.finished ? 'Terminé' : 'Suivant'}
                         primary={true}
                         onClick={this.handleNext}
                     />
@@ -76,15 +76,20 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
 
     private handlePrev(event: any) {
         if (this.state.stepIndex > 0) {
-            this.setState({stepIndex: this.state.stepIndex - 1})
+            this.setState({
+                finished: false,
+                stepIndex: this.state.stepIndex - 1
+            })
         }
     }
 
     private handleNext(event: any) {
-        this.setState({
-            finished: this.state.stepIndex >= 6,
-            stepIndex: this.state.stepIndex + 1
-        })
+        if (!this.state.finished) { 
+            this.setState({
+                finished: this.state.stepIndex >= 5,
+                stepIndex: this.state.stepIndex + 1
+            });
+        }
     }
 
     private stepContent(stepIndex: number) {
