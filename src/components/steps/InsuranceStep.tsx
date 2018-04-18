@@ -14,6 +14,8 @@ export default class InsuranceStep extends React.Component {
                             className="input-text"
                         />
                     </div>
+                </div>
+                <div className="fukol-parent">
                     <div className="fukol-child">
                         <TextField 
                             floatingLabelText="Numéro de la police"

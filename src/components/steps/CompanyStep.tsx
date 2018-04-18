@@ -1,4 +1,4 @@
-import { MenuItem, SelectField, TextField } from 'material-ui';
+import { Divider, MenuItem, SelectField, TextField } from 'material-ui';
 import * as React from 'react';
 
 import './Step.css';
@@ -8,6 +8,7 @@ export default class CompanyStep extends React.Component {
         return (
             <div>
                 <h2>Entreprise</h2>
+                <Divider />
                 <div className="fukol-parent">
                     <div className="fukol-child">
                         <TextField 
@@ -33,6 +34,7 @@ export default class CompanyStep extends React.Component {
                     </div>
                 </div>
                 <h2>Représentant</h2>
+                <Divider />
                 <div className="fukol-parent">
                     <div className="fukol-child">
                         <SelectField

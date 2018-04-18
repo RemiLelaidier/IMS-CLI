@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { FlatButton, RaisedButton } from 'material-ui';
+import { FlatButton, Paper, RaisedButton } from 'material-ui';
 import { Step, StepLabel, Stepper } from 'material-ui/Stepper';
 
 import CompanyStep from '../steps/CompanyStep';
@@ -36,41 +36,43 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
         <div>
             <div className="stepper-content">{this.stepContent(this.state.stepIndex)}</div>
             <div className="stepper-action">
-                <Stepper activeStep={this.state.stepIndex} >
-                    <Step>
-                        <StepLabel>Etudiant</StepLabel>
-                    </Step>
-                    <Step>
-                        <StepLabel>Assurance</StepLabel>
-                    </Step>
-                    <Step>
-                        <StepLabel>Entreprise</StepLabel>
-                    </Step>
-                    <Step>
-                        <StepLabel>Stage</StepLabel>
-                    </Step>
-                    <Step>
-                        <StepLabel>Responsables</StepLabel>
-                    </Step>
-                    <Step>
-                        <StepLabel>Informations complémentaires</StepLabel>
-                    </Step>
-                    <Step>
-                        <StepLabel>Récapitulatif</StepLabel>
-                    </Step>
-                </Stepper>
-                <div>
-                    <FlatButton
-                        label="Retour"
-                        disabled={this.state.stepIndex === 0}
-                        onClick={this.handlePrev}
-                    />
-                    <RaisedButton
-                        label={this.state.finished ? 'Terminé' : 'Suivant'}
-                        primary={true}
-                        onClick={this.handleNext}
-                    />
-                </div>
+                <Paper>
+                    <Stepper activeStep={this.state.stepIndex} >
+                        <Step>
+                            <StepLabel>Etudiant</StepLabel>
+                        </Step>
+                        <Step>
+                            <StepLabel>Assurance</StepLabel>
+                        </Step>
+                        <Step>
+                            <StepLabel>Entreprise</StepLabel>
+                        </Step>
+                        <Step>
+                            <StepLabel>Stage</StepLabel>
+                        </Step>
+                        <Step>
+                            <StepLabel>Responsables</StepLabel>
+                        </Step>
+                        <Step>
+                            <StepLabel>Informations complémentaires</StepLabel>
+                        </Step>
+                        <Step>
+                            <StepLabel>Récapitulatif</StepLabel>
+                        </Step>
+                    </Stepper>
+                    <div>
+                        <FlatButton
+                            label="Retour"
+                            disabled={this.state.stepIndex === 0}
+                            onClick={this.handlePrev}
+                        />
+                        <RaisedButton
+                            label={this.state.finished ? 'Terminé' : 'Suivant'}
+                            primary={true}
+                            onClick={this.handleNext}
+                        />
+                    </div>
+                </Paper>
             </div>
         </div>
         );
