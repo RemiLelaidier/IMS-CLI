@@ -31,38 +31,40 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
         return (
         <div>
             <div className="stepper-content">{this.stepContent(this.state.stepIndex)}</div>
-            <Stepper activeStep={this.state.stepIndex} >
-                <Step>
-                    <StepLabel>Etudiant</StepLabel>
-                </Step>
-                <Step>
-                    <StepLabel>Entreprise</StepLabel>
-                </Step>
-                <Step>
-                    <StepLabel>Stage</StepLabel>
-                </Step>
-                <Step>
-                    <StepLabel>Responsables</StepLabel>
-                </Step>
-                <Step>
-                    <StepLabel>Informations complémentaires</StepLabel>
-                </Step>
-                <Step>
-                    <StepLabel>Récapitulatif</StepLabel>
-                </Step>
-            </Stepper>
-            <div>
-                <FlatButton
-                  label="Retour"
-                  disabled={this.state.stepIndex === 0}
-                  onClick={this.handlePrev}
-                />
-                <RaisedButton
-                  label={this.state.stepIndex === 5 ? 'Terminé' : 'Suivant'}
-                  primary={true}
-                  onClick={this.handleNext}
-                />
-              </div>
+            <div className="stepper-action">
+                <Stepper activeStep={this.state.stepIndex} >
+                    <Step>
+                        <StepLabel>Etudiant</StepLabel>
+                    </Step>
+                    <Step>
+                        <StepLabel>Entreprise</StepLabel>
+                    </Step>
+                    <Step>
+                        <StepLabel>Stage</StepLabel>
+                    </Step>
+                    <Step>
+                        <StepLabel>Responsables</StepLabel>
+                    </Step>
+                    <Step>
+                        <StepLabel>Informations complémentaires</StepLabel>
+                    </Step>
+                    <Step>
+                        <StepLabel>Récapitulatif</StepLabel>
+                    </Step>
+                </Stepper>
+                <div>
+                    <FlatButton
+                        label="Retour"
+                        disabled={this.state.stepIndex === 0}
+                        onClick={this.handlePrev}
+                    />
+                    <RaisedButton
+                        label={this.state.stepIndex === 5 ? 'Terminé' : 'Suivant'}
+                        primary={true}
+                        onClick={this.handleNext}
+                    />
+                </div>
+            </div>
         </div>
         );
     }
@@ -81,6 +83,7 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
     }
 
     private stepContent(stepIndex: number) {
+        const inputStyle = {margin: '10px'}
         switch (stepIndex) {
             case 0:
                 return(
@@ -88,6 +91,7 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
                         <div className="fukol-child">
                             <SelectField
                                 floatingLabelText="Promotion"
+                                style={inputStyle}
                             >
                                 <MenuItem>Licence 3</MenuItem>
                                 <MenuItem>Master 1</MenuItem>
@@ -95,6 +99,7 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
                             </SelectField>
                             <SelectField
                                 floatingLabelText="Sexe"
+                                style={inputStyle}
                             >
                                 <MenuItem>M</MenuItem>
                                 <MenuItem>F</MenuItem>

@@ -2,6 +2,13 @@
     margin: 12px;
 }
 
+.stepper-action {
+    position: fixed;
+    width: 95%;
+    bottom: 0;
+    margin: 10px;
+}
+
 .fukol-parent {
     display: flex;
     flex-wrap: wrap;
