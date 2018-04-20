@@ -27,13 +27,15 @@ class App extends React.Component<{}, IAppState> {
   public render() {
     return (
       <MuiThemeProvider>
-        <AppBar
-          title="StaMIAGE" 
-        />
-        <StudentPage 
-          onChangePage={this.onChangePage}
-          onSubmit={this.onSubmit}
-        />
+        <div>
+          <AppBar
+            title="StaMIAGE" 
+          />
+          <StudentPage 
+            onChangePage={this.onChangePage}
+            onSubmit={this.onSubmit}
+          />
+        </div>
       </MuiThemeProvider>
     );
   }

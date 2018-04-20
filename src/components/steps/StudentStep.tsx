@@ -1,10 +1,33 @@
+import * as Joi from 'joi';
 import { DatePicker, MenuItem, SelectField, TextField } from 'material-ui';
 import * as React from 'react';
 
 import './Step.css';
 
-export default class StudentStep extends React.Component {
+interface IStudentStepState {
+    data: {
+        nom: string,
+        prenom: string
+    },
+    errors: {
+        nom?: string,
+        prenom?: string
+    }
+}
 
+export default class StudentStep extends React.Component<{}, IStudentStepState> {
+    constructor (props: any) {
+        super(props);
+        this.state = {
+            data: {
+                nom: "",
+                prenom: ""
+            },
+            errors: {}
+        }
+
+        this.onChange = this.onChange.bind(this);
+    }
     public render() {
         return(
             <div>
@@ -13,6 +36,7 @@ export default class StudentStep extends React.Component {
                         <SelectField
                             floatingLabelText="Promotion"
                             className="input-text"
+                            id="promo"
                         >
                             <MenuItem>Licence 3</MenuItem>
                             <MenuItem>Master 1</MenuItem>
@@ -21,6 +45,7 @@ export default class StudentStep extends React.Component {
                         <SelectField
                             floatingLabelText="Sexe"
                             className="input-text"
+                            id="sexe"
                         >
                             <MenuItem>M</MenuItem>
                             <MenuItem>F</MenuItem>
@@ -33,10 +58,16 @@ export default class StudentStep extends React.Component {
                         <TextField 
                             floatingLabelText="Nom"
                             className="input-text"
+                            id="nom"
+                            onChange={this.onChange}
+                            errorText={this.state.errors.nom}
                         />
                         <TextField 
                             floatingLabelText="Prénom"
+                            id="prenom"
                             className="input-text"
+                            onChange={this.onChange}
+                            errorText={this.state.errors.prenom}
                         />
                     </div>
                 </div>
@@ -78,5 +109,29 @@ export default class StudentStep extends React.Component {
                 </div>
             </div>
         )
+    }
+
+    private async onChange(event: any) {
+        const target = event.target;
+        let schema = {} as Joi.SchemaLike;
+        const object = {};
+        let errorText = "";
+        switch (target.id) {
+            case "nom":
+                object[target.id] = target.value;
+                errorText = "Vous devez fournir un nom valide";
+                schema = Joi.object().keys({[target.id]: Joi.string().email().required()});
+                break;
+            default:
+        }
+
+        const promise = new Promise((resolve, reject) => {
+            const valid:any = Joi.validate(object, schema, (err: any, value: any) => {
+                this.setState({errors:{[target.id]: errorText}});
+                return reject(false);
+            });
+        });
+        
+        this.setState({errors:{[target.id]: ""}});
     }
 }
