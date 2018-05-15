@@ -10,7 +10,8 @@
       "time",
       "timeEnd",
       "trace"
-  ]
+  ],
+  "object-literal-sort-keys": false
   },
   "linterOptions": {
     "exclude": [

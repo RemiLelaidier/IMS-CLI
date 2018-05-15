@@ -1,6 +1,6 @@
-// import * as Joi from 'joi';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
+import * as Joi from 'joi';
 import * as React from 'react';
 
 import FormControl from '@material-ui/core/FormControl/FormControl';
@@ -10,28 +10,41 @@ import InputLabel from '@material-ui/core/InputLabel';
 import './Step.css';
 
 interface IStudentStepState {
-    data: {
-        nom: string,
-        prenom: string
-    },
-    errors: {
-        nom?: string,
-        prenom?: string
-    }
+    showErrors: boolean;
+    validationErrors: any;
+    fields: any;
 }
+
+const schema = Joi.object().keys({
+    nom: Joi.string().min(3).max(30).required(),
+    prenom: Joi.string().min(3).max(60).required(),
+    securiteSociale: Joi.string().min(13).max(15).required(),
+    numeroEtudiant: Joi.string().regex(/[0-9]{8}/).required(),
+    email: Joi.string().email().required(),
+    dateNaissance: Joi.string().regex(/^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/\-]\d{4}$/).required(),
+    telephone: Joi.string().regex(/^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/\-]\d{4}$/).required(),
+    adresse: Joi.string().min(5).required(),
+});
 
 export default class StudentStep extends React.Component<{}, IStudentStepState> {
     constructor (props: any) {
         super(props);
         this.state = {
-            data: {
-                nom: "",
-                prenom: ""
+            fields: {
+                nom: '',
+                prenom: '',
+                securiteSociale: '',
+                numeroEtudiant: '',
+                email: '',
+                dateNaissance: '',
+                telephone: '',
+                adresse: '',
             },
-            errors: {}
-        }
+            showErrors: false,
+            validationErrors: {},
+        };
 
-        this.onChange = this.onChange.bind(this);
+        this._handleChange = this._handleChange.bind(this);
     }
     public render() {
         return(
@@ -43,7 +56,6 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                         <InputLabel htmlFor="promotion">Promotion</InputLabel>
                         <Select
                             className="input-text"
-                            
                             inputProps={{
                                 id: 'promotion',
                                 name: "Promotion"
@@ -77,7 +89,7 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                             id="nom"
                             label="Nom"
                             className="input-text"
-                            onChange={this.onChange}
+                            onChange={this._handleChange}
                         />
                     </FormControl>
                     <FormControl>
@@ -85,27 +97,33 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                             label="Prénom"
                             id="prenom"
                             className="input-text"
-                            onChange={this.onChange}
+                            onChange={this._handleChange}
                         />
                     </FormControl>
                 </FormGroup>
                 <FormGroup row={true}>
                     <FormControl>
                         <TextField 
+                            id="securiteSociale"
                             label="Numéro de SS"
                             className="input-text"
+                            onChange={this._handleChange}
                         />
                     </FormControl>
                     <FormControl>
                         <TextField 
+                            id="numeroEtudiant"
                             label="Numéro étudiant"
                             className="input-text"
+                            onChange={this._handleChange}
                         />
                     </FormControl>
                     <FormControl>
                         <TextField
+                            id="email"
                             label="Email"
                             className="input-text" 
+                            onChange={this._handleChange}
                         />
                     </FormControl>
                 </FormGroup>
@@ -114,26 +132,31 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                     <FormControl>
                         <TextField
                             className="input-date"
-                            id="date"
+                            id="dateNaissance"
                             label="Date de naissance"
                             type="date"
                             InputLabelProps={{
                                 shrink: true,
                             }}
+                            onChange={this._handleChange}
                         />
                     </FormControl>
                     <FormControl>
                         <TextField 
+                            id="telephone"
                             label="Téléphone"
                             className="input-text"
+                            onChange={this._handleChange}
                         />
                     </FormControl>
                 </FormGroup>
                 <FormGroup>
                     <FormControl>
                         <TextField 
+                            id="adresse"
                             label="Adresse"
                             className="input-text"
+                            onChange={this._handleChange}
                         />
                     </FormControl>
                 </FormGroup>
@@ -141,27 +164,9 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
         )
     }
 
-    private async onChange(event: any) {
-        const target = event.target;
-        /*let schema = {} as Joi.SchemaLike;
-        const object = {};
-        let errorText = "";
-        switch (target.id) {
-            case "nom":
-                object[target.id] = target.value;
-                errorText = "Vous devez fournir un nom valide";
-                schema = Joi.object().keys({[target.id]: Joi.string().email().required()});
-                break;
-            default:
-        }*/
-
-        /*const promise = new Promise((resolve, reject) => {
-            const valid:any = Joi.validate(object, schema, (err: any, value: any) => {
-                this.setState({errors:{[target.id]: errorText}});
-                return reject(false);
-            });
-        });*/
-        
-        this.setState({errors:{[target.id]: ""}});
+    private _handleChange(event: any) {
+        this.setState({[event.target.id]: event.target.value});
+        const result = Joi.validate(this.state, schema);
+        console.log(result);
     }
 }
