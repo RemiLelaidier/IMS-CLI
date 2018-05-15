@@ -32,18 +32,18 @@ interface ConcernedState {
         qualiteTuteur: boolean
     },
     fields: {
-        sexeEncadrant: string,
-        nomEncadrant: string,
-        prenomEncadrant: string,
-        emailEncadrant: string,
-        telephoneEncadrant: string,
-        qualiteEncadrant: string,
-        sexeTuteur: string,
-        nomTuteur: string,
-        prenomTuteur: string,
-        emailTuteur: string,
-        telephoneTuteur: string,
-        qualiteTuteur: string
+        sexeEncadrant: string | null,
+        nomEncadrant: string | null,
+        prenomEncadrant: string | null,
+        emailEncadrant: string | null,
+        telephoneEncadrant: string | null,
+        qualiteEncadrant: string | null,
+        sexeTuteur: string | null,
+        nomTuteur: string | null,
+        prenomTuteur: string | null,
+        emailTuteur: string | null,
+        telephoneTuteur: string | null,
+        qualiteTuteur: string | null
     }
 }
 
@@ -69,18 +69,18 @@ export default class ConcernedStep extends React.Component<ConcernedProps, Conce
                 qualiteTuteur: false
             },
             fields: {
-                sexeEncadrant: '',
-                nomEncadrant: '',
-                prenomEncadrant: '',
-                emailEncadrant: '',
-                telephoneEncadrant: '',
-                qualiteEncadrant: '',
-                sexeTuteur: '',
-                nomTuteur: '',
-                prenomTuteur: '',
-                emailTuteur: '',
-                telephoneTuteur: '',
-                qualiteTuteur: ''
+                sexeEncadrant: null,
+                nomEncadrant: null,
+                prenomEncadrant: null,
+                emailEncadrant: null,
+                telephoneEncadrant: null,
+                qualiteEncadrant: null,
+                sexeTuteur: null,
+                nomTuteur: null,
+                prenomTuteur: null,
+                emailTuteur: null,
+                telephoneTuteur: null,
+                qualiteTuteur: null
             }
         }
 

@@ -29,16 +29,16 @@ interface InternshipState {
         avantagesStage: boolean
     },
     fields: {
-        intituleStage: string,
-        descriptionStage: string,
-        dateDebutStage: string,
-        dateFinStage: string,
-        dureeHebdoStage: string,
-        horairesStage: string,
-        presenceFree: string,
-        gratificationStage: string,
-        typeRemuneration: string,
-        avantagesStage: string
+        intituleStage: string | null,
+        descriptionStage: string | null,
+        dateDebutStage: string | null,
+        dateFinStage: string | null,
+        dureeHebdoStage: string | null,
+        horairesStage: string | null,
+        presenceFree: string | null,
+        gratificationStage: string | null,
+        typeRemuneration: string | null,
+        avantagesStage: string | null
     }
 }
 export default class InternshipStep extends React.Component<InternshipProps, InternshipState> {
@@ -61,16 +61,16 @@ export default class InternshipStep extends React.Component<InternshipProps, Int
                 avantagesStage: false
             },
             fields: {
-                intituleStage: '',
-                descriptionStage: '',
-                dateDebutStage: '',
-                dateFinStage: '',
-                dureeHebdoStage: '',
-                horairesStage: '',
-                presenceFree: '',
-                gratificationStage: '',
-                typeRemuneration: '',
-                avantagesStage: ''
+                intituleStage: null,
+                descriptionStage: null,
+                dateDebutStage: null,
+                dateFinStage: null,
+                dureeHebdoStage: null,
+                horairesStage: null,
+                presenceFree: null,
+                gratificationStage: null,
+                typeRemuneration: null,
+                avantagesStage: null
             }
         }
 

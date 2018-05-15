@@ -30,16 +30,16 @@ interface CompanyState {
         qualiteRepresentant: boolean
     },
     fields: {
-        nomEntreprise: string,
-        siteWebEntreprise: string,
-        siegeEntreprise: string,
-        adrEntreprise: string,
-        sexeRepresentant: string,
-        nomRepresentant: string,
-        prenomRepresentant: string,
-        emailRepresentant: string,
-        telephoneRepresentant: string,
-        qualiteRepresentant: string
+        nomEntreprise: string | null,
+        siteWebEntreprise: string | null,
+        siegeEntreprise: string | null,
+        adrEntreprise: string | null,
+        sexeRepresentant: string | null,
+        nomRepresentant: string | null,
+        prenomRepresentant: string | null,
+        emailRepresentant: string | null,
+        telephoneRepresentant: string | null,
+        qualiteRepresentant: string | null
     }
 }
 
@@ -63,16 +63,16 @@ export default class CompanyStep extends React.Component<CompanyProps, CompanySt
                 qualiteRepresentant: false
             },
             fields: {
-                nomEntreprise: '',
-                siteWebEntreprise: '',
-                siegeEntreprise: '',
-                adrEntreprise: '',
-                sexeRepresentant: '',
-                nomRepresentant: '',
-                prenomRepresentant: '',
-                emailRepresentant: '',
-                telephoneRepresentant: '',
-                qualiteRepresentant: ''
+                nomEntreprise: null,
+                siteWebEntreprise: null,
+                siegeEntreprise: null,
+                adrEntreprise: null,
+                sexeRepresentant: null,
+                nomRepresentant: null,
+                prenomRepresentant: null,
+                emailRepresentant: null,
+                telephoneRepresentant: null,
+                qualiteRepresentant: null
             }
         }
 
