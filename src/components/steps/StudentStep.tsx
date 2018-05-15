@@ -13,11 +13,12 @@ import './Step.css';
 interface IStudentStepState {
     showErrors: boolean;
     validationErrors: any;
-    fields: any;
     errors: any;
 }
 
 const schema = {
+    promotion: Joi.string(),
+    sexe: Joi.string(),
     nom: Joi.string().min(3).max(30),
     prenom: Joi.string().min(3).max(60),
     securiteSociale: Joi.string().min(13).max(15),
@@ -27,25 +28,13 @@ const schema = {
     telephone: Joi.string().regex(/^\+(?:[0-9]●?){6,14}[0-9]$/),
     adresse: Joi.string().min(5),
     assurance: Joi.string().min(2),
-    numeroPolice: Joi.string().min(2)
+    numeroPolice: Joi.string().min(2),
 };
 
 export default class StudentStep extends React.Component<{}, IStudentStepState> {
     constructor (props: any) {
         super(props);
         this.state = {
-            fields: {
-                promotion: '',
-                sexe: '',
-                nom: '',
-                prenom: '',
-                securiteSociale: '',
-                numeroEtudiant: '',
-                email: '',
-                dateNaissance: '',
-                telephone: '',
-                adresse: '',
-            },
             errors: {
                 promotion: false,
                 sexe: false,
