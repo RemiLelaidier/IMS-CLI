@@ -4,6 +4,7 @@ import './Step.css';
 
 import FormControl from '@material-ui/core/FormControl/FormControl';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
+import FormLabel from '@material-ui/core/FormLabel/FormLabel';
 import InputLabel from '@material-ui/core/InputLabel/InputLabel';
 import Select from '@material-ui/core/Select/Select';
 import TextField from '@material-ui/core/TextField/TextField';
@@ -12,6 +13,8 @@ export default class InternshipStep extends React.Component {
     public render() {
         return (
             <div>
+                <FormLabel component="legend">Informations sur le stage</FormLabel>
+                <br />
                 <FormGroup row={true}>
                     <FormControl>
                         <TextField 
@@ -26,6 +29,7 @@ export default class InternshipStep extends React.Component {
                         />
                     </FormControl>
                 </FormGroup>
+                <br />
                 <FormGroup row={true}>
                     <FormControl>
                         <TextField

@@ -35,8 +35,9 @@ export default class CompanyStep extends React.Component {
                     />
 
                 </FormGroup>
-                <br />
+                <br /><br />
                 <FormLabel component="legend">Représentant</FormLabel>
+                <br />
                 <FormGroup row={true}>
                     <FormControl>
                         <InputLabel htmlFor="sexe">Sexe</InputLabel>

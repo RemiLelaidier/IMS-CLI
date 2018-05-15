@@ -5,6 +5,7 @@ import * as React from 'react';
 
 import FormControl from '@material-ui/core/FormControl/FormControl';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
+import FormLabel from '@material-ui/core/FormLabel/FormLabel';
 import InputLabel from '@material-ui/core/InputLabel';
 import './Step.css';
 
@@ -35,6 +36,8 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
     public render() {
         return(
             <div>
+                <FormLabel component="legend">Étudiant</FormLabel>
+                <br />
                 <FormGroup row={true}>
                     <FormControl>
                         <InputLabel htmlFor="promotion">Promotion</InputLabel>
@@ -106,6 +109,7 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                         />
                     </FormControl>
                 </FormGroup>
+                <br />
                 <FormGroup row={true}>
                     <FormControl>
                         <TextField

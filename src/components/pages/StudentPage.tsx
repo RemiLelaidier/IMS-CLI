@@ -48,27 +48,27 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
         };
 
         return [
-                <Step key={0}>
-                    <StepLabel style={labelStyle}>Etudiant</StepLabel>
-                </Step>,
-                <Step key={1}>
-                    <StepLabel style={labelStyle}>Assurance</StepLabel>
-                </Step>,
-                <Step key={2}>
-                    <StepLabel style={labelStyle}>Entreprise</StepLabel>
-                </Step>,
-                <Step key={3}>
-                    <StepLabel style={labelStyle}>Stage</StepLabel>
-                </Step>,
-                <Step key={4}>
-                    <StepLabel style={labelStyle}>Responsables</StepLabel>
-                </Step>,
-                <Step key={5}>
-                    <StepLabel style={labelStyle}>Informations complémentaires</StepLabel>
-                </Step>,
-                <Step key={6}>
-                    <StepLabel style={labelStyle}>Récapitulatif</StepLabel>
-                </Step>
+            <Step key={0}>
+                <StepLabel style={labelStyle}>Etudiant</StepLabel>
+            </Step>,
+            <Step key={1}>
+                <StepLabel style={labelStyle}>Assurance</StepLabel>
+            </Step>,
+            <Step key={2}>
+                <StepLabel style={labelStyle}>Entreprise</StepLabel>
+            </Step>,
+            <Step key={3}>
+                <StepLabel style={labelStyle}>Stage</StepLabel>
+            </Step>,
+            <Step key={4}>
+                <StepLabel style={labelStyle}>Responsables</StepLabel>
+            </Step>,
+            <Step key={5}>
+                <StepLabel style={labelStyle}>Informations complémentaires</StepLabel>
+            </Step>,
+            <Step key={6}>
+                <StepLabel style={labelStyle}>Récapitulatif</StepLabel>
+            </Step>
         ];
     }
 
