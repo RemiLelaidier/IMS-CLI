@@ -1,5 +1,3 @@
-import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
 import * as Joi from 'joi';
 import * as React from 'react';
 
@@ -7,6 +5,9 @@ import FormControl from '@material-ui/core/FormControl/FormControl';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel/FormLabel';
 import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
+
 import './Step.css';
 
 interface IStudentStepState {
@@ -15,22 +16,24 @@ interface IStudentStepState {
     fields: any;
 }
 
-const schema = Joi.object().keys({
-    nom: Joi.string().min(3).max(30).required(),
-    prenom: Joi.string().min(3).max(60).required(),
-    securiteSociale: Joi.string().min(13).max(15).required(),
-    numeroEtudiant: Joi.string().regex(/[0-9]{8}/).required(),
-    email: Joi.string().email().required(),
-    dateNaissance: Joi.string().regex(/^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/\-]\d{4}$/).required(),
-    telephone: Joi.string().regex(/^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/\-]\d{4}$/).required(),
-    adresse: Joi.string().min(5).required(),
-});
+const schema = {
+    nom: Joi.string().min(3).max(30),
+    prenom: Joi.string().min(3).max(60),
+    securiteSociale: Joi.string().min(13).max(15),
+    numeroEtudiant: Joi.string().regex(/[0-9]{8}/),
+    email: Joi.string().email(),
+    dateNaissance: Joi.string().regex(/^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/\-]\d{4}$/),
+    telephone: Joi.string().regex(/^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/\-]\d{4}$/),
+    adresse: Joi.string().min(5),
+};
 
 export default class StudentStep extends React.Component<{}, IStudentStepState> {
     constructor (props: any) {
         super(props);
         this.state = {
             fields: {
+                promotion: '',
+                sexe: '',
                 nom: '',
                 prenom: '',
                 securiteSociale: '',
@@ -52,26 +55,26 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                 <FormLabel component="legend">Étudiant</FormLabel>
                 <br />
                 <FormGroup row={true}>
-                    <FormControl>
+                    <FormControl required={true} className="promotion">
                         <InputLabel htmlFor="promotion">Promotion</InputLabel>
                         <Select
-                            className="input-text"
                             inputProps={{
                                 id: 'promotion',
                                 name: "Promotion"
                             }}
+                            onChange={this._handleChange}
                             native={true}
                         >
-                            <option>Licence 3</option>
-                            <option>Master 1</option>
-                            <option>Master 2</option>
+                            <option value="L3">Licence 3</option>
+                            <option value="M1">Master 1</option>
+                            <option value="M2">Master 2</option>
                         </Select>
                     </FormControl>
-                    <FormControl>
+                    <FormControl required={true} className="sexe">
                         <InputLabel htmlFor="sexe">Sexe</InputLabel>
                         <Select
                             native={true}
-                            className="input-text"
+                            onChange={this._handleChange}
                             inputProps={{
                                 id: 'sexe',
                                 name: "Sexe"
@@ -84,52 +87,47 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                     </FormControl>
                 </FormGroup>
                 <FormGroup row={true}>
-                    <FormControl>
+                    <FormControl required={true} className="nom">
                         <TextField
                             id="nom"
                             label="Nom"
-                            className="input-text"
                             onChange={this._handleChange}
                         />
                     </FormControl>
-                    <FormControl>
+                    <FormControl required={true} className="prenom">
                         <TextField 
                             label="Prénom"
                             id="prenom"
-                            className="input-text"
                             onChange={this._handleChange}
                         />
                     </FormControl>
                 </FormGroup>
                 <FormGroup row={true}>
-                    <FormControl>
+                    <FormControl required={true} className="securiteSociale">
                         <TextField 
                             id="securiteSociale"
-                            label="Numéro de SS"
-                            className="input-text"
+                            label="N° de Sécurité Sociale"
                             onChange={this._handleChange}
                         />
                     </FormControl>
-                    <FormControl>
+                    <FormControl required={true} className="numeroEtudiant">
                         <TextField 
                             id="numeroEtudiant"
-                            label="Numéro étudiant"
-                            className="input-text"
+                            label="N° étudiant"
                             onChange={this._handleChange}
                         />
                     </FormControl>
-                    <FormControl>
+                    <FormControl required={true} className="email">
                         <TextField
                             id="email"
-                            label="Email"
-                            className="input-text" 
+                            label="Email" 
                             onChange={this._handleChange}
                         />
                     </FormControl>
                 </FormGroup>
                 <br />
                 <FormGroup row={true}>
-                    <FormControl>
+                    <FormControl required={true} className="dateNaissance">
                         <TextField
                             className="input-date"
                             id="dateNaissance"
@@ -141,21 +139,19 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                             onChange={this._handleChange}
                         />
                     </FormControl>
-                    <FormControl>
+                    <FormControl required={true} className="telephone">
                         <TextField 
                             id="telephone"
                             label="Téléphone"
-                            className="input-text"
                             onChange={this._handleChange}
                         />
                     </FormControl>
                 </FormGroup>
                 <FormGroup>
-                    <FormControl>
+                    <FormControl required={true}>
                         <TextField 
                             id="adresse"
                             label="Adresse"
-                            className="input-text"
                             onChange={this._handleChange}
                         />
                     </FormControl>
@@ -166,7 +162,7 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
 
     private _handleChange(event: any) {
         this.setState({[event.target.id]: event.target.value});
-        const result = Joi.validate(this.state, schema);
+        const result = Joi.validate({[event.target.id]: event.target.value}, schema);
         console.log(result);
     }
 }
