@@ -30,8 +30,8 @@ export default class StudentStep extends React.Component<IStudentStepProps, IStu
         super(props);
         this.state = {
             fields: {
-                promotion: null,
-                sexe: null,
+                promotion: 'L3',
+                sexe: 'M',
                 nom: null,
                 prenom: null,
                 securiteSociale: null,
@@ -40,7 +40,8 @@ export default class StudentStep extends React.Component<IStudentStepProps, IStu
                 dateNaissance: null,
                 telephone: null,
                 adresse: null,
-                assurance: null
+                assurance: null,
+                numeroPolice: null
             },
             errors: {
                 promotion: false,
@@ -53,7 +54,8 @@ export default class StudentStep extends React.Component<IStudentStepProps, IStu
                 dateNaissance: false,
                 telephone: false,
                 adresse: false,
-                assurance: false
+                assurance: false,
+                numeroPolice: false
             },
         };
 
@@ -104,9 +106,9 @@ export default class StudentStep extends React.Component<IStudentStepProps, IStu
                                 name: "Sexe"
                             }}
                         >
-                            <option>M</option>
-                            <option>F</option>
-                            <option>Autre</option>
+                            <option value='M'>M</option>
+                            <option value='F'>F</option>
+                            <option value='A'>Autre</option>
                         </Select>
                     </FormControl>
                 </FormGroup>
@@ -185,7 +187,7 @@ export default class StudentStep extends React.Component<IStudentStepProps, IStu
                                 onChange={this._handleChange}
                             />
                         </FormControl>
-                        <FormControl required={true} error={this.state.errors.assurance}>
+                        <FormControl required={true} error={this.state.errors.numeroPolice}>
                             <InputLabel htmlFor="numeroPolice">Numéro de police</InputLabel>
                             <Input 
                                 id="numeroPolice"
