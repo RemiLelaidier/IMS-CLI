@@ -11,6 +11,12 @@
       "timeEnd",
       "trace"
   ],
+  "variable-name": [
+    false
+  ],
+  "interface-name": [
+    false
+  ],
   "object-literal-sort-keys": false
   },
   "linterOptions": {

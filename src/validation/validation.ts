@@ -1,6 +1,5 @@
 import * as Joi from 'joi';
 
-// tslint:disable-next-line:interface-name
 export interface ValidatedStep {
     schema: any;
     showSchema: (any);

@@ -23,7 +23,6 @@ interface IStudentStepProps {
 
 export default class StudentStep extends React.Component<IStudentStepProps, IStudentStepState> implements ValidatedStep {
     public schema: any;
-    // tslint:disable-next-line:variable-name
     private _handleChange: any;
 
     constructor (props: any) {
