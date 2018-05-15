@@ -8,8 +8,6 @@ import Input from '@material-ui/core/Input/Input';
 import InputLabel from '@material-ui/core/InputLabel/InputLabel';
 import Select from '@material-ui/core/Select/Select';
 
-import './Step.css';
-
 import { _handleField } from '../../validation/validation';
 
 interface ConcernedProps {

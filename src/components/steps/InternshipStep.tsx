@@ -1,8 +1,6 @@
 import * as Joi from 'joi';
 import * as React from 'react';
 
-import './Step.css';
-
 import FormControl from '@material-ui/core/FormControl/FormControl';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel/FormLabel';

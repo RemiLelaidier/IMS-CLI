@@ -10,8 +10,6 @@ import Select from '@material-ui/core/Select/Select';
 
 import { _handleField, ValidatedStep } from '../../validation/validation';
 
-import './Step.css';
-
 interface CompanyProps {
     onError: (any);
 }

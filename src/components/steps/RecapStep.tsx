@@ -1,7 +1,5 @@
 import * as React from 'react';
 
-import './Step.css';
-
 interface RecapProps {
     onError: (any);
 }

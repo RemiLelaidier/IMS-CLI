@@ -1,7 +1,5 @@
 import * as React from 'react';
 
-import './Step.css';
-
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel/FormLabel';
 import Input from '@material-ui/core/Input/Input';
