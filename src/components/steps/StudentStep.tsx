@@ -110,9 +110,9 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                     <FormControl>
                         <TextField
                             className="input-date"
-                            id="datetime-local"
+                            id="date"
                             label="Date de naissance"
-                            type="datetime-local"
+                            type="date"
                             InputLabelProps={{
                                 shrink: true,
                             }}
