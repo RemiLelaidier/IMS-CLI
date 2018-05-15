@@ -120,7 +120,13 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
 
     private _handleField(event: any, from: string) {
         const steps = Object.assign({}, this.state.steps);
-        steps[from][event.target.id] = event.target.value;
+        if(steps[from]) {
+            steps[from][event.target.id] = event.target.value;
+        } else {
+            steps[from] = {
+                [event.target.id]: event.target.value
+            }
+        }
         this.setState({steps});
 
         console.log('valid field change received', {[event.target.id]: event.target.value});
