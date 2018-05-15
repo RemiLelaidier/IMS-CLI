@@ -4,6 +4,7 @@ import * as React from 'react';
 import FormControl from '@material-ui/core/FormControl/FormControl';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel/FormLabel';
+import Input from '@material-ui/core/Input/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
@@ -14,6 +15,7 @@ interface IStudentStepState {
     showErrors: boolean;
     validationErrors: any;
     fields: any;
+    errors: any;
 }
 
 const schema = {
@@ -43,6 +45,18 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                 telephone: '',
                 adresse: '',
             },
+            errors: {
+                promotion: false,
+                sexe: false,
+                nom: false,
+                prenom: false,
+                securiteSociale: false,
+                numeroEtudiant: false,
+                email: false,
+                dateNaissance: false,
+                telephone: false,
+                adresse: false,
+            },
             showErrors: false,
             validationErrors: {},
         };
@@ -55,7 +69,7 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                 <FormLabel component="legend">Étudiant</FormLabel>
                 <br />
                 <FormGroup row={true}>
-                    <FormControl required={true} className="promotion">
+                    <FormControl required={true} className="promotion" error={this.state.errors.promotion}>
                         <InputLabel htmlFor="promotion">Promotion</InputLabel>
                         <Select
                             inputProps={{
@@ -70,7 +84,7 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                             <option value="M2">Master 2</option>
                         </Select>
                     </FormControl>
-                    <FormControl required={true} className="sexe">
+                    <FormControl required={true} className="sexe" error={this.state.errors.sexe}>
                         <InputLabel htmlFor="sexe">Sexe</InputLabel>
                         <Select
                             native={true}
@@ -87,14 +101,14 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                     </FormControl>
                 </FormGroup>
                 <FormGroup row={true}>
-                    <FormControl required={true} className="nom">
-                        <TextField
+                    <FormControl required={true} className="nom" error={this.state.errors.nom}>
+                        <InputLabel htmlFor="nom">Nom</InputLabel>
+                        <Input
                             id="nom"
-                            label="Nom"
                             onChange={this._handleChange}
                         />
                     </FormControl>
-                    <FormControl required={true} className="prenom">
+                    <FormControl required={true} className="prenom" error={this.state.errors.prenom}>
                         <TextField 
                             label="Prénom"
                             id="prenom"
@@ -103,21 +117,21 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                     </FormControl>
                 </FormGroup>
                 <FormGroup row={true}>
-                    <FormControl required={true} className="securiteSociale">
+                    <FormControl required={true} className="securiteSociale" error={this.state.errors.securiteSociale}>
                         <TextField 
                             id="securiteSociale"
                             label="N° de Sécurité Sociale"
                             onChange={this._handleChange}
                         />
                     </FormControl>
-                    <FormControl required={true} className="numeroEtudiant">
+                    <FormControl required={true} className="numeroEtudiant" error={this.state.errors.numeroEtudiant}>
                         <TextField 
                             id="numeroEtudiant"
                             label="N° étudiant"
                             onChange={this._handleChange}
                         />
                     </FormControl>
-                    <FormControl required={true} className="email">
+                    <FormControl required={true} className="email" error={this.state.errors.email}>
                         <TextField
                             id="email"
                             label="Email" 
@@ -127,7 +141,7 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                 </FormGroup>
                 <br />
                 <FormGroup row={true}>
-                    <FormControl required={true} className="dateNaissance">
+                    <FormControl required={true} className="dateNaissance" error={this.state.errors.dateNaissance}>
                         <TextField
                             className="input-date"
                             id="dateNaissance"
@@ -139,7 +153,7 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                             onChange={this._handleChange}
                         />
                     </FormControl>
-                    <FormControl required={true} className="telephone">
+                    <FormControl required={true} className="telephone" error={this.state.errors.telephone}>
                         <TextField 
                             id="telephone"
                             label="Téléphone"
@@ -148,7 +162,7 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                     </FormControl>
                 </FormGroup>
                 <FormGroup>
-                    <FormControl required={true}>
+                    <FormControl required={true} error={this.state.errors.adresse}>
                         <TextField 
                             id="adresse"
                             label="Adresse"
@@ -163,6 +177,15 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
     private _handleChange(event: any) {
         this.setState({[event.target.id]: event.target.value});
         const result = Joi.validate({[event.target.id]: event.target.value}, schema);
+        if(result.error){
+            this.setState({errors: {
+                [event.target.id]: true
+            }});
+        } else {
+            this.setState({errors: {
+                [event.target.id]: false
+            }});
+        }
         console.log(result);
     }
 }
