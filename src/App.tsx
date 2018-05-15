@@ -7,12 +7,15 @@ import Typography from '@material-ui/core/Typography/Typography';
 import { StudentPage } from './components/pages/StudentPage';
 import { Pages } from './components/types';
 
-interface IAppState {
+interface AppState {
   logged: boolean;
   page: Pages;
 }
 
-class App extends React.Component<{}, IAppState> {
+// tslint:disable-next-line:no-empty-interface
+interface AppProps {}
+
+class App extends React.Component<AppProps, AppState> {
   constructor (props: any) {
     super(props);
     this.state = {

@@ -10,16 +10,16 @@ import Select from '@material-ui/core/Select';
 
 import { _handleField, ValidatedStep } from '../../validation/validation';
 
-interface IStudentStepState {
+interface StudentState {
     fields: any;
     errors: any;
 }
 
-interface IStudentStepProps {
+interface StudentProps {
     onError: (any);
 }
 
-export default class StudentStep extends React.Component<IStudentStepProps, IStudentStepState> implements ValidatedStep {
+export default class StudentStep extends React.Component<StudentProps, StudentState> implements ValidatedStep {
     public schema: any;
     private _handleChange: any;
 
