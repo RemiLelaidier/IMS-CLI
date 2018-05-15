@@ -120,7 +120,7 @@ export default class StudentStep extends React.Component<IStudentStepProps, IStu
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.prenom}>
-                        <InputLabel htmlFor="prenom">Prenom</InputLabel>
+                        <InputLabel htmlFor="prenom">Prénom</InputLabel>
                         <Input 
                             id="prenom"
                             onChange={this._handleChange}
