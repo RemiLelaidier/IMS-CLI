@@ -6,21 +6,26 @@ export interface ValidatedStep {
 }
 
 export function _handleField(this: any, event: any) {
+    // clone current fields to apply user modification
     const newFields = Object.assign({}, this.state.fields);
     newFields[event.target.id] = event.target.value;
     this.setState({fields: newFields});
 
+    // pass through Joi with Component schema
     const result = Joi.validate({[event.target.id]: event.target.value}, this.schema);
+    // if an error is found, the object evaluates, else error === null
     if(result.error){
         this.setState({errors: {
             [event.target.id]: true
         }});
         this.props.onError(true);
     } else {
+        // setting error on this form control
         this.setState({errors: {
             [event.target.id]: false
         }});
 
+        // check if our friends are filled or not
         let isEverythingFilled = true;
         for(const field in this.state.fields){
             if(this.state.fields[field] === null){
@@ -28,6 +33,7 @@ export function _handleField(this: any, event: any) {
             }
         }
 
+        // tell it to my mother (Page) !
         if(isEverythingFilled){
             this.props.onError(false);
         } else {
