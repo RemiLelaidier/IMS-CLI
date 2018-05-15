@@ -1,11 +1,14 @@
 import * as React from 'react';
-import './App.css';
 
 import AppBar from '@material-ui/core/AppBar/AppBar';
 import Toolbar from '@material-ui/core/Toolbar/Toolbar';
 import Typography from '@material-ui/core/Typography/Typography';
-import { StudentPage } from './components/pages/StudentPage';
+
 import { Pages } from './components/types';
+
+import { StudentPage } from './components/pages/StudentPage';
+
+import './App.css';
 
 interface AppState {
   logged: boolean;

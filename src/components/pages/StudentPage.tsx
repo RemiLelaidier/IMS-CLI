@@ -34,9 +34,9 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
     constructor(props: StudentPageProps) {
         super(props);
 
-        // @Tool : put inError to true to bypass validation logic
+        // @Tool : put inError to false to bypass validation logic
         this.state = { 
-            inError: false,
+            inError: true,
             stepIndex: 0,
             steps: {}
         }
@@ -45,6 +45,7 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
         this._handleNext = this._handleNext.bind(this);
         this._handlePrev = this._handlePrev.bind(this);
         this._handleField = this._handleField.bind(this);
+        this._handleSubmit = this._handleSubmit.bind(this);
         
         this._steps = [
             <StudentStep key={0} onError={this._onStepError} onFieldChange={this._handleField}/>, 
@@ -52,7 +53,7 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
             <InternshipStep key={2} onError={this._onStepError} onFieldChange={this._handleField}/>,
             <ConcernedStep key={3} onError={this._onStepError} onFieldChange={this._handleField}/>,
             <MoreStep key={4} onError={this._onStepError} onFieldChange={this._handleField}/>,
-            <RecapStep key={5} onError={this._onStepError} onFieldChange={this._handleField}/>
+            <RecapStep key={5} onError={this._onStepError} onFieldChange={this._handleField} onSubmit={this._handleSubmit} />
         ];
 
     }
@@ -101,7 +102,7 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
                     variant="progress"
                     activeStep={this.state.stepIndex}
                     nextButton={
-                        <Button size="small" onClick={this._handleNext} disabled={this.state.inError}>
+                        <Button size="small" onClick={this._handleNext}>
                         Suivant
                         </Button>
                     }
@@ -144,7 +145,8 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
     private _handleNext(event: any) {
         if (!this.state.inError) { 
             this.setState({
-                stepIndex: this.state.stepIndex + 1
+                stepIndex: this.state.stepIndex + 1,
+                inError: true
             });
         }
     }
@@ -159,5 +161,9 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
 
     private _stepContent(stepIndex: number) {
         return this._steps[stepIndex];
+    }
+
+    private _handleSubmit(event: any){
+        console.log('Yay !', this.state.steps);
     }
 }
