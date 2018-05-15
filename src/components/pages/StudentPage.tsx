@@ -31,7 +31,7 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
     constructor(props: IStudentPageProps) {
         super(props);
         this.state = { 
-            inError: true,
+            inError: false,
             stepIndex: 0
         }
 
@@ -132,15 +132,15 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
             case 0:
                 return (<StudentStep onError={this._onStepError}/>);
             case 1: 
-                return (<CompanyStep />);
+                return (<CompanyStep onError={this._onStepError}/>);
             case 2:
-                return (<InternshipStep />);
+                return (<InternshipStep onError={this._onStepError}/>);
             case 3:
-                return (<ConcernedStep />);
+                return (<ConcernedStep onError={this._onStepError}/>);
             case 4:
-                return (<MoreStep />);
+                return (<MoreStep onError={this._onStepError}/>);
             case 5:
-                return (<RecapStep />);
+                return (<RecapStep onError={this._onStepError}/>);
             default:
                 console.warn('Step not found')
                 return;

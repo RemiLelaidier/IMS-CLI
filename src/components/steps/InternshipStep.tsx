@@ -9,7 +9,22 @@ import InputLabel from '@material-ui/core/InputLabel/InputLabel';
 import Select from '@material-ui/core/Select/Select';
 import TextField from '@material-ui/core/TextField/TextField';
 
-export default class InternshipStep extends React.Component {
+interface InternshipProps {
+    onError: (any);
+}
+
+interface InternshipState {
+    errors: {
+        // tofix
+        sexeRepresentant: boolean,
+        nomRepresentant: boolean,
+        prenomRepresentant: boolean,
+        emailRepresentant: boolean,
+        telephoneRepresentant: boolean,
+        qualiteRepresentant: boolean
+    }
+}
+export default class InternshipStep extends React.Component<InternshipProps, InternshipState> {
     public render() {
         return (
             <div>

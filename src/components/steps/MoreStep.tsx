@@ -4,19 +4,27 @@ import './Step.css';
 
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel/FormLabel';
-import TextField from '@material-ui/core/TextField/TextField';
+import Input from '@material-ui/core/Input/Input';
 
-export default class MoreStep extends React.Component {
+interface MoreProps {
+    onError: (any);
+}
+
+interface MoreState {
+    errors: {
+
+    }
+}
+
+export default class MoreStep extends React.Component<MoreProps, MoreState> {
     public render() {
         return (
             <div>
                 <FormLabel component="legend">Informations complémentaires</FormLabel>
                 <br />
                 <FormGroup row={true}>
-                    <TextField 
-                        multiline={true}
-                        fullWidth={true}     
-                        rowsMax="4"
+                    <Input 
+                        id="moreInfo"
                     />
                 </FormGroup>
                 <p>Un récapitulatif vous sera fourni afin que vous validiez les informations</p>
