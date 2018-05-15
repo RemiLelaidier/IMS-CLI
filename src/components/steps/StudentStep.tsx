@@ -8,8 +8,6 @@ import Input from '@material-ui/core/Input/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 
-import './Step.css';
-
 import { _handleField, ValidatedStep } from '../../validation/validation';
 
 interface IStudentStepState {
