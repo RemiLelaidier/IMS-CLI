@@ -30,8 +30,10 @@ const stepCount = 6;
 export class StudentPage extends React.Component<IStudentPageProps, IStudentPageState> {
     constructor(props: IStudentPageProps) {
         super(props);
+        
+        // @Tool : put inError to true to bypass validation logic
         this.state = { 
-            inError: false,
+            inError: true,
             stepIndex: 0
         }
 
