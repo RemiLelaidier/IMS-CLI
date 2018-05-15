@@ -102,7 +102,7 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
                     variant="progress"
                     activeStep={this.state.stepIndex}
                     nextButton={
-                        <Button size="small" onClick={this._handleNext}>
+                        <Button size="small" onClick={this._handleNext} disabled={this.state.inError}>
                         Suivant
                         </Button>
                     }
