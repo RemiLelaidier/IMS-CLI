@@ -23,6 +23,7 @@ interface StudentPageProps {
 interface StudentPageState {
     inError: boolean;
     stepIndex: number;
+    steps: any;
 }
 
 const stepCount = 6;
@@ -36,7 +37,8 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
         // @Tool : put inError to true to bypass validation logic
         this.state = { 
             inError: true,
-            stepIndex: 0
+            stepIndex: 0,
+            steps: {}
         }
 
         this._onStepError = this._onStepError.bind(this);
@@ -116,9 +118,13 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
         );
     }
 
-    private _handleField(event: any) {
-        this.setState({[event.target.id]: event.target.value});
-        console.log('page changed for', {[event.target.id]: event.target.value})
+    private _handleField(event: any, from: string) {
+        const steps = Object.assign({}, this.state.steps);
+        steps[from][event.target.id] = event.target.value;
+        this.setState({steps});
+
+        console.log('valid field change received', {[event.target.id]: event.target.value});
+        console.log('steps', steps);
     }
 
     private _handlePrev(event: any) {
