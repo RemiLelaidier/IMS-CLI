@@ -36,7 +36,7 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
 
         // @Tool : put inError to true to bypass validation logic
         this.state = { 
-            inError: true,
+            inError: false,
             stepIndex: 0,
             steps: {}
         }
