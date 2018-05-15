@@ -24,7 +24,7 @@ const schema = {
     numeroEtudiant: Joi.string().regex(/[0-9]{8}/),
     email: Joi.string().email(),
     dateNaissance: Joi.string().regex(/^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/\-]\d{4}$/),
-    telephone: Joi.string().regex(/^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/\-]\d{4}$/),
+    telephone: Joi.string().regex(/^\+(?:[0-9]●?){6,14}[0-9]$/),
     adresse: Joi.string().min(5),
 };
 
