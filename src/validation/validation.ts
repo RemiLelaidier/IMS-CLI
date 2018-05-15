@@ -20,6 +20,7 @@ export function _handleField(this: any, event: any) {
         }});
         this.props.onError(true);
     } else {
+        this.props.onFieldChange(event);
         // setting error on this form control
         this.setState({errors: {
             [event.target.id]: false

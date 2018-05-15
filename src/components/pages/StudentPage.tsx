@@ -28,28 +28,29 @@ interface StudentPageState {
 const stepCount = 6;
 
 export class StudentPage extends React.Component<StudentPageProps, StudentPageState> {
-    private steps: JSX.Element[];
+    private _steps: JSX.Element[];
 
     constructor(props: StudentPageProps) {
         super(props);
 
         // @Tool : put inError to true to bypass validation logic
         this.state = { 
-            inError: false,
+            inError: true,
             stepIndex: 0
         }
 
         this._onStepError = this._onStepError.bind(this);
         this._handleNext = this._handleNext.bind(this);
         this._handlePrev = this._handlePrev.bind(this);
+        this._handleField = this._handleField.bind(this);
         
-        this.steps = [
-            <StudentStep key={0} onError={this._onStepError}/>, 
-            <CompanyStep key={1} onError={this._onStepError}/>,
-            <InternshipStep key={2} onError={this._onStepError}/>,
-            <ConcernedStep key={3} onError={this._onStepError}/>,
-            <MoreStep key={4} onError={this._onStepError}/>,
-            <RecapStep key={5} onError={this._onStepError}/>
+        this._steps = [
+            <StudentStep key={0} onError={this._onStepError} onFieldChange={this._handleField}/>, 
+            <CompanyStep key={1} onError={this._onStepError} onFieldChange={this._handleField}/>,
+            <InternshipStep key={2} onError={this._onStepError} onFieldChange={this._handleField}/>,
+            <ConcernedStep key={3} onError={this._onStepError} onFieldChange={this._handleField}/>,
+            <MoreStep key={4} onError={this._onStepError} onFieldChange={this._handleField}/>,
+            <RecapStep key={5} onError={this._onStepError} onFieldChange={this._handleField}/>
         ];
 
     }
@@ -115,6 +116,11 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
         );
     }
 
+    private _handleField(event: any) {
+        this.setState({[event.target.id]: event.target.value});
+        console.log('page changed for', {[event.target.id]: event.target.value})
+    }
+
     private _handlePrev(event: any) {
         if (this.state.stepIndex > 0) {
             this.setState({
@@ -140,6 +146,6 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
     }
 
     private _stepContent(stepIndex: number) {
-        return this.steps[stepIndex];
+        return this._steps[stepIndex];
     }
 }

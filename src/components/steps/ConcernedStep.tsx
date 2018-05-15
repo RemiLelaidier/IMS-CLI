@@ -1,4 +1,3 @@
-import * as Joi from 'joi';
 import * as React from 'react';
 
 import FormControl from '@material-ui/core/FormControl/FormControl';
@@ -9,9 +8,11 @@ import InputLabel from '@material-ui/core/InputLabel/InputLabel';
 import Select from '@material-ui/core/Select/Select';
 
 import { _handleField } from '../../validation/validation';
+import { concernedSchema } from './SchemaManager';
 
 interface ConcernedProps {
     onError: (any);
+    onFieldChange: (any);
 }
 
 interface ConcernedState {
@@ -83,20 +84,7 @@ export default class ConcernedStep extends React.Component<ConcernedProps, Conce
         }
 
         this._handleChange = _handleField.bind(this);
-        this.schema = {
-            sexeEncadrant: Joi.string().min(2),
-            nomEncadrant: Joi.string().min(2),
-            prenomEncadrant: Joi.string().min(2),
-            emailEncadrant: Joi.string().email(),
-            telephoneEncadrant: Joi.string().regex(/^\+(?:[0-9]●?){6,14}[0-9]$/),
-            qualiteEncadrant: Joi.string().min(2),
-            sexeTuteur: Joi.string().min(2),
-            nomTuteur: Joi.string().min(2),
-            prenomTuteur: Joi.string().min(2),
-            emailTuteur: Joi.string().email(),
-            telephoneTuteur: Joi.string().regex(/^\+(?:[0-9]●?){6,14}[0-9]$/),
-            qualiteTuteur: Joi.string().min(2)
-        };
+        this.schema = concernedSchema;
     }
     
     public render() {

@@ -1,4 +1,3 @@
-import * as Joi from 'joi';
 import * as React from 'react';
 
 import FormControl from '@material-ui/core/FormControl/FormControl';
@@ -9,9 +8,11 @@ import InputLabel from '@material-ui/core/InputLabel/InputLabel';
 import Select from '@material-ui/core/Select/Select';
 
 import { _handleField, ValidatedStep } from '../../validation/validation';
+import { companySchema } from './SchemaManager';
 
 interface CompanyProps {
     onError: (any);
+    onFieldChange: (any);
 }
 
 interface CompanyState {
@@ -75,18 +76,7 @@ export default class CompanyStep extends React.Component<CompanyProps, CompanySt
         }
 
         this._handleChange = _handleField.bind(this);
-        this.schema = {
-            nomEntreprise: Joi.string().min(2),
-            siteWebEntreprise: Joi.string().min(2),
-            siegeEntreprise: Joi.string().min(2),
-            adrEntreprise: Joi.string().min(2),
-            sexeRepresentant: Joi.string().min(2),
-            nomRepresentant: Joi.string().min(2),
-            prenomRepresentant: Joi.string().min(2),
-            emailRepresentant: Joi.string().email(),
-            telephoneRepresentant: Joi.string().regex(/^\+(?:[0-9]●?){6,14}[0-9]$/),
-            qualiteRepresentant: Joi.string().min(2)
-        };
+        this.schema = companySchema;
     }
     
     public render() {

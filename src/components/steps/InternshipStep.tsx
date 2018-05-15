@@ -1,4 +1,3 @@
-import * as Joi from 'joi';
 import * as React from 'react';
 
 import FormControl from '@material-ui/core/FormControl/FormControl';
@@ -8,9 +7,11 @@ import Input from '@material-ui/core/Input/Input';
 import InputLabel from '@material-ui/core/InputLabel/InputLabel';
 import Select from '@material-ui/core/Select/Select';
 import { _handleField } from '../../validation/validation';
+import { internshipSchema } from './SchemaManager';
 
 interface InternshipProps {
     onError: (any);
+    onFieldChange: (any);
 }
 
 interface InternshipState {
@@ -73,18 +74,7 @@ export default class InternshipStep extends React.Component<InternshipProps, Int
         }
 
         this._handleChange = _handleField.bind(this);
-        this.schema = {
-            intituleStage: Joi.string().min(2),
-            descriptionStage: Joi.string().min(20),
-            dateDebutStage: Joi.string().regex(/^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/\-]\d{4}$/),
-            dateFinStage: Joi.string().regex(/^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/\-]\d{4}$/),
-            dureeHebdoStage: Joi.string().min(10),
-            horairesStage: Joi.string().min(10),
-            presenceFree: Joi.string().min(2),
-            gratificationStage: Joi.string().min(2),
-            typeRemuneration: Joi.string().min(2),
-            avantagesStage: Joi.string().min(2)
-        };
+        this.schema = internshipSchema;
     }
 
     public render() {

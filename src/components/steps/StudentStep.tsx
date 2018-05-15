@@ -1,4 +1,3 @@
-import * as Joi from 'joi';
 import * as React from 'react';
 
 import FormControl from '@material-ui/core/FormControl/FormControl';
@@ -9,6 +8,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 
 import { _handleField, ValidatedStep } from '../../validation/validation';
+import { studentSchema } from './SchemaManager';
 
 interface StudentState {
     fields: any;
@@ -17,6 +17,7 @@ interface StudentState {
 
 interface StudentProps {
     onError: (any);
+    onFieldChange: (any);
 }
 
 export default class StudentStep extends React.Component<StudentProps, StudentState> implements ValidatedStep {
@@ -25,6 +26,7 @@ export default class StudentStep extends React.Component<StudentProps, StudentSt
 
     constructor (props: any) {
         super(props);
+
         this.state = {
             fields: {
                 promotion: 'L3',
@@ -57,20 +59,7 @@ export default class StudentStep extends React.Component<StudentProps, StudentSt
         };
 
         this._handleChange = _handleField.bind(this);
-        this.schema = {
-            promotion: Joi.string(),
-            sexe: Joi.string(),
-            nom: Joi.string().min(3).max(30),
-            prenom: Joi.string().min(3).max(60),
-            securiteSociale: Joi.string().min(13).max(15),
-            numeroEtudiant: Joi.string().regex(/[0-9]{8}/),
-            email: Joi.string().email(),
-            dateNaissance: Joi.string().regex(/^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/\-]\d{4}$/),
-            telephone: Joi.string().regex(/^\+(?:[0-9]●?){6,14}[0-9]$/),
-            adresse: Joi.string().min(5),
-            assurance: Joi.string().min(2),
-            numeroPolice: Joi.string().min(2),
-        };
+        this.schema = studentSchema;
     }
     public render() {
         return(

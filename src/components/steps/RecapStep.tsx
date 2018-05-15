@@ -2,6 +2,7 @@ import * as React from 'react';
 
 interface RecapProps {
     onError: (any);
+    onFieldChange: (any);
 }
 
 interface RecapState {

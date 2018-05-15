@@ -6,6 +6,7 @@ import Input from '@material-ui/core/Input/Input';
 
 interface MoreProps {
     onError: (any);
+    onFieldChange: (any);
 }
 
 interface MoreState {
