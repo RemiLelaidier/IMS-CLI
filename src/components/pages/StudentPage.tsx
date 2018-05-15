@@ -1,11 +1,18 @@
 import * as React from 'react';
 
-import { FlatButton, Paper, RaisedButton } from 'material-ui';
-import { Step, StepLabel, Stepper } from 'material-ui/Stepper';
+import Button from 'material-ui/Button';
 
+import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
+
+import MobileStepper from 'material-ui/MobileStepper';
 import CompanyStep from '../steps/CompanyStep';
 import InsuranceStep from '../steps/InsuranceStep';
 import StudentStep from '../steps/StudentStep';
+
+import ConcernedStep from '../steps/ConcernedStep';
+import InternshipStep from '../steps/InternshipStep';
+import MoreStep from '../steps/MoreStep';
+import RecapStep from '../steps/RecapStep';
 
 import './StudentPage.css';
 
@@ -19,6 +26,8 @@ interface IStudentPageState {
     stepIndex: number;
 }
 
+const stepCount = 7;
+
 export class StudentPage extends React.Component<IStudentPageProps, IStudentPageState> {
     constructor(props: IStudentPageProps) {
         super(props);
@@ -31,48 +40,65 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
         this.handlePrev = this.handlePrev.bind(this);
     }
 
+    public _getSteps() {
+        const labelStyle: React.CSSProperties = {
+            fontSize: '10px',
+            paddingLeft: '0',
+            paddingRight: '0'
+        };
+
+        return [
+                <Step key={0}>
+                    <StepLabel style={labelStyle}>Etudiant</StepLabel>
+                </Step>,
+                <Step key={1}>
+                    <StepLabel style={labelStyle}>Assurance</StepLabel>
+                </Step>,
+                <Step key={2}>
+                    <StepLabel style={labelStyle}>Entreprise</StepLabel>
+                </Step>,
+                <Step key={3}>
+                    <StepLabel style={labelStyle}>Stage</StepLabel>
+                </Step>,
+                <Step key={4}>
+                    <StepLabel style={labelStyle}>Responsables</StepLabel>
+                </Step>,
+                <Step key={5}>
+                    <StepLabel style={labelStyle}>Informations complémentaires</StepLabel>
+                </Step>,
+                <Step key={6}>
+                    <StepLabel style={labelStyle}>Récapitulatif</StepLabel>
+                </Step>
+        ];
+    }
+
     public render (){
+        const orientation = 'horizontal';
+
         return (
         <div>
             <div className="stepper-content">{this.stepContent(this.state.stepIndex)}</div>
             <div className="stepper-action">
-                <Paper>
-                    <Stepper activeStep={this.state.stepIndex} >
-                        <Step>
-                            <StepLabel>Etudiant</StepLabel>
-                        </Step>
-                        <Step>
-                            <StepLabel>Assurance</StepLabel>
-                        </Step>
-                        <Step>
-                            <StepLabel>Entreprise</StepLabel>
-                        </Step>
-                        <Step>
-                            <StepLabel>Stage</StepLabel>
-                        </Step>
-                        <Step>
-                            <StepLabel>Responsables</StepLabel>
-                        </Step>
-                        <Step>
-                            <StepLabel>Informations complémentaires</StepLabel>
-                        </Step>
-                        <Step>
-                            <StepLabel>Récapitulatif</StepLabel>
-                        </Step>
-                    </Stepper>
-                    <div>
-                        <FlatButton
-                            label="Retour"
-                            disabled={this.state.stepIndex === 0}
-                            onClick={this.handlePrev}
-                        />
-                        <RaisedButton
-                            label={this.state.finished ? 'Terminé' : 'Suivant'}
-                            primary={true}
-                            onClick={this.handleNext}
-                        />
-                    </div>
-                </Paper>
+                <Stepper activeStep={this.state.stepIndex} orientation={orientation}>
+                    {this._getSteps()}
+                </Stepper>
+                <MobileStepper 
+                    steps={stepCount}
+                    variant="progress"
+                    activeStep={this.state.stepIndex}
+                    nextButton={
+                        <Button size="small" onClick={this.handleNext} disabled={this.state.stepIndex === stepCount}>
+                        Suivant
+                        </Button>
+                    }
+                    backButton={
+                        <Button size="small" onClick={this.handlePrev} disabled={this.state.stepIndex === 0}>
+                        Précédent
+                        </Button>
+                    }
+                >
+                    {this._getSteps()}
+                </MobileStepper>
             </div>
         </div>
         );
@@ -90,7 +116,7 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
     private handleNext(event: any) {
         if (!this.state.finished) { 
             this.setState({
-                finished: this.state.stepIndex >= 5,
+                finished: this.state.stepIndex === stepCount,
                 stepIndex: this.state.stepIndex + 1
             });
         }
@@ -104,7 +130,16 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
                 return (<InsuranceStep />);
             case 2: 
                 return (<CompanyStep />);
+            case 3:
+                return (<InternshipStep />);
+            case 4:
+                return (<ConcernedStep />);
+            case 5:
+                return (<MoreStep />);
+            case 6:
+                return (<RecapStep />);
             default:
+                console.warn('Step not found')
                 return;
         }
     }

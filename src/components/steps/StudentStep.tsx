@@ -1,5 +1,6 @@
-import * as Joi from 'joi';
-import { DatePicker, MenuItem, SelectField, TextField } from 'material-ui';
+// import * as Joi from 'joi';
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
 import * as React from 'react';
 
 import './Step.css';
@@ -33,68 +34,78 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
             <div>
                 <div className="fukol-parent">
                     <div className="fukol-child">
-                        <SelectField
-                            floatingLabelText="Promotion"
+                        <Select
                             className="input-text"
-                            id="promo"
+                            inputProps={{
+                                id: 'promotion',
+                                name: "Promotion"
+                            }}
+                            native={true}
                         >
-                            <MenuItem>Licence 3</MenuItem>
-                            <MenuItem>Master 1</MenuItem>
-                            <MenuItem>Master 2</MenuItem>
-                        </SelectField>
-                        <SelectField
-                            floatingLabelText="Sexe"
+                            <option>Licence 3</option>
+                            <option>Master 1</option>
+                            <option>Master 2</option>
+                        </Select>
+                        <Select
+                            native={true}
                             className="input-text"
-                            id="sexe"
+                            inputProps={{
+                                id: 'sexe',
+                                name: "Sexe"
+                            }}
                         >
-                            <MenuItem>M</MenuItem>
-                            <MenuItem>F</MenuItem>
-                            <MenuItem>Autre</MenuItem>
-                        </SelectField>
+                            <option>M</option>
+                            <option>F</option>
+                            <option>Autre</option>
+                        </Select>
                     </div>
                 </div>
                 <div className="fukol-parent">
                     <div className="fukol-child">
-                        <TextField 
-                            floatingLabelText="Nom"
-                            className="input-text"
+                        <TextField
                             id="nom"
+                            label="Nom"
+                            className="input-text"
                             onChange={this.onChange}
-                            errorText={this.state.errors.nom}
+                            margin="normal"
                         />
                         <TextField 
-                            floatingLabelText="Prénom"
+                            label="Prénom"
                             id="prenom"
                             className="input-text"
                             onChange={this.onChange}
-                            errorText={this.state.errors.prenom}
                         />
                     </div>
                 </div>
                 <div className="fukol-parent">
                     <div className="fukol-child">
                         <TextField 
-                            floatingLabelText="Numéro de SS"
+                            label="Numéro de SS"
                             className="input-text"
                         />
                         <TextField 
-                            floatingLabelText="Numéro étudiant"
+                            label="Numéro étudiant"
                             className="input-text"
                         />
                         <TextField
-                            floatingLabelText="Email"
+                            label="Email"
                             className="input-text" 
                         />
                     </div>
                 </div>
                 <div className="fukol-parent">
                     <div className="fukol-child">
-                        <DatePicker
-                            floatingLabelText="Date de naissance"
+                        <TextField
                             className="input-date"
+                            id="datetime-local"
+                            label="Date de naissance"
+                            type="datetime-local"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
                         />
                         <TextField 
-                            floatingLabelText="Téléphone"
+                            label="Téléphone"
                             className="input-text"
                         />
                     </div>
@@ -102,7 +113,7 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                 <div className="fukol-parent">
                     <div className="fukol-child">
                         <TextField 
-                            floatingLabelText="Adresse"
+                            label="Adresse"
                             className="input-text"
                         />
                     </div>
@@ -113,7 +124,7 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
 
     private async onChange(event: any) {
         const target = event.target;
-        let schema = {} as Joi.SchemaLike;
+        /*let schema = {} as Joi.SchemaLike;
         const object = {};
         let errorText = "";
         switch (target.id) {
@@ -123,14 +134,14 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                 schema = Joi.object().keys({[target.id]: Joi.string().email().required()});
                 break;
             default:
-        }
+        }*/
 
-        const promise = new Promise((resolve, reject) => {
+        /*const promise = new Promise((resolve, reject) => {
             const valid:any = Joi.validate(object, schema, (err: any, value: any) => {
                 this.setState({errors:{[target.id]: errorText}});
                 return reject(false);
             });
-        });
+        });*/
         
         this.setState({errors:{[target.id]: ""}});
     }

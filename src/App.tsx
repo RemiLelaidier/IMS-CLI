@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './App.css';
 
-import { AppBar } from 'material-ui';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
+import AppBar from '@material-ui/core/AppBar/AppBar';
+import Toolbar from '@material-ui/core/Toolbar/Toolbar';
+import Typography from '@material-ui/core/Typography/Typography';
 import { StudentPage } from './components/pages/StudentPage';
 import { Pages } from './components/types';
 
@@ -26,17 +26,19 @@ class App extends React.Component<{}, IAppState> {
 
   public render() {
     return (
-      <MuiThemeProvider>
         <div>
-          <AppBar
-            title="StaMIAGE" 
-          />
+          <AppBar position="static" color="default">
+            <Toolbar>
+              <Typography variant="title" color="inherit">
+                StaMIAGE
+              </Typography>
+            </Toolbar>
+          </AppBar>
           <StudentPage 
             onChangePage={this.onChangePage}
             onSubmit={this.onSubmit}
           />
         </div>
-      </MuiThemeProvider>
     );
   }
 

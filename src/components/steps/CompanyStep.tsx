@@ -1,4 +1,5 @@
-import { Divider, MenuItem, SelectField, TextField } from 'material-ui';
+import Select from '@material-ui/core/Select/Select';
+import { Divider, TextField } from 'material-ui';
 import * as React from 'react';
 
 import './Step.css';
@@ -12,11 +13,11 @@ export default class CompanyStep extends React.Component {
                 <div className="fukol-parent">
                     <div className="fukol-child">
                         <TextField 
-                            floatingLabelText="Nom"
+                            label="Nom"
                             className="input-text"
                         />
                         <TextField 
-                            floatingLabelText="Site web"
+                            label="Site web"
                             className="input-text"
                         />
                     </div>
@@ -24,11 +25,11 @@ export default class CompanyStep extends React.Component {
                 <div className="fukol-parent">
                     <div className="fukol-child">
                         <TextField 
-                            floatingLabelText="Adresse du siège social"
+                            label="Adresse du siège social"
                             className="input-text"
                         />
                         <TextField 
-                            floatingLabelText="Adresse du stage"
+                            label="Adresse du stage"
                             className="input-text"
                         />
                     </div>
@@ -37,36 +38,28 @@ export default class CompanyStep extends React.Component {
                 <Divider />
                 <div className="fukol-parent">
                     <div className="fukol-child">
-                        <SelectField
-                            floatingLabelText="Sexe"
+                        <Select
                             className="input-text"
+                            inputProps={{
+                                id: 'sexe',
+                                name: "Sexe"
+                            }}
+                            native={true}
                         >
-                            <MenuItem>M</MenuItem>
-                            <MenuItem>F</MenuItem>
-                            <MenuItem>Autre</MenuItem>
-                        </SelectField>
+                            <option>M</option>
+                            <option>F</option>
+                            <option>Autre</option>
+                        </Select>
                     </div>
                 </div>
                 <div className="fukol-parent">
                     <div className="fukol-child">
                         <TextField 
-                            floatingLabelText="Nom"
+                            label="Nom"
                             className="input-text"
                         />
                         <TextField 
-                            floatingLabelText="Prénom"
-                            className="input-text"
-                        />
-                    </div>
-                </div>
-                <div className="fukol-parent">
-                    <div className="fukol-child">
-                        <TextField 
-                            floatingLabelText="Email"
-                            className="input-text"
-                        />
-                        <TextField 
-                            floatingLabelText="Téléphone"
+                            label="Prénom"
                             className="input-text"
                         />
                     </div>
@@ -74,7 +67,19 @@ export default class CompanyStep extends React.Component {
                 <div className="fukol-parent">
                     <div className="fukol-child">
                         <TextField 
-                            floatingLabelText="En qualité de"
+                            label="Email"
+                            className="input-text"
+                        />
+                        <TextField 
+                            label="Téléphone"
+                            className="input-text"
+                        />
+                    </div>
+                </div>
+                <div className="fukol-parent">
+                    <div className="fukol-child">
+                        <TextField 
+                            label="En qualité de"
                             className="input-text"
                         />
                     </div>

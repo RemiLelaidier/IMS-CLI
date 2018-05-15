@@ -10,7 +10,7 @@ export default class InsuranceStep extends React.Component {
                 <div className="fukol-parent">
                     <div className="fukol-child">
                         <TextField 
-                            floatingLabelText="Compagnie d'assurance"
+                            label="Compagnie d'assurance"
                             className="input-text"
                         />
                     </div>
@@ -18,7 +18,7 @@ export default class InsuranceStep extends React.Component {
                 <div className="fukol-parent">
                     <div className="fukol-child">
                         <TextField 
-                            floatingLabelText="Numéro de la police"
+                            label="Numéro de la police"
                             className="input-text"
                         />
                     </div>
