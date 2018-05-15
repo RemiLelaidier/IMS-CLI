@@ -1,5 +1,11 @@
 import * as Joi from 'joi';
 
+// tslint:disable-next-line:interface-name
+export interface ValidatedStep {
+    schema: any;
+    showSchema: (any);
+}
+
 export function _handleField(this: any, event: any) {
     const newFields = Object.assign({}, this.state.fields);
     newFields[event.target.id] = event.target.value;

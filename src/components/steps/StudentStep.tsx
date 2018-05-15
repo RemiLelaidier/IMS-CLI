@@ -10,7 +10,7 @@ import Select from '@material-ui/core/Select';
 
 import './Step.css';
 
-import { _handleField } from '../../validation/validation';
+import { _handleField, ValidatedStep } from '../../validation/validation';
 
 interface IStudentStepState {
     fields: any;
@@ -21,12 +21,7 @@ interface IStudentStepProps {
     onError: (any);
 }
 
-// tslint:disable-next-line:interface-name
-interface ValidatedStep {
-    schema: any;
-}
-
-export default class StudentStep extends React.Component<IStudentStepProps, IStudentStepState> implements ValidatedStep{
+export default class StudentStep extends React.Component<IStudentStepProps, IStudentStepState> implements ValidatedStep {
     public schema: any;
     // tslint:disable-next-line:variable-name
     private _handleChange: any;
@@ -77,7 +72,6 @@ export default class StudentStep extends React.Component<IStudentStepProps, IStu
             assurance: Joi.string().min(2),
             numeroPolice: Joi.string().min(2),
         };
-        console.log(this.schema);
     }
     public render() {
         return(
@@ -204,34 +198,9 @@ export default class StudentStep extends React.Component<IStudentStepProps, IStu
         )
     }
 
-    /*private _handleChange(event: any) {
-        const newFields = Object.assign({}, this.state.fields);
-        newFields[event.target.id] = event.target.value;
-        this.setState({fields: newFields});
-
-        const result = Joi.validate({[event.target.id]: event.target.value}, schema);
-        if(result.error){
-            this.setState({errors: {
-                [event.target.id]: true
-            }});
-            this.props.onError(true);
-        } else {
-            this.setState({errors: {
-                [event.target.id]: false
-            }});
-
-            let isEverythingFilled = true;
-            for(const field in this.state.fields){
-                if(this.state.fields[field] === null){
-                    isEverythingFilled = false;
-                }
-            }
-
-            if(isEverythingFilled){
-                this.props.onError(false);
-            } else {
-                this.props.onError(true);
-            }
-        }
-    }*/
+    // needed to glitch typescript checking
+    // tslint:disable-next-line:member-access
+    showSchema(){
+        console.log(this.schema);
+    }
 }
