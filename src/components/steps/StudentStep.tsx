@@ -7,7 +7,6 @@ import FormLabel from '@material-ui/core/FormLabel/FormLabel';
 import Input from '@material-ui/core/Input/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
 
 import './Step.css';
 
@@ -69,7 +68,7 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                 <FormLabel component="legend">Étudiant</FormLabel>
                 <br />
                 <FormGroup row={true}>
-                    <FormControl required={true} className="promotion" error={this.state.errors.promotion}>
+                    <FormControl required={true} error={this.state.errors.promotion}>
                         <InputLabel htmlFor="promotion">Promotion</InputLabel>
                         <Select
                             inputProps={{
@@ -84,7 +83,7 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                             <option value="M2">Master 2</option>
                         </Select>
                     </FormControl>
-                    <FormControl required={true} className="sexe" error={this.state.errors.sexe}>
+                    <FormControl required={true} error={this.state.errors.sexe}>
                         <InputLabel htmlFor="sexe">Sexe</InputLabel>
                         <Select
                             native={true}
@@ -101,71 +100,66 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                     </FormControl>
                 </FormGroup>
                 <FormGroup row={true}>
-                    <FormControl required={true} className="nom" error={this.state.errors.nom}>
+                    <FormControl required={true} error={this.state.errors.nom}>
                         <InputLabel htmlFor="nom">Nom</InputLabel>
                         <Input
                             id="nom"
                             onChange={this._handleChange}
                         />
                     </FormControl>
-                    <FormControl required={true} className="prenom" error={this.state.errors.prenom}>
-                        <TextField 
-                            label="Prénom"
+                    <FormControl required={true} error={this.state.errors.prenom}>
+                        <InputLabel htmlFor="prenom">Prenom</InputLabel>
+                        <Input 
                             id="prenom"
                             onChange={this._handleChange}
                         />
                     </FormControl>
                 </FormGroup>
                 <FormGroup row={true}>
-                    <FormControl required={true} className="securiteSociale" error={this.state.errors.securiteSociale}>
-                        <TextField 
+                    <FormControl required={true} error={this.state.errors.securiteSociale}>
+                        <InputLabel htmlFor="securiteSociale">N° de Sécurité Sociale</InputLabel>
+                        <Input 
                             id="securiteSociale"
-                            label="N° de Sécurité Sociale"
                             onChange={this._handleChange}
                         />
                     </FormControl>
-                    <FormControl required={true} className="numeroEtudiant" error={this.state.errors.numeroEtudiant}>
-                        <TextField 
+                    <FormControl required={true} error={this.state.errors.numeroEtudiant}>
+                        <InputLabel htmlFor="numeroEtudiant">N° étudiant</InputLabel>
+                        <Input 
                             id="numeroEtudiant"
-                            label="N° étudiant"
                             onChange={this._handleChange}
                         />
                     </FormControl>
-                    <FormControl required={true} className="email" error={this.state.errors.email}>
-                        <TextField
+                    <FormControl required={true} error={this.state.errors.email}>
+                        <InputLabel htmlFor="email">Email</InputLabel>
+                        <Input
                             id="email"
-                            label="Email" 
                             onChange={this._handleChange}
                         />
                     </FormControl>
                 </FormGroup>
                 <br />
                 <FormGroup row={true}>
-                    <FormControl required={true} className="dateNaissance" error={this.state.errors.dateNaissance}>
-                        <TextField
-                            className="input-date"
+                    <FormControl required={true} error={this.state.errors.dateNaissance}>
+                        <InputLabel htmlFor="dateNaissance">Date de naissance</InputLabel>
+                        <Input
                             id="dateNaissance"
-                            label="Date de naissance"
-                            type="date"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
                             onChange={this._handleChange}
                         />
                     </FormControl>
-                    <FormControl required={true} className="telephone" error={this.state.errors.telephone}>
-                        <TextField 
+                    <FormControl required={true} error={this.state.errors.telephone}>
+                        <InputLabel htmlFor="telephone">Téléphone</InputLabel>
+                        <Input 
                             id="telephone"
-                            label="Téléphone"
                             onChange={this._handleChange}
                         />
                     </FormControl>
                 </FormGroup>
                 <FormGroup>
                     <FormControl required={true} error={this.state.errors.adresse}>
-                        <TextField 
+                        <InputLabel htmlFor="adresse">Adresse</InputLabel>
+                        <Input 
                             id="adresse"
-                            label="Adresse"
                             onChange={this._handleChange}
                         />
                     </FormControl>
