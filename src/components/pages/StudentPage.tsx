@@ -6,7 +6,6 @@ import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
 
 import MobileStepper from 'material-ui/MobileStepper';
 import CompanyStep from '../steps/CompanyStep';
-import InsuranceStep from '../steps/InsuranceStep';
 import StudentStep from '../steps/StudentStep';
 
 import ConcernedStep from '../steps/ConcernedStep';
@@ -26,7 +25,7 @@ interface IStudentPageState {
     stepIndex: number;
 }
 
-const stepCount = 7;
+const stepCount = 6;
 
 export class StudentPage extends React.Component<IStudentPageProps, IStudentPageState> {
     constructor(props: IStudentPageProps) {
@@ -52,21 +51,18 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
                 <StepLabel style={labelStyle}>Etudiant</StepLabel>
             </Step>,
             <Step key={1}>
-                <StepLabel style={labelStyle}>Assurance</StepLabel>
-            </Step>,
-            <Step key={2}>
                 <StepLabel style={labelStyle}>Entreprise</StepLabel>
             </Step>,
-            <Step key={3}>
+            <Step key={2}>
                 <StepLabel style={labelStyle}>Stage</StepLabel>
             </Step>,
-            <Step key={4}>
+            <Step key={3}>
                 <StepLabel style={labelStyle}>Responsables</StepLabel>
             </Step>,
-            <Step key={5}>
+            <Step key={4}>
                 <StepLabel style={labelStyle}>Informations complémentaires</StepLabel>
             </Step>,
-            <Step key={6}>
+            <Step key={5}>
                 <StepLabel style={labelStyle}>Récapitulatif</StepLabel>
             </Step>
         ];
@@ -126,17 +122,15 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
         switch (stepIndex) {
             case 0:
                 return (<StudentStep />);
-            case 1:
-                return (<InsuranceStep />);
-            case 2: 
+            case 1: 
                 return (<CompanyStep />);
-            case 3:
+            case 2:
                 return (<InternshipStep />);
-            case 4:
+            case 3:
                 return (<ConcernedStep />);
-            case 5:
+            case 4:
                 return (<MoreStep />);
-            case 6:
+            case 5:
                 return (<RecapStep />);
             default:
                 console.warn('Step not found')
