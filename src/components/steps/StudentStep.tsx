@@ -10,9 +10,9 @@ import Select from '@material-ui/core/Select';
 
 import './Step.css';
 
+import { _handleField } from '../../validation/validation';
+
 interface IStudentStepState {
-    showErrors: boolean;
-    validationErrors: any;
     fields: any;
     errors: any;
 }
@@ -21,22 +21,16 @@ interface IStudentStepProps {
     onError: (any);
 }
 
-const schema = {
-    promotion: Joi.string(),
-    sexe: Joi.string(),
-    nom: Joi.string().min(3).max(30),
-    prenom: Joi.string().min(3).max(60),
-    securiteSociale: Joi.string().min(13).max(15),
-    numeroEtudiant: Joi.string().regex(/[0-9]{8}/),
-    email: Joi.string().email(),
-    dateNaissance: Joi.string().regex(/^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/\-]\d{4}$/),
-    telephone: Joi.string().regex(/^\+(?:[0-9]●?){6,14}[0-9]$/),
-    adresse: Joi.string().min(5),
-    assurance: Joi.string().min(2),
-    numeroPolice: Joi.string().min(2),
-};
+// tslint:disable-next-line:interface-name
+interface ValidatedStep {
+    schema: any;
+}
 
-export default class StudentStep extends React.Component<IStudentStepProps, IStudentStepState> {
+export default class StudentStep extends React.Component<IStudentStepProps, IStudentStepState> implements ValidatedStep{
+    public schema: any;
+    // tslint:disable-next-line:variable-name
+    private _handleChange: any;
+
     constructor (props: any) {
         super(props);
         this.state = {
@@ -66,11 +60,24 @@ export default class StudentStep extends React.Component<IStudentStepProps, IStu
                 adresse: false,
                 assurance: false
             },
-            showErrors: false,
-            validationErrors: {},
         };
 
-        this._handleChange = this._handleChange.bind(this);
+        this._handleChange = _handleField.bind(this);
+        this.schema = {
+            promotion: Joi.string(),
+            sexe: Joi.string(),
+            nom: Joi.string().min(3).max(30),
+            prenom: Joi.string().min(3).max(60),
+            securiteSociale: Joi.string().min(13).max(15),
+            numeroEtudiant: Joi.string().regex(/[0-9]{8}/),
+            email: Joi.string().email(),
+            dateNaissance: Joi.string().regex(/^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/\-]\d{4}$/),
+            telephone: Joi.string().regex(/^\+(?:[0-9]●?){6,14}[0-9]$/),
+            adresse: Joi.string().min(5),
+            assurance: Joi.string().min(2),
+            numeroPolice: Joi.string().min(2),
+        };
+        console.log(this.schema);
     }
     public render() {
         return(
@@ -197,7 +204,7 @@ export default class StudentStep extends React.Component<IStudentStepProps, IStu
         )
     }
 
-    private _handleChange(event: any) {
+    /*private _handleChange(event: any) {
         const newFields = Object.assign({}, this.state.fields);
         newFields[event.target.id] = event.target.value;
         this.setState({fields: newFields});
@@ -226,5 +233,5 @@ export default class StudentStep extends React.Component<IStudentStepProps, IStu
                 this.props.onError(true);
             }
         }
-    }
+    }*/
 }
