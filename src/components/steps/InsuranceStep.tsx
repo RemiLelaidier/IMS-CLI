@@ -1,3 +1,4 @@
+import FormGroup from '@material-ui/core/FormGroup/FormGroup';
 import { TextField } from 'material-ui';
 import * as React from 'react';
 
@@ -7,22 +8,16 @@ export default class InsuranceStep extends React.Component {
     public render() {
         return (
             <div>
-                <div className="fukol-parent">
-                    <div className="fukol-child">
-                        <TextField 
-                            label="Compagnie d'assurance"
-                            className="input-text"
-                        />
-                    </div>
-                </div>
-                <div className="fukol-parent">
-                    <div className="fukol-child">
-                        <TextField 
-                            label="Numéro de la police"
-                            className="input-text"
-                        />
-                    </div>
-                </div>
+                <FormGroup row={true}>
+                    <TextField 
+                        label="Assurance"
+                        className="input-text"
+                    />
+                    <TextField 
+                        label="Numéro de la police"
+                        className="input-text"
+                    />
+                </FormGroup>
             </div>
         );
     }

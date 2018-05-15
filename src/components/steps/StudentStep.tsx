@@ -3,6 +3,9 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import * as React from 'react';
 
+import FormControl from '@material-ui/core/FormControl/FormControl';
+import FormGroup from '@material-ui/core/FormGroup/FormGroup';
+import InputLabel from '@material-ui/core/InputLabel';
 import './Step.css';
 
 interface IStudentStepState {
@@ -32,10 +35,12 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
     public render() {
         return(
             <div>
-                <div className="fukol-parent">
-                    <div className="fukol-child">
+                <FormGroup row={true}>
+                    <FormControl>
+                        <InputLabel htmlFor="promotion">Promotion</InputLabel>
                         <Select
                             className="input-text"
+                            
                             inputProps={{
                                 id: 'promotion',
                                 name: "Promotion"
@@ -46,6 +51,9 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                             <option>Master 1</option>
                             <option>Master 2</option>
                         </Select>
+                    </FormControl>
+                    <FormControl>
+                        <InputLabel htmlFor="sexe">Sexe</InputLabel>
                         <Select
                             native={true}
                             className="input-text"
@@ -58,43 +66,48 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                             <option>F</option>
                             <option>Autre</option>
                         </Select>
-                    </div>
-                </div>
-                <div className="fukol-parent">
-                    <div className="fukol-child">
+                    </FormControl>
+                </FormGroup>
+                <FormGroup row={true}>
+                    <FormControl>
                         <TextField
                             id="nom"
                             label="Nom"
                             className="input-text"
                             onChange={this.onChange}
-                            margin="normal"
                         />
+                    </FormControl>
+                    <FormControl>
                         <TextField 
                             label="Prénom"
                             id="prenom"
                             className="input-text"
                             onChange={this.onChange}
                         />
-                    </div>
-                </div>
-                <div className="fukol-parent">
-                    <div className="fukol-child">
+                    </FormControl>
+                </FormGroup>
+                <FormGroup row={true}>
+                    <FormControl>
                         <TextField 
                             label="Numéro de SS"
                             className="input-text"
                         />
+                    </FormControl>
+                    <FormControl>
                         <TextField 
                             label="Numéro étudiant"
                             className="input-text"
                         />
+                    </FormControl>
+                    <FormControl>
                         <TextField
                             label="Email"
                             className="input-text" 
                         />
-                    </div>
-                </div>
-                <div className="fukol-parent">
-                    <div className="fukol-child">
+                    </FormControl>
+                </FormGroup>
+                <FormGroup row={true}>
+                    <FormControl>
                         <TextField
                             className="input-date"
                             id="datetime-local"
@@ -104,20 +117,22 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                                 shrink: true,
                             }}
                         />
+                    </FormControl>
+                    <FormControl>
                         <TextField 
                             label="Téléphone"
                             className="input-text"
                         />
-                    </div>
-                </div>
-                <div className="fukol-parent">
-                    <div className="fukol-child">
+                    </FormControl>
+                </FormGroup>
+                <FormGroup>
+                    <FormControl>
                         <TextField 
                             label="Adresse"
                             className="input-text"
                         />
-                    </div>
-                </div>
+                    </FormControl>
+                </FormGroup>
             </div>
         )
     }

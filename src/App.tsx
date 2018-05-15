@@ -27,7 +27,7 @@ class App extends React.Component<{}, IAppState> {
   public render() {
     return (
         <div>
-          <AppBar position="static" color="default">
+          <AppBar position="static" color="primary">
             <Toolbar>
               <Typography variant="title" color="inherit">
                 StaMIAGE
