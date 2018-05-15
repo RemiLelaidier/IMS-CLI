@@ -21,7 +21,7 @@ interface IStudentPageProps {
 }
 
 interface IStudentPageState {
-    finished: boolean;
+    inError: boolean;
     stepIndex: number;
 }
 
@@ -31,12 +31,13 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
     constructor(props: IStudentPageProps) {
         super(props);
         this.state = { 
-            finished: false,
+            inError: true,
             stepIndex: 0
         }
 
         this.handleNext = this.handleNext.bind(this);
         this.handlePrev = this.handlePrev.bind(this);
+        this._onStepError = this._onStepError.bind(this);
     }
 
     public _getSteps() {
@@ -83,7 +84,7 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
                     variant="progress"
                     activeStep={this.state.stepIndex}
                     nextButton={
-                        <Button size="small" onClick={this.handleNext} disabled={this.state.stepIndex === stepCount}>
+                        <Button size="small" onClick={this.handleNext} disabled={this.state.inError}>
                         Suivant
                         </Button>
                     }
@@ -103,25 +104,33 @@ export class StudentPage extends React.Component<IStudentPageProps, IStudentPage
     private handlePrev(event: any) {
         if (this.state.stepIndex > 0) {
             this.setState({
-                finished: false,
+                inError: false,
                 stepIndex: this.state.stepIndex - 1
             })
         }
     }
 
     private handleNext(event: any) {
-        if (!this.state.finished) { 
+        if (!this.state.inError) { 
             this.setState({
-                finished: this.state.stepIndex === stepCount,
+                inError: this.state.stepIndex === stepCount,
                 stepIndex: this.state.stepIndex + 1
             });
+        }
+    }
+
+    private _onStepError(inError: boolean){
+        if(inError){
+            this.setState({inError: true});
+        } else {
+            this.setState({inError: false});
         }
     }
 
     private stepContent(stepIndex: number) {
         switch (stepIndex) {
             case 0:
-                return (<StudentStep />);
+                return (<StudentStep onError={this._onStepError}/>);
             case 1: 
                 return (<CompanyStep />);
             case 2:

@@ -13,7 +13,12 @@ import './Step.css';
 interface IStudentStepState {
     showErrors: boolean;
     validationErrors: any;
+    fields: any;
     errors: any;
+}
+
+interface IStudentStepProps {
+    onError: (any);
 }
 
 const schema = {
@@ -31,10 +36,23 @@ const schema = {
     numeroPolice: Joi.string().min(2),
 };
 
-export default class StudentStep extends React.Component<{}, IStudentStepState> {
+export default class StudentStep extends React.Component<IStudentStepProps, IStudentStepState> {
     constructor (props: any) {
         super(props);
         this.state = {
+            fields: {
+                promotion: null,
+                sexe: null,
+                nom: null,
+                prenom: null,
+                securiteSociale: null,
+                numeroEtudiant: null,
+                email: null,
+                dateNaissance: null,
+                telephone: null,
+                adresse: null,
+                assurance: null
+            },
             errors: {
                 promotion: false,
                 sexe: false,
@@ -158,8 +176,6 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
                     <p>
                         Pour votre stage, vous devez être couvert contre le risque "responsabilité civile":
                     </p>
-                    <FormLabel component="legend">Compagnie d'assurance</FormLabel>
-                    <br />
                     <FormGroup row={true}>
                         <FormControl required={true} error={this.state.errors.assurance}>
                             <InputLabel htmlFor="assurance">Assurance</InputLabel>
@@ -182,16 +198,33 @@ export default class StudentStep extends React.Component<{}, IStudentStepState> 
     }
 
     private _handleChange(event: any) {
-        this.setState({[event.target.id]: event.target.value});
+        const newFields = Object.assign({}, this.state.fields);
+        newFields[event.target.id] = event.target.value;
+        this.setState({fields: newFields});
+
         const result = Joi.validate({[event.target.id]: event.target.value}, schema);
         if(result.error){
             this.setState({errors: {
                 [event.target.id]: true
             }});
+            this.props.onError(true);
         } else {
             this.setState({errors: {
                 [event.target.id]: false
             }});
+
+            let isEverythingFilled = true;
+            for(const field in this.state.fields){
+                if(this.state.fields[field] === null){
+                    isEverythingFilled = false;
+                }
+            }
+
+            if(isEverythingFilled){
+                this.props.onError(false);
+            } else {
+                this.props.onError(true);
+            }
         }
     }
 }
