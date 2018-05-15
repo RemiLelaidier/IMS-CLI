@@ -30,6 +30,20 @@ interface ConcernedState {
         emailTuteur: boolean,
         telephoneTuteur: boolean,
         qualiteTuteur: boolean
+    },
+    fields: {
+        sexeEncadrant: string,
+        nomEncadrant: string,
+        prenomEncadrant: string,
+        emailEncadrant: string,
+        telephoneEncadrant: string,
+        qualiteEncadrant: string,
+        sexeTuteur: string,
+        nomTuteur: string,
+        prenomTuteur: string,
+        emailTuteur: string,
+        telephoneTuteur: string,
+        qualiteTuteur: string
     }
 }
 
@@ -53,6 +67,20 @@ export default class ConcernedStep extends React.Component<ConcernedProps, Conce
                 emailTuteur: false,
                 telephoneTuteur: false,
                 qualiteTuteur: false
+            },
+            fields: {
+                sexeEncadrant: '',
+                nomEncadrant: '',
+                prenomEncadrant: '',
+                emailEncadrant: '',
+                telephoneEncadrant: '',
+                qualiteEncadrant: '',
+                sexeTuteur: '',
+                nomTuteur: '',
+                prenomTuteur: '',
+                emailTuteur: '',
+                telephoneTuteur: '',
+                qualiteTuteur: ''
             }
         }
 
