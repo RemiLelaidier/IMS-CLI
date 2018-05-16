@@ -33,12 +33,10 @@ interface AppState {
   username: string | undefined,
   password: string | undefined,
   loginError: boolean;
+  apiURL: string;
 }
 
-// tslint:disable-next-line:no-empty-interface
-interface AppProps {}
-
-class App extends React.Component<AppProps, AppState> {
+class App extends React.Component<{}, AppState> {
   constructor (props: any) {
     super(props);
     this.state = {
@@ -48,7 +46,8 @@ class App extends React.Component<AppProps, AppState> {
       anchorEl: undefined,
       username: undefined,
       password: undefined,
-      loginError: false
+      loginError: false,
+      apiURL: 'http://localhost:8080/api/'
     }
 
     this._handleClose = this._handleClose.bind(this);
@@ -157,8 +156,9 @@ class App extends React.Component<AppProps, AppState> {
     const res = {
       status: 403 
     };
+
     try {
-      await axios.post('http://localhost:8080/api/users/login', {
+      await axios.post(this.state.apiURL + 'users/login', {
         username: this.state.username,
         password: this.state.password
       })
