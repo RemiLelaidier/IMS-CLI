@@ -49,7 +49,6 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                 Administration
             </Typography>
             <TextField onChange={this._handleSearch} fullWidth={true} label="Trier" />
-            <div>
             <Table>
                 <TableHead>
                 <TableRow>
@@ -70,7 +69,6 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                 })}
                 </TableBody>
             </Table>
-            </div>
             <TablePagination
                 component="div"
                 count={data.length}
