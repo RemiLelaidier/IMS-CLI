@@ -1,3 +1,4 @@
+import axios from 'axios';
 import * as React from 'react';
 
 import AppBar from '@material-ui/core/AppBar/AppBar';
@@ -30,7 +31,8 @@ interface AppState {
   login: boolean;
   anchorEl: HTMLElement | undefined;
   username: string | undefined,
-  password: string | undefined
+  password: string | undefined,
+  loginError: boolean;
 }
 
 // tslint:disable-next-line:no-empty-interface
@@ -45,7 +47,8 @@ class App extends React.Component<AppProps, AppState> {
       page: Pages.home,
       anchorEl: undefined,
       username: undefined,
-      password: undefined
+      password: undefined,
+      loginError: false
     }
 
     this._handleClose = this._handleClose.bind(this);
@@ -64,8 +67,7 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   public render() {
-    const admin = false;
-    const { anchorEl } = this.state;
+    const { admin, anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
     return (
@@ -121,11 +123,11 @@ class App extends React.Component<AppProps, AppState> {
               Connexion
             </DialogTitle>
             <DialogContent>
-              <FormControl required={true}>
+              <FormControl required={true} error={this.state.loginError}>
                 <InputLabel>Utilisateur</InputLabel>
                 <Input id="username" onChange={this._handleLoginChange}/>
               </FormControl>
-              <FormControl required={true}>
+              <FormControl required={true} error={this.state.loginError}>
                 <InputLabel>Mot de passe</InputLabel>
                 <Input id="password" onChange={this._handleLoginChange}/>
               </FormControl>
@@ -151,8 +153,23 @@ class App extends React.Component<AppProps, AppState> {
     this.setState({[event.target.id]: event.target.value});
   }
 
-  private _handleConnect(event: any) {
-    console.log('connect', this.state.username, this.state.password);
+  private async _handleConnect(event: any) {
+    const res = {
+      status: 403 
+    };
+    try {
+      await axios.post('http://localhost:8080/api/users/login', {
+        username: this.state.username,
+        password: this.state.password
+      })
+    } catch {
+      this.setState({loginError: true});
+    }
+
+    if (res.status === 200) {
+      console.log('connected !');
+      this.setState({admin: true, login: false});
+    }
   }
 
   private _handleMenu(event: any){
