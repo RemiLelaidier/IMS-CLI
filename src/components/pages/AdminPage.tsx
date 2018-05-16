@@ -73,6 +73,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             <TablePagination
                 component="div"
                 count={data.length}
+                labelRowsPerPage='Lignes par page'
                 rowsPerPage={this.state.rowsPerPage}
                 page={this.state.page}
                 backIconButtonProps={{
