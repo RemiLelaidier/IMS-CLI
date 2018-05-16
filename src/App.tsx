@@ -1,4 +1,5 @@
 import axios from 'axios';
+import * as jsrassign from 'jsrsasign';
 import * as React from 'react';
 
 import { FormControl, InputLabel } from '@material-ui/core';
@@ -58,10 +59,23 @@ class App extends React.Component<{}, AppState> {
   public componentDidMount(){
     const currentURL = window.location.pathname;
     let login = this.state.login;
+    let admin = this.state.admin;
+
     if(currentURL.indexOf('/!login') !== -1) {
       login = true;
     }
-    this.setState({login});
+
+
+    const tokenStored = sessionStorage.getItem('imsToken');
+    if(tokenStored !== null){
+      const isValid = jsrassign.jws.JWS.verifyJWT(tokenStored, 'MiaowMiaow', {alg: ["HS256"]});
+
+      if(isValid){
+        login = false;
+        admin = true;
+      }
+    }
+    this.setState({login, admin});
   }
 
   public render() {
