@@ -7,7 +7,7 @@ import Input from '@material-ui/core/Input/Input';
 import InputLabel from '@material-ui/core/InputLabel/InputLabel';
 import Select from '@material-ui/core/Select/Select';
 
-import { _handleField } from '../../validation/validation';
+import { _handleField, ValidatedStep } from '../../validation/validation';
 import { concernedSchema } from './SchemaManager';
 
 interface ConcernedProps {
@@ -46,7 +46,7 @@ interface ConcernedState {
     }
 }
 
-export default class ConcernedStep extends React.Component<ConcernedProps, ConcernedState> {
+export default class ConcernedStep extends React.Component<ConcernedProps, ConcernedState> implements ValidatedStep {
     public schema: any;
     private _handleChange: any;
 
@@ -201,11 +201,5 @@ export default class ConcernedStep extends React.Component<ConcernedProps, Conce
                 </FormGroup>
             </div>
         );
-    }
-
-    // needed to glitch typescript checking
-    // tslint:disable-next-line:member-access
-    showSchema(){
-        console.log(this.schema);
     }
 }

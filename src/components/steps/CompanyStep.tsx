@@ -173,10 +173,4 @@ export default class CompanyStep extends React.Component<CompanyProps, CompanySt
             </div>
         );
     }
-
-    // needed to glitch typescript checking
-    // tslint:disable-next-line:member-access
-    showSchema(){
-        console.log(this.schema);
-    }
 }

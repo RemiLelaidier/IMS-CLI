@@ -185,10 +185,4 @@ export default class StudentStep extends React.Component<StudentProps, StudentSt
             </div>
         )
     }
-
-    // needed to glitch typescript checking
-    // tslint:disable-next-line:member-access
-    showSchema(){
-        console.log(this.schema);
-    }
 }

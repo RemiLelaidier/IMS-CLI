@@ -2,10 +2,12 @@ import * as Joi from 'joi';
 
 export interface ValidatedStep {
     schema: any;
-    showSchema: (any);
+    state: any;
+    props: any;
+    setState: (any);
 }
 
-export function _handleField(this: any, event: any) {
+export function _handleField(this: ValidatedStep, event: any) {
     // clone current fields to apply user modification
     const newFields = Object.assign({}, this.state.fields);
     newFields[event.target.id] = event.target.value;

@@ -3,6 +3,7 @@ import * as React from 'react';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel/FormLabel';
 import Input from '@material-ui/core/Input/Input';
+import { _handleField, ValidatedStep } from '../../validation/validation';
 
 interface MoreProps {
     onError: (any);
@@ -15,7 +16,17 @@ interface MoreState {
     }
 }
 
-export default class MoreStep extends React.Component<MoreProps, MoreState> {
+export default class MoreStep extends React.Component<MoreProps, MoreState> implements ValidatedStep {
+    public schema: any;
+    private _handleChange: any;
+
+    constructor(props: MoreProps){
+        super(props);
+        this.schema = {};
+
+        this._handleChange = _handleField.bind(this);
+    }
+
     public render() {
         return (
             <div>
@@ -24,6 +35,7 @@ export default class MoreStep extends React.Component<MoreProps, MoreState> {
                 <FormGroup row={true}>
                     <Input 
                         id="moreInfo"
+                        onChange={this._handleChange}
                     />
                 </FormGroup>
                 <p>Un récapitulatif vous sera fourni afin que vous validiez les informations</p>

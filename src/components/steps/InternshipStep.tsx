@@ -6,7 +6,7 @@ import FormLabel from '@material-ui/core/FormLabel/FormLabel';
 import Input from '@material-ui/core/Input/Input';
 import InputLabel from '@material-ui/core/InputLabel/InputLabel';
 import Select from '@material-ui/core/Select/Select';
-import { _handleField } from '../../validation/validation';
+import { _handleField, ValidatedStep } from '../../validation/validation';
 import { internshipSchema } from './SchemaManager';
 
 interface InternshipProps {
@@ -40,7 +40,8 @@ interface InternshipState {
         avantagesStage: string | null
     }
 }
-export default class InternshipStep extends React.Component<InternshipProps, InternshipState> {
+
+export default class InternshipStep extends React.Component<InternshipProps, InternshipState> implements ValidatedStep {
     public schema: any;
     private _handleChange: any;
 
@@ -174,9 +175,6 @@ export default class InternshipStep extends React.Component<InternshipProps, Int
                     </FormControl>
                 </FormGroup>
             </div>
-
-            
-            
         );
     }
 }
