@@ -35,6 +35,12 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             this.createData('Eclair', 'Jean-Michel', 'En attente'),
             this.createData('Cupcake', 'Jean-Louis', 'En attente'),
             this.createData('Gingerbread', 'Jean-Philippe', 'En cours'),
+            this.createData('Cupcake', 'Jean-Louis', 'En attente'),
+            this.createData('Cupcake', 'Jean-Louis', 'En attente'),
+            this.createData('Cupcake', 'Jean-Louis', 'En attente'),
+            this.createData('Cupcake', 'Jean-Louis', 'En attente'),
+            this.createData('Cupcake', 'Jean-Louis', 'En attente'),
+            this.createData('Cupcake', 'Jean-Louis', 'En attente'),
         ];
 
         return (
@@ -43,6 +49,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                 Administration
             </Typography>
             <TextField onChange={this._handleSearch} fullWidth={true} label="Trier" />
+            <div>
             <Table>
                 <TableHead>
                 <TableRow>
@@ -52,7 +59,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                 </TableRow>
                 </TableHead>
                 <TableBody>
-                {data.map(n => {
+                {data.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map(n => {
                     return (
                     <TableRow key={n.id}>
                         <TableCell>{n.etudiant}</TableCell>
@@ -63,6 +70,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                 })}
                 </TableBody>
             </Table>
+            </div>
             <TablePagination
                 component="div"
                 count={data.length}
