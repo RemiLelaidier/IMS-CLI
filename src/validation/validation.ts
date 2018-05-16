@@ -13,19 +13,19 @@ export function _handleField(this: ValidatedStep, event: any) {
     newFields[event.target.id] = event.target.value;
     this.setState({fields: newFields});
 
+    const errors = Object.assign({}, this.state.errors);
+
     // pass through Joi with Component schema
     const result = Joi.validate({[event.target.id]: event.target.value}, this.schema);
     // if an error is found, the object evaluates, else error === null
     if(result.error){
-        this.setState({errors: {
-            [event.target.id]: true
-        }});
+        errors[event.target.id] = true;
+        this.setState({errors});
         this.props.onError(true);
     } else {
+        errors[event.target.id] = false;
         // setting error on this form control
-        this.setState({errors: {
-            [event.target.id]: false
-        }});
+        this.setState({errors});
 
         // check if our friends are filled or not
         let isEverythingFilled = true;

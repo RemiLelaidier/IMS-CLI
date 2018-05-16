@@ -59,15 +59,18 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                 </TableRow>
                 </TableHead>
                 <TableBody>
-                {data.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map(n => {
-                    return (
-                    <TableRow key={n.rowId} onClick={this._handleRowClick}>
-                        <TableCell id={n.rowId}>{n.etudiant}</TableCell>
-                        <TableCell id={n.rowId}>{n.entreprise}</TableCell>
-                        <TableCell id={n.rowId}>{n.statut}</TableCell>
-                    </TableRow>
-                    );
-                })}
+                {data.slice(this.state.page * this.state.rowsPerPage, 
+                            this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
+                        .map(n => {
+                            return (
+                            <TableRow key={n.rowId} onClick={this._handleRowClick}>
+                                <TableCell id={n.rowId}>{n.etudiant}</TableCell>
+                                <TableCell id={n.rowId}>{n.entreprise}</TableCell>
+                                <TableCell id={n.rowId}>{n.statut}</TableCell>
+                            </TableRow>
+                            );
+                        })
+                }
                 </TableBody>
             </Table>
             <TablePagination

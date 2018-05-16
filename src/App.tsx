@@ -71,7 +71,6 @@ class App extends React.Component<{}, AppState> {
       login = true;
     }
 
-
     const tokenStored = sessionStorage.getItem('imsToken');
     if(tokenStored !== null){
       const isValid = jsrassign.jws.JWS.verifyJWT(tokenStored, 'MiaowMiaow', {alg: ["HS256"]});
