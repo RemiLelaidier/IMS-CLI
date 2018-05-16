@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as jsrassign from 'jsrsasign';
 import * as React from 'react';
 
-import { FormControl, InputLabel } from '@material-ui/core';
+import { FormControl, InputAdornment, InputLabel } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar/AppBar';
 import Button from '@material-ui/core/Button/Button';
 import Dialog from '@material-ui/core/Dialog/Dialog';
@@ -16,6 +16,8 @@ import Slide from '@material-ui/core/Slide/Slide';
 import Toolbar from '@material-ui/core/Toolbar/Toolbar';
 import Typography from '@material-ui/core/Typography/Typography';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Input } from 'material-ui';
 
 import { AdminPage } from './components/pages/AdminPage';
@@ -33,6 +35,7 @@ interface AppState {
   password: string | undefined,
   loginError: boolean;
   apiURL: string;
+  showPassword: boolean;
 }
 
 class App extends React.Component<{}, AppState> {
@@ -46,7 +49,8 @@ class App extends React.Component<{}, AppState> {
       username: undefined,
       password: undefined,
       loginError: false,
-      apiURL: 'http://localhost:8080/api/'
+      apiURL: 'http://localhost:8080/api/',
+      showPassword: false
     }
 
     this._handleClose = this._handleClose.bind(this);
@@ -54,6 +58,8 @@ class App extends React.Component<{}, AppState> {
     this._handleLoginChange = this._handleLoginChange.bind(this);
     this._handleConnect = this._handleConnect.bind(this);
     this._handleDisconnect = this._handleDisconnect.bind(this);
+    this._handleClickShowPassword = this._handleClickShowPassword.bind(this);
+    this._handleMouseDownPassword = this._handleMouseDownPassword.bind(this);
   }
 
   public componentDidMount(){
@@ -140,8 +146,23 @@ class App extends React.Component<{}, AppState> {
                 <Input id="username" onChange={this._handleLoginChange}/>
               </FormControl>
               <FormControl required={true} error={this.state.loginError}>
-                <InputLabel>Mot de passe</InputLabel>
-                <Input id="password" onChange={this._handleLoginChange}/>
+                <InputLabel htmlFor="password">Mot de passe</InputLabel>
+                <Input
+                  id="password"
+                  type={this.state.showPassword ? 'text' : 'password'}
+                  onChange={this._handleLoginChange}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="Afficher le mot de passe"
+                        onClick={this._handleClickShowPassword}
+                        onMouseDown={this._handleMouseDownPassword}
+                      >
+                        {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
               </FormControl>
             </DialogContent>
             <DialogActions>
@@ -156,6 +177,14 @@ class App extends React.Component<{}, AppState> {
         </div>
     );
   }
+
+  private _handleMouseDownPassword(event: any) {
+    event.preventDefault();
+  };
+
+  private _handleClickShowPassword(event: any){
+    this.setState({ showPassword: !this.state.showPassword });
+  };
 
   private Transition(props: any) {
     return <Slide direction="up" {...props} />;
