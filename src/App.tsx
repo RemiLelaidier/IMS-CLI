@@ -1,29 +1,27 @@
 import axios from 'axios';
 import * as React from 'react';
 
+import { FormControl, InputLabel } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar/AppBar';
+import Button from '@material-ui/core/Button/Button';
+import Dialog from '@material-ui/core/Dialog/Dialog';
+import DialogActions from '@material-ui/core/DialogActions/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
 import IconButton from '@material-ui/core/IconButton/IconButton';
+import Menu from '@material-ui/core/Menu/Menu';
+import MenuItem from '@material-ui/core/MenuItem/MenuItem';
+import Slide from '@material-ui/core/Slide/Slide';
 import Toolbar from '@material-ui/core/Toolbar/Toolbar';
 import Typography from '@material-ui/core/Typography/Typography';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-
+import { Input } from 'material-ui';
 
 import { AdminPage } from './components/pages/AdminPage';
 import { StudentPage } from './components/pages/StudentPage';
 import { Pages } from './components/types';
 
 import './App.css';
-
-import { FormControl, InputLabel } from '@material-ui/core';
-import Button from '@material-ui/core/Button/Button';
-import Dialog from '@material-ui/core/Dialog/Dialog';
-import DialogActions from '@material-ui/core/DialogActions/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
-import Menu from '@material-ui/core/Menu/Menu';
-import MenuItem from '@material-ui/core/MenuItem/MenuItem';
-import Slide from '@material-ui/core/Slide/Slide';
-import { Input } from 'material-ui';
 
 interface AppState {
   admin: boolean;
