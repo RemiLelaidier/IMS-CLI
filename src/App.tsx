@@ -6,19 +6,28 @@ import Toolbar from '@material-ui/core/Toolbar/Toolbar';
 import Typography from '@material-ui/core/Typography/Typography';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
-import { Pages } from './components/types';
 
+import { AdminPage } from './components/pages/AdminPage';
 import { StudentPage } from './components/pages/StudentPage';
+import { Pages } from './components/types';
 
 import './App.css';
 
+import { FormControl, InputLabel } from '@material-ui/core';
+import Button from '@material-ui/core/Button/Button';
+import Dialog from '@material-ui/core/Dialog/Dialog';
+import DialogActions from '@material-ui/core/DialogActions/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
 import Menu from '@material-ui/core/Menu/Menu';
 import MenuItem from '@material-ui/core/MenuItem/MenuItem';
-import { AdminPage } from './components/pages/AdminPage';
+import Slide from '@material-ui/core/Slide/Slide';
+import { Input } from 'material-ui';
 
 interface AppState {
   admin: boolean;
   page: Pages;
+  login: boolean;
   anchorEl: HTMLElement | undefined;
 }
 
@@ -30,6 +39,7 @@ class App extends React.Component<AppProps, AppState> {
     super(props);
     this.state = {
       admin: false,
+      login: false,
       page: Pages.home,
       anchorEl: undefined,
     }
@@ -38,13 +48,18 @@ class App extends React.Component<AppProps, AppState> {
     this._handleMenu = this._handleMenu.bind(this);
   }
 
-  public render() {
+  public componentDidMount(){
     const currentURL = window.location.pathname;
-    const { anchorEl } = this.state;
-    let admin = this.state.admin;
-    if(currentURL.indexOf('/!admin') !== -1) {
-      admin = true;
+    let login = this.state.login;
+    if(currentURL.indexOf('/!login') !== -1) {
+      login = true;
     }
+    this.setState({login});
+  }
+
+  public render() {
+    const admin = false;
+    const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
     return (
@@ -90,8 +105,44 @@ class App extends React.Component<AppProps, AppState> {
           {!admin && (
             <StudentPage />
           )}
+          <Dialog
+            open={this.state.login}
+            TransitionComponent={this.Transition}
+            keepMounted={true}
+            onClose={this._handleClose}
+          >
+            <DialogTitle id="alert-dialog-slide-title">
+              Connexion
+            </DialogTitle>
+            <DialogContent>
+              <FormControl required={true}>
+                <InputLabel>Utilisateur</InputLabel>
+                <Input />
+              </FormControl>
+              <FormControl required={true}>
+                <InputLabel>Mot de passe</InputLabel>
+                <Input />
+              </FormControl>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this._handleClose} color="primary">
+                Annuler
+              </Button>
+              <Button onClick={this._handleConnect} color="primary">
+                Connexion
+              </Button>
+            </DialogActions>
+        </Dialog>
         </div>
     );
+  }
+
+  private Transition(props: any) {
+    return <Slide direction="up" {...props} />;
+  }
+
+  private _handleConnect(event: any) {
+    console.log('connect', event);
   }
 
   private _handleMenu(event: any){
@@ -99,7 +150,7 @@ class App extends React.Component<AppProps, AppState> {
   };
 
   private _handleClose(){
-    this.setState({ anchorEl: undefined });
+    this.setState({ anchorEl: undefined, login: false });
   }
 }
 
