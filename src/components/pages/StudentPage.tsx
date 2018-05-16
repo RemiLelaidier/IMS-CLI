@@ -15,6 +15,11 @@ import RecapStep from '../steps/RecapStep';
 
 import './StudentPage.css';
 
+export interface FormProps {
+    onError: (any);
+    onFieldChange: (any);
+}
+
 interface StudentPageProps {
     onChangePage: (any);
     onSubmit: (any);

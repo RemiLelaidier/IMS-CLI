@@ -2,10 +2,9 @@ import * as React from 'react';
 
 import Button from '@material-ui/core/Button/Button';
 import FormLabel from '@material-ui/core/FormLabel/FormLabel';
+import { FormProps } from '../pages/StudentPage';
 
-interface RecapProps {
-    onError: (any);
-    onFieldChange: (any);
+interface RecapProps extends FormProps {
     onSubmit: (any);
 }
 

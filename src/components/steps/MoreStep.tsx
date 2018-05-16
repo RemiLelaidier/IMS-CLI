@@ -3,12 +3,9 @@ import * as React from 'react';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel/FormLabel';
 import Input from '@material-ui/core/Input/Input';
-import { _handleField, ValidatedStep } from '../../validation/validation';
 
-interface MoreProps {
-    onError: (any);
-    onFieldChange: (any);
-}
+import { _handleField, ValidatedStep } from '../../validation/validation';
+import { FormProps } from '../pages/StudentPage';
 
 interface MoreState {
     errors: {
@@ -16,11 +13,11 @@ interface MoreState {
     }
 }
 
-export default class MoreStep extends React.Component<MoreProps, MoreState> implements ValidatedStep {
+export default class MoreStep extends React.Component<FormProps, MoreState> implements ValidatedStep {
     public schema: any;
     private _handleChange: any;
 
-    constructor(props: MoreProps){
+    constructor(props: FormProps){
         super(props);
         this.schema = {};
 

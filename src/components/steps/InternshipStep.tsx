@@ -6,13 +6,10 @@ import FormLabel from '@material-ui/core/FormLabel/FormLabel';
 import Input from '@material-ui/core/Input/Input';
 import InputLabel from '@material-ui/core/InputLabel/InputLabel';
 import Select from '@material-ui/core/Select/Select';
-import { _handleField, ValidatedStep } from '../../validation/validation';
-import { internshipSchema } from './SchemaManager';
 
-interface InternshipProps {
-    onError: (any);
-    onFieldChange: (any);
-}
+import { _handleField, ValidatedStep } from '../../validation/validation';
+import { FormProps } from '../pages/StudentPage';
+import { internshipSchema } from './SchemaManager';
 
 interface InternshipState {
     errors: {
@@ -41,11 +38,11 @@ interface InternshipState {
     }
 }
 
-export default class InternshipStep extends React.Component<InternshipProps, InternshipState> implements ValidatedStep {
+export default class InternshipStep extends React.Component<FormProps, InternshipState> implements ValidatedStep {
     public schema: any;
     private _handleChange: any;
 
-    constructor(props: InternshipProps){
+    constructor(props: FormProps){
         super(props);
         this.state = {
             errors: {

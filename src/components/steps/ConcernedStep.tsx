@@ -8,12 +8,8 @@ import InputLabel from '@material-ui/core/InputLabel/InputLabel';
 import Select from '@material-ui/core/Select/Select';
 
 import { _handleField, ValidatedStep } from '../../validation/validation';
+import { FormProps } from '../pages/StudentPage';
 import { concernedSchema } from './SchemaManager';
-
-interface ConcernedProps {
-    onError: (any);
-    onFieldChange: (any);
-}
 
 interface ConcernedState {
     errors: {
@@ -46,11 +42,11 @@ interface ConcernedState {
     }
 }
 
-export default class ConcernedStep extends React.Component<ConcernedProps, ConcernedState> implements ValidatedStep {
+export default class ConcernedStep extends React.Component<FormProps, ConcernedState> implements ValidatedStep {
     public schema: any;
     private _handleChange: any;
 
-    constructor(props: any){
+    constructor(props: FormProps){
         super(props);
         this.state = {
             errors: {
