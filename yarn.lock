@@ -55,6 +55,12 @@
     scroll "^2.0.3"
     warning "^3.0.0"
 
+"@material-ui/icons@^1.0.0-rc.0":
+  version "1.0.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@material-ui/icons/-/icons-1.0.0-rc.0.tgz#1c836832183d509eaac9df42aa31dbbe4dd337cb"
+  dependencies:
+    recompose "^0.26.0 || ^0.27.0"
+
 "@types/jest@^22.2.3":
   version "22.2.3"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-22.2.3.tgz#0157c0316dc3722c43a7b71de3fdf3acbccef10d"

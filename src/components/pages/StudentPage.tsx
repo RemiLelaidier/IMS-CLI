@@ -20,10 +20,8 @@ export interface FormProps {
     onFieldChange: (any);
 }
 
-interface StudentPageProps {
-    onChangePage: (any);
-    onSubmit: (any);
-}
+// tslint:disable-next-line:no-empty-interface
+interface StudentPageProps {}
 
 interface StudentPageState {
     inError: boolean;
