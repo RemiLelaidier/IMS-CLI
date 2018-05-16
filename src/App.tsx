@@ -29,6 +29,8 @@ interface AppState {
   page: Pages;
   login: boolean;
   anchorEl: HTMLElement | undefined;
+  username: string | undefined,
+  password: string | undefined
 }
 
 // tslint:disable-next-line:no-empty-interface
@@ -42,10 +44,14 @@ class App extends React.Component<AppProps, AppState> {
       login: false,
       page: Pages.home,
       anchorEl: undefined,
+      username: undefined,
+      password: undefined
     }
 
     this._handleClose = this._handleClose.bind(this);
     this._handleMenu = this._handleMenu.bind(this);
+    this._handleLoginChange = this._handleLoginChange.bind(this);
+    this._handleConnect = this._handleConnect.bind(this);
   }
 
   public componentDidMount(){
@@ -117,11 +123,11 @@ class App extends React.Component<AppProps, AppState> {
             <DialogContent>
               <FormControl required={true}>
                 <InputLabel>Utilisateur</InputLabel>
-                <Input />
+                <Input id="username" onChange={this._handleLoginChange}/>
               </FormControl>
               <FormControl required={true}>
                 <InputLabel>Mot de passe</InputLabel>
-                <Input />
+                <Input id="password" onChange={this._handleLoginChange}/>
               </FormControl>
             </DialogContent>
             <DialogActions>
@@ -141,8 +147,12 @@ class App extends React.Component<AppProps, AppState> {
     return <Slide direction="up" {...props} />;
   }
 
+  private _handleLoginChange(event: any){
+    this.setState({[event.target.id]: event.target.value});
+  }
+
   private _handleConnect(event: any) {
-    console.log('connect', event);
+    console.log('connect', this.state.username, this.state.password);
   }
 
   private _handleMenu(event: any){
