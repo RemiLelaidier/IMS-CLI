@@ -48,6 +48,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             <Typography variant="title" color="inherit">
                 Administration
             </Typography>
+            <br />
             <TextField onChange={this._handleSearch} fullWidth={true} label="Trier" />
             <Table>
                 <TableHead>
