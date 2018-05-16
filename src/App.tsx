@@ -52,6 +52,7 @@ class App extends React.Component<{}, AppState> {
     this._handleMenu = this._handleMenu.bind(this);
     this._handleLoginChange = this._handleLoginChange.bind(this);
     this._handleConnect = this._handleConnect.bind(this);
+    this._handleDisconnect = this._handleDisconnect.bind(this);
   }
 
   public componentDidMount(){
@@ -98,7 +99,7 @@ class App extends React.Component<{}, AppState> {
                   open={open}
                   onClose={this._handleClose}
                 >
-                  <MenuItem onClick={this._handleClose}>Administration</MenuItem>
+                  <MenuItem onClick={this._handleDisconnect}>Déconnexion</MenuItem>
                 </Menu>
               </div>
               )}
@@ -150,13 +151,21 @@ class App extends React.Component<{}, AppState> {
     this.setState({[event.target.id]: event.target.value});
   }
 
+  private async _handleDisconnect(event: any) {
+    this.setState({admin: false});
+    sessionStorage.removeItem('imsToken');
+  }
+
   private async _handleConnect(event: any) {
-    const res = {
-      status: 403 
+    let res = {
+      status: 403,
+      data: {
+        result: { token: '' }
+      },
     };
 
     try {
-      await axios.post(this.state.apiURL + 'users/login', {
+      res = await axios.post(this.state.apiURL + 'users/login', {
         username: this.state.username,
         password: this.state.password
       })
@@ -167,6 +176,7 @@ class App extends React.Component<{}, AppState> {
     if (res.status === 200) {
       console.log('connected !');
       this.setState({admin: true, login: false});
+      sessionStorage.setItem('imsToken', res.data.result.token);
     }
   }
 
