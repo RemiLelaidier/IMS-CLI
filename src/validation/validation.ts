@@ -20,7 +20,6 @@ export function _handleField(this: any, event: any) {
         }});
         this.props.onError(true);
     } else {
-        this.props.onFieldChange(event, this.constructor.name);
         // setting error on this form control
         this.setState({errors: {
             [event.target.id]: false
@@ -35,6 +34,7 @@ export function _handleField(this: any, event: any) {
         }
 
         // tell it to my mother (Page) !
+        this.props.onFieldChange(event, this.constructor.name);
         if(isEverythingFilled){
             this.props.onError(false);
         } else {
