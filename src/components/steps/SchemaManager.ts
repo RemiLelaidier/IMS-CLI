@@ -29,13 +29,13 @@ export const internshipSchema = {
 }
 
 export const concernedSchema = {
-    sexeEncadrant: Joi.string().min(2),
+    sexeEncadrant: Joi.string(),
     nomEncadrant: Joi.string().min(2),
     prenomEncadrant: Joi.string().min(2),
     emailEncadrant: Joi.string().email(),
     telephoneEncadrant: Joi.string().regex(/^\+(?:[0-9]●?){6,14}[0-9]$/),
     qualiteEncadrant: Joi.string().min(2),
-    sexeTuteur: Joi.string().min(2),
+    sexeTuteur: Joi.string(),
     nomTuteur: Joi.string().min(2),
     prenomTuteur: Joi.string().min(2),
     emailTuteur: Joi.string().email(),
@@ -48,10 +48,14 @@ export const companySchema = {
     siteWebEntreprise: Joi.string().min(2),
     siegeEntreprise: Joi.string().min(2),
     adrEntreprise: Joi.string().min(2),
-    sexeRepresentant: Joi.string().min(2),
+    sexeRepresentant: Joi.string(),
     nomRepresentant: Joi.string().min(2),
     prenomRepresentant: Joi.string().min(2),
     emailRepresentant: Joi.string().email(),
     telephoneRepresentant: Joi.string().regex(/^\+(?:[0-9]●?){6,14}[0-9]$/),
     qualiteRepresentant: Joi.string().min(2)
 };
+
+export const moreSchema = {
+    moreInfo: Joi.string().optional()
+}

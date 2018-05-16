@@ -20,7 +20,7 @@ export default class StudentStep extends React.Component<FormProps, StudentState
     public schema: any;
     private _handleChange: any;
 
-    constructor (props: FormProps) {
+    constructor(props: FormProps) {
         super(props);
 
         this.state = {
@@ -58,7 +58,7 @@ export default class StudentStep extends React.Component<FormProps, StudentState
         this.schema = studentSchema;
     }
     public render() {
-        return(
+        return (
             <div>
                 <FormLabel component="legend">Étudiant</FormLabel>
                 <br />
@@ -104,7 +104,7 @@ export default class StudentStep extends React.Component<FormProps, StudentState
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.prenom}>
                         <InputLabel htmlFor="prenom">Prénom</InputLabel>
-                        <Input 
+                        <Input
                             id="prenom"
                             onChange={this._handleChange}
                         />
@@ -113,14 +113,14 @@ export default class StudentStep extends React.Component<FormProps, StudentState
                 <FormGroup row={true}>
                     <FormControl required={true} error={this.state.errors.securiteSociale}>
                         <InputLabel htmlFor="securiteSociale">N° de Sécurité Sociale</InputLabel>
-                        <Input 
+                        <Input
                             id="securiteSociale"
                             onChange={this._handleChange}
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.numeroEtudiant}>
                         <InputLabel htmlFor="numeroEtudiant">N° étudiant</InputLabel>
-                        <Input 
+                        <Input
                             id="numeroEtudiant"
                             onChange={this._handleChange}
                         />
@@ -144,7 +144,7 @@ export default class StudentStep extends React.Component<FormProps, StudentState
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.telephone}>
                         <InputLabel htmlFor="telephone">Téléphone</InputLabel>
-                        <Input 
+                        <Input
                             id="telephone"
                             onChange={this._handleChange}
                         />
@@ -153,7 +153,7 @@ export default class StudentStep extends React.Component<FormProps, StudentState
                 <FormGroup>
                     <FormControl required={true} error={this.state.errors.adresse}>
                         <InputLabel htmlFor="adresse">Adresse</InputLabel>
-                        <Input 
+                        <Input
                             id="adresse"
                             onChange={this._handleChange}
                         />
@@ -164,14 +164,14 @@ export default class StudentStep extends React.Component<FormProps, StudentState
                     <FormGroup row={true}>
                         <FormControl required={true} error={this.state.errors.assurance}>
                             <InputLabel htmlFor="assurance">Assurance</InputLabel>
-                            <Input 
+                            <Input
                                 id="assurance"
                                 onChange={this._handleChange}
                             />
                         </FormControl>
                         <FormControl required={true} error={this.state.errors.numeroPolice}>
                             <InputLabel htmlFor="numeroPolice">Numéro de police</InputLabel>
-                            <Input 
+                            <Input
                                 id="numeroPolice"
                                 onChange={this._handleChange}
                             />

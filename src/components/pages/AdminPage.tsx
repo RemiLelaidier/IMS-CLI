@@ -10,7 +10,7 @@ interface AdminPageState {
 }
 
 // tslint:disable-next-line:no-empty-interface
-interface AdminPageProps {}
+interface AdminPageProps { }
 
 let id = 0;
 
@@ -28,7 +28,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
         this._handleSearch = this._handleSearch.bind(this);
     }
 
-    public render (){
+    public render() {
         const data = [
             this.createData('Frozen yoghurt', 'Jean-Luc', 'En attente', 'xxx1'),
             this.createData('Ice cream sandwich', 'Jean-Martin', 'En cours', 'xxx2'),
@@ -44,67 +44,67 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
         ];
 
         return (
-        <Paper style={{margin: 10, padding: 10}}>
-            <Typography variant="title" color="inherit">
-                Administration
+            <Paper style={{ margin: 10, padding: 10 }}>
+                <Typography variant="title" color="inherit">
+                    Administration
             </Typography>
-            <br />
-            <TextField onChange={this._handleSearch} fullWidth={true} label="Trier" />
-            <Table>
-                <TableHead>
-                <TableRow>
-                    <TableCell>Étudiant</TableCell>
-                    <TableCell>Entreprise</TableCell>
-                    <TableCell>Statut</TableCell>
-                </TableRow>
-                </TableHead>
-                <TableBody>
-                {data.slice(this.state.page * this.state.rowsPerPage, 
+                <br />
+                <TextField onChange={this._handleSearch} fullWidth={true} label="Trier" />
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Étudiant</TableCell>
+                            <TableCell>Entreprise</TableCell>
+                            <TableCell>Statut</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {data.slice(this.state.page * this.state.rowsPerPage,
                             this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
-                        .map(n => {
-                            return (
-                            <TableRow key={n.rowId} onClick={this._handleRowClick}>
-                                <TableCell id={n.rowId}>{n.etudiant}</TableCell>
-                                <TableCell id={n.rowId}>{n.entreprise}</TableCell>
-                                <TableCell id={n.rowId}>{n.statut}</TableCell>
-                            </TableRow>
-                            );
-                        })
-                }
-                </TableBody>
-            </Table>
-            <TablePagination
-                component="div"
-                count={data.length}
-                labelRowsPerPage='Lignes par page'
-                rowsPerPage={this.state.rowsPerPage}
-                page={this.state.page}
-                backIconButtonProps={{
-                    'aria-label': 'Précédent',
-                }}
-                nextIconButtonProps={{
-                    'aria-label': 'Suivant',
-                }}
-                onChangePage={this._handleChangePage}
-                onChangeRowsPerPage={this._handleChangeRowsPerPage} 
-            />
-        </Paper>           
+                            .map(n => {
+                                return (
+                                    <TableRow key={n.rowId} onClick={this._handleRowClick}>
+                                        <TableCell id={n.rowId}>{n.etudiant}</TableCell>
+                                        <TableCell id={n.rowId}>{n.entreprise}</TableCell>
+                                        <TableCell id={n.rowId}>{n.statut}</TableCell>
+                                    </TableRow>
+                                );
+                            })
+                        }
+                    </TableBody>
+                </Table>
+                <TablePagination
+                    component="div"
+                    count={data.length}
+                    labelRowsPerPage='Lignes par page'
+                    rowsPerPage={this.state.rowsPerPage}
+                    page={this.state.page}
+                    backIconButtonProps={{
+                        'aria-label': 'Précédent',
+                    }}
+                    nextIconButtonProps={{
+                        'aria-label': 'Suivant',
+                    }}
+                    onChangePage={this._handleChangePage}
+                    onChangeRowsPerPage={this._handleChangeRowsPerPage}
+                />
+            </Paper>
         );
     }
 
-    private _handleChangePage(event: any, page: any){
+    private _handleChangePage(event: any, page: any) {
         this.setState({ page });
     };
-    
+
     private _handleChangeRowsPerPage(event: any) {
         this.setState({ rowsPerPage: event.target.value });
     };
 
-    private _handleSearch(event: any){
+    private _handleSearch(event: any) {
         console.log('search', event.target.value);
     }
 
-    private _handleRowClick(event: any){
+    private _handleRowClick(event: any) {
         console.log('rwClick on', event.target.id);
     }
 

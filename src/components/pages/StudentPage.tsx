@@ -21,7 +21,7 @@ export interface FormProps {
 }
 
 // tslint:disable-next-line:no-empty-interface
-interface StudentPageProps {}
+interface StudentPageProps { }
 
 interface StudentPageState {
     inError: boolean;
@@ -30,6 +30,8 @@ interface StudentPageState {
 }
 
 const stepCount = 6;
+// @Tool : put validationActivated to false to bypass validation logic
+const validationActivated = false;
 
 export class StudentPage extends React.Component<StudentPageProps, StudentPageState> {
     private _steps: JSX.Element[];
@@ -37,9 +39,8 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
     constructor(props: StudentPageProps) {
         super(props);
 
-        // @Tool : put inError to false to bypass validation logic
-        this.state = { 
-            inError: true,
+        this.state = {
+            inError: validationActivated,
             stepIndex: 0,
             steps: {}
         }
@@ -49,13 +50,13 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
         this._handlePrev = this._handlePrev.bind(this);
         this._handleField = this._handleField.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
-        
+
         this._steps = [
-            <StudentStep key={0} onError={this._onStepError} onFieldChange={this._handleField}/>, 
-            <CompanyStep key={1} onError={this._onStepError} onFieldChange={this._handleField}/>,
-            <InternshipStep key={2} onError={this._onStepError} onFieldChange={this._handleField}/>,
-            <ConcernedStep key={3} onError={this._onStepError} onFieldChange={this._handleField}/>,
-            <MoreStep key={4} onError={this._onStepError} onFieldChange={this._handleField}/>,
+            <StudentStep key={0} onError={this._onStepError} onFieldChange={this._handleField} />,
+            <CompanyStep key={1} onError={this._onStepError} onFieldChange={this._handleField} />,
+            <InternshipStep key={2} onError={this._onStepError} onFieldChange={this._handleField} />,
+            <ConcernedStep key={3} onError={this._onStepError} onFieldChange={this._handleField} />,
+            <MoreStep key={4} onError={this._onStepError} onFieldChange={this._handleField} />,
             <RecapStep key={5} onError={this._onStepError} onFieldChange={this._handleField} onSubmit={this._handleSubmit} />
         ];
 
@@ -90,50 +91,50 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
         ];
     }
 
-    public render (){
+    public render() {
         const orientation = 'horizontal';
 
         return (
-        <div>
-            <div className="stepper-content">{this._stepContent(this.state.stepIndex)}</div>
-            <div className="stepper-action">
-                <Stepper activeStep={this.state.stepIndex} orientation={orientation}>
-                    {this._getSteps()}
-                </Stepper>
-                <MobileStepper 
-                    steps={stepCount}
-                    variant="progress"
-                    activeStep={this.state.stepIndex}
-                    nextButton={
-                        <Button size="small" onClick={this._handleNext} disabled={this.state.inError}>
-                        Suivant
+            <div>
+                <div className="stepper-content">{this._stepContent(this.state.stepIndex)}</div>
+                <div className="stepper-action">
+                    <Stepper activeStep={this.state.stepIndex} orientation={orientation}>
+                        {this._getSteps()}
+                    </Stepper>
+                    <MobileStepper
+                        steps={stepCount}
+                        variant="progress"
+                        activeStep={this.state.stepIndex}
+                        nextButton={
+                            <Button size="small" onClick={this._handleNext} disabled={this.state.inError}>
+                                Suivant
                         </Button>
-                    }
-                    backButton={
-                        <Button size="small" onClick={this._handlePrev} disabled={this.state.stepIndex === 0}>
-                        Précédent
+                        }
+                        backButton={
+                            <Button size="small" onClick={this._handlePrev} disabled={this.state.stepIndex === 0}>
+                                Précédent
                         </Button>
-                    }
-                >
-                    {this._getSteps()}
-                </MobileStepper>
+                        }
+                    >
+                        {this._getSteps()}
+                    </MobileStepper>
+                </div>
             </div>
-        </div>
         );
     }
 
     private _handleField(event: any, from: string) {
         const steps = Object.assign({}, this.state.steps);
-        if(steps[from]) {
+        if (steps[from]) {
             steps[from][event.target.id] = event.target.value;
         } else {
             steps[from] = {
                 [event.target.id]: event.target.value
             }
         }
-        this.setState({steps});
+        this.setState({ steps });
 
-        console.log('valid field change received', {[event.target.id]: event.target.value});
+        console.log('valid field change received', { [event.target.id]: event.target.value });
         console.log('steps', steps);
     }
 
@@ -146,19 +147,23 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
     }
 
     private _handleNext(event: any) {
-        if (!this.state.inError) { 
+        console.log('_handleNext');
+        if (!this.state.inError) {
             this.setState({
                 stepIndex: this.state.stepIndex + 1,
-                inError: true
+                inError: validationActivated ? true : false
             });
         }
+        console.log(this.state);
     }
 
-    private _onStepError(inError: boolean){
-        if(inError){
-            this.setState({inError: true});
-        } else {
-            this.setState({inError: false});
+    private _onStepError(inError: boolean) {
+        if (validationActivated) {
+            if (inError) {
+                this.setState({ inError: true });
+            } else {
+                this.setState({ inError: false });
+            }
         }
     }
 
@@ -166,7 +171,7 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
         return this._steps[stepIndex];
     }
 
-    private _handleSubmit(event: any){
+    private _handleSubmit(event: any) {
         console.log('Yay !', this.state.steps);
     }
 }

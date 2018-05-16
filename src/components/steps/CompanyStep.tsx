@@ -42,7 +42,7 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
     public schema: any;
     private _handleChange: any;
 
-    constructor(props: FormProps){
+    constructor(props: FormProps) {
         super(props);
         this.state = {
             errors: {
@@ -62,7 +62,7 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
                 siteWebEntreprise: null,
                 siegeEntreprise: null,
                 adrEntreprise: null,
-                sexeRepresentant: null,
+                sexeRepresentant: 'M',
                 nomRepresentant: null,
                 prenomRepresentant: null,
                 emailRepresentant: null,
@@ -74,7 +74,7 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
         this._handleChange = _handleField.bind(this);
         this.schema = companySchema;
     }
-    
+
     public render() {
         return (
             <div>
@@ -82,14 +82,14 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
                 <FormGroup row={true}>
                     <FormControl required={true} error={this.state.errors.nomEntreprise}>
                         <InputLabel htmlFor="nomEntreprise">Nom</InputLabel>
-                        <Input 
+                        <Input
                             id="nomEntreprise"
                             onChange={this._handleChange}
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.siteWebEntreprise}>
                         <InputLabel htmlFor="siteWebEntreprise">Site web</InputLabel>
-                        <Input 
+                        <Input
                             id="siteWebEntreprise"
                             onChange={this._handleChange}
                         />
@@ -98,14 +98,14 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
                 <FormGroup row={true}>
                     <FormControl required={true} error={this.state.errors.siegeEntreprise}>
                         <InputLabel htmlFor="siegeEntreprise">Siège social</InputLabel>
-                        <Input 
+                        <Input
                             id="siegeEntreprise"
                             onChange={this._handleChange}
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.adrEntreprise}>
                         <InputLabel htmlFor="adrEntreprise">Adresse du stage</InputLabel>
-                        <Input 
+                        <Input
                             id="adrEntreprise"
                             onChange={this._handleChange}
                         />
@@ -116,9 +116,9 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
                 <br />
                 <FormGroup row={true}>
                     <FormControl required={true} error={this.state.errors.sexeRepresentant}>
-                        <InputLabel htmlFor="sexe">Sexe</InputLabel>
+                        <InputLabel htmlFor="sexeRepresentant">Sexe</InputLabel>
                         <Select
-                            id="sexe"
+                            id="sexeRepresentant"
                             native={true}
                             onChange={this._handleChange}
                         >
@@ -130,14 +130,14 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
 
                     <FormControl required={true} error={this.state.errors.nomRepresentant}>
                         <InputLabel htmlFor="nomRepresentant">Nom</InputLabel>
-                        <Input 
+                        <Input
                             id="nomRepresentant"
                             onChange={this._handleChange}
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.prenomRepresentant}>
                         <InputLabel htmlFor="prenomRepresentant">Prénom</InputLabel>
-                        <Input 
+                        <Input
                             id="prenomRepresentant"
                             onChange={this._handleChange}
                         />
@@ -146,21 +146,21 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
                 <FormGroup row={true}>
                     <FormControl required={true} error={this.state.errors.emailRepresentant}>
                         <InputLabel htmlFor="emailRepresentant">Email</InputLabel>
-                        <Input 
+                        <Input
                             id="emailRepresentant"
                             onChange={this._handleChange}
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.telephoneRepresentant}>
                         <InputLabel htmlFor="telephoneRepresentant">Téléphone</InputLabel>
-                        <Input 
+                        <Input
                             id="telephoneRepresentant"
                             onChange={this._handleChange}
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.qualiteRepresentant}>
                         <InputLabel htmlFor="qualiteRepresentant">En qualité de</InputLabel>
-                        <Input 
+                        <Input
                             id="qualiteRepresentant"
                             onChange={this._handleChange}
                         />

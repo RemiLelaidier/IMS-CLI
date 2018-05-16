@@ -14,7 +14,7 @@ interface RecapState {
     }
 }
 export default class RecapStep extends React.Component<RecapProps, RecapState> {
-    constructor(props: RecapProps){
+    constructor(props: RecapProps) {
         super(props);
         this._handleSubmit = this._handleSubmit.bind(this);
     }
@@ -29,8 +29,8 @@ export default class RecapStep extends React.Component<RecapProps, RecapState> {
             </div>
         );
     }
-    
-    private _handleSubmit(event: any){
+
+    private _handleSubmit(event: any) {
         this.props.onSubmit(event);
     }
 }

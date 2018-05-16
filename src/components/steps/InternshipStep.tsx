@@ -42,7 +42,7 @@ export default class InternshipStep extends React.Component<FormProps, Internshi
     public schema: any;
     private _handleChange: any;
 
-    constructor(props: FormProps){
+    constructor(props: FormProps) {
         super(props);
         this.state = {
             errors: {
@@ -66,7 +66,7 @@ export default class InternshipStep extends React.Component<FormProps, Internshi
                 horairesStage: null,
                 presenceFree: null,
                 gratificationStage: null,
-                typeRemuneration: null,
+                typeRemuneration: 'Virement',
                 avantagesStage: null
             }
         }
@@ -83,14 +83,14 @@ export default class InternshipStep extends React.Component<FormProps, Internshi
                 <FormGroup row={true}>
                     <FormControl required={true} error={this.state.errors.intituleStage}>
                         <InputLabel htmlFor="intituleStage">Intitulé du stage</InputLabel>
-                        <Input 
+                        <Input
                             id="intituleStage"
                             onChange={this._handleChange}
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.descriptionStage}>
                         <InputLabel htmlFor="descriptionStage">Description</InputLabel>
-                        <Input 
+                        <Input
                             id="descriptionStage"
                             onChange={this._handleChange}
                         />
@@ -116,14 +116,14 @@ export default class InternshipStep extends React.Component<FormProps, Internshi
                 <FormGroup row={true}>
                     <FormControl required={true} error={this.state.errors.dureeHebdoStage}>
                         <InputLabel htmlFor="dureeHebdoStage">Durée hebdomadaire</InputLabel>
-                        <Input 
+                        <Input
                             id="dureeHebdoStage"
                             onChange={this._handleChange}
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.horairesStage}>
                         <InputLabel htmlFor="horairesStage">Horaires</InputLabel>
-                        <Input 
+                        <Input
                             id="horairesStage"
                             onChange={this._handleChange}
                         />
@@ -132,7 +132,7 @@ export default class InternshipStep extends React.Component<FormProps, Internshi
                 <FormGroup row={true}>
                     <FormControl required={true} error={this.state.errors.presenceFree}>
                         <p>Présence la nuit, le dimanche et les jours fériés ?</p>
-                        <Input 
+                        <Input
                             id="presenceFree"
                             onChange={this._handleChange}
                         />
@@ -141,31 +141,31 @@ export default class InternshipStep extends React.Component<FormProps, Internshi
                 <p>Pour un stage en France, lorsque la durée du stage est supérieure à deux mois consécutifs (ou non), celui-ci
               fait l'objet d'une gratification, et qui sera due à compter du premier jour du premier mois de stage et devra
               faire l'objet d'un versement mensuel.</p>
-              <FormGroup row={true}>
-                <FormControl required={true} error={this.state.errors.gratificationStage}>
-                    <InputLabel htmlFor="gratificationStage">Gratification</InputLabel>
-                    <Input 
-                        id="gratificationStage"
-                        onChange={this._handleChange}
-                    />
-                </FormControl>
-                <FormControl required={true} error={this.state.errors.typeRemuneration}>
-                    <InputLabel htmlFor="typeRemuneration">Rémunération</InputLabel>
-                    <Select
-                        id="typeRemuneration"
-                        onChange={this._handleChange}
-                        native={true}
-                    >
-                        <option>Virement</option>
-                        <option>Chèque</option>
-                        <option>Autre</option>
-                    </Select>
-                 </FormControl>
+                <FormGroup row={true}>
+                    <FormControl required={true} error={this.state.errors.gratificationStage}>
+                        <InputLabel htmlFor="gratificationStage">Gratification</InputLabel>
+                        <Input
+                            id="gratificationStage"
+                            onChange={this._handleChange}
+                        />
+                    </FormControl>
+                    <FormControl required={true} error={this.state.errors.typeRemuneration}>
+                        <InputLabel htmlFor="typeRemuneration">Rémunération</InputLabel>
+                        <Select
+                            id="typeRemuneration"
+                            onChange={this._handleChange}
+                            native={true}
+                        >
+                            <option>Virement</option>
+                            <option>Chèque</option>
+                            <option>Autre</option>
+                        </Select>
+                    </FormControl>
                 </FormGroup>
                 <FormGroup row={true}>
                     <FormControl required={true} error={this.state.errors.avantagesStage}>
                         <InputLabel htmlFor="avantagesStage">Avantages fournis</InputLabel>
-                        <Input 
+                        <Input
                             id="avantagesStage"
                             onChange={this._handleChange}
                         />

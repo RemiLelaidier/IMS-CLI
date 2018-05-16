@@ -46,7 +46,7 @@ export default class ConcernedStep extends React.Component<FormProps, ConcernedS
     public schema: any;
     private _handleChange: any;
 
-    constructor(props: FormProps){
+    constructor(props: FormProps) {
         super(props);
         this.state = {
             errors: {
@@ -64,13 +64,13 @@ export default class ConcernedStep extends React.Component<FormProps, ConcernedS
                 qualiteTuteur: false
             },
             fields: {
-                sexeEncadrant: null,
+                sexeEncadrant: 'M',
                 nomEncadrant: null,
                 prenomEncadrant: null,
                 emailEncadrant: null,
                 telephoneEncadrant: null,
                 qualiteEncadrant: null,
-                sexeTuteur: null,
+                sexeTuteur: 'M',
                 nomTuteur: null,
                 prenomTuteur: null,
                 emailTuteur: null,
@@ -82,17 +82,17 @@ export default class ConcernedStep extends React.Component<FormProps, ConcernedS
         this._handleChange = _handleField.bind(this);
         this.schema = concernedSchema;
     }
-    
+
     public render() {
         return (
             <div>
-                <FormLabel component="legend">Encadreur dans l'entreprise</FormLabel>
+                <FormLabel component="legend">Encadrant dans l'entreprise</FormLabel>
                 <br />
                 <FormGroup row={true}>
                     <FormControl required={true} error={this.state.errors.sexeEncadrant}>
-                        <InputLabel htmlFor="sexe">Sexe</InputLabel>
+                        <InputLabel htmlFor="sexeEncadrant">Sexe</InputLabel>
                         <Select
-                            id="sexe"
+                            id="sexeEncadrant"
                             native={true}
                             onChange={this._handleChange}
                         >
@@ -104,14 +104,14 @@ export default class ConcernedStep extends React.Component<FormProps, ConcernedS
 
                     <FormControl required={true} error={this.state.errors.nomEncadrant}>
                         <InputLabel htmlFor="nomEncadrant">Nom</InputLabel>
-                        <Input 
+                        <Input
                             id="nomEncadrant"
                             onChange={this._handleChange}
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.prenomEncadrant}>
                         <InputLabel htmlFor="prenomEncadrant">Prénom</InputLabel>
-                        <Input 
+                        <Input
                             id="prenomEncadrant"
                             onChange={this._handleChange}
                         />
@@ -120,21 +120,21 @@ export default class ConcernedStep extends React.Component<FormProps, ConcernedS
                 <FormGroup row={true}>
                     <FormControl required={true} error={this.state.errors.emailEncadrant}>
                         <InputLabel htmlFor="emailEncadrant">Email</InputLabel>
-                        <Input 
+                        <Input
                             id="emailEncadrant"
                             onChange={this._handleChange}
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.telephoneEncadrant}>
                         <InputLabel htmlFor="telephoneEncadrant">Téléphone</InputLabel>
-                        <Input 
+                        <Input
                             id="telephoneEncadrant"
                             onChange={this._handleChange}
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.qualiteEncadrant}>
                         <InputLabel htmlFor="qualiteEncadrant">En qualité de</InputLabel>
-                        <Input 
+                        <Input
                             id="qualiteEncadrant"
                             onChange={this._handleChange}
                         />
@@ -145,9 +145,9 @@ export default class ConcernedStep extends React.Component<FormProps, ConcernedS
                 <br />
                 <FormGroup row={true}>
                     <FormControl required={true} error={this.state.errors.sexeTuteur}>
-                        <InputLabel htmlFor="sexe">Sexe</InputLabel>
+                        <InputLabel htmlFor="sexeTuteur">Sexe</InputLabel>
                         <Select
-                            id="sexe"
+                            id="sexeTuteur"
                             native={true}
                             onChange={this._handleChange}
                         >
@@ -159,14 +159,14 @@ export default class ConcernedStep extends React.Component<FormProps, ConcernedS
 
                     <FormControl required={true} error={this.state.errors.nomTuteur}>
                         <InputLabel htmlFor="nomTuteur">Nom</InputLabel>
-                        <Input 
+                        <Input
                             id="nomTuteur"
                             onChange={this._handleChange}
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.prenomTuteur}>
                         <InputLabel htmlFor="prenomTuteur">Prénom</InputLabel>
-                        <Input 
+                        <Input
                             id="prenomTuteur"
                             onChange={this._handleChange}
                         />
@@ -175,21 +175,21 @@ export default class ConcernedStep extends React.Component<FormProps, ConcernedS
                 <FormGroup row={true}>
                     <FormControl required={true} error={this.state.errors.emailTuteur}>
                         <InputLabel htmlFor="emailTuteur">Email</InputLabel>
-                        <Input 
+                        <Input
                             id="emailTuteur"
                             onChange={this._handleChange}
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.telephoneTuteur}>
                         <InputLabel htmlFor="telephoneTuteur">Téléphone</InputLabel>
-                        <Input 
+                        <Input
                             id="telephoneTuteur"
                             onChange={this._handleChange}
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.qualiteTuteur}>
                         <InputLabel htmlFor="qualiteTuteur">En qualité de</InputLabel>
-                        <Input 
+                        <Input
                             id="qualiteTuteur"
                             onChange={this._handleChange}
                         />

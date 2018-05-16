@@ -6,10 +6,14 @@ import Input from '@material-ui/core/Input/Input';
 
 import { _handleField, ValidatedStep } from '../../validation/validation';
 import { FormProps } from '../pages/StudentPage';
+import { moreSchema } from './SchemaManager';
 
 interface MoreState {
     errors: {
-
+        moreInfo: boolean
+    },
+    fields: {
+        moreInfo: string | null
     }
 }
 
@@ -17,11 +21,19 @@ export default class MoreStep extends React.Component<FormProps, MoreState> impl
     public schema: any;
     private _handleChange: any;
 
-    constructor(props: FormProps){
+    constructor(props: FormProps) {
         super(props);
-        this.schema = {};
+        this.state = {
+            errors: {
+                moreInfo: false
+            },
+            fields: {
+                moreInfo: null
+            }
+        }
 
         this._handleChange = _handleField.bind(this);
+        this.schema = moreSchema;
     }
 
     public render() {
@@ -30,7 +42,7 @@ export default class MoreStep extends React.Component<FormProps, MoreState> impl
                 <FormLabel component="legend">Informations complémentaires</FormLabel>
                 <br />
                 <FormGroup row={true}>
-                    <Input 
+                    <Input
                         id="moreInfo"
                         onChange={this._handleChange}
                     />

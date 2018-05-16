@@ -39,7 +39,7 @@ interface AppState {
 }
 
 class App extends React.Component<{}, AppState> {
-  constructor (props: any) {
+  constructor(props: any) {
     super(props);
     this.state = {
       admin: false,
@@ -62,25 +62,25 @@ class App extends React.Component<{}, AppState> {
     this._handleMouseDownPassword = this._handleMouseDownPassword.bind(this);
   }
 
-  public componentDidMount(){
+  public componentDidMount() {
     const currentURL = window.location.pathname;
     let login = this.state.login;
     let admin = this.state.admin;
 
-    if(currentURL.indexOf('/!login') !== -1) {
+    if (currentURL.indexOf('/!login') !== -1) {
       login = true;
     }
 
     const tokenStored = sessionStorage.getItem('imsToken');
-    if(tokenStored !== null){
-      const isValid = jsrassign.jws.JWS.verifyJWT(tokenStored, 'MiaowMiaow', {alg: ["HS256"]});
+    if (tokenStored !== null) {
+      const isValid = jsrassign.jws.JWS.verifyJWT(tokenStored, 'MiaowMiaow', { alg: ["HS256"] });
 
-      if(isValid){
+      if (isValid) {
         login = false;
         admin = true;
       }
     }
-    this.setState({login, admin});
+    this.setState({ login, admin });
   }
 
   public render() {
@@ -88,13 +88,13 @@ class App extends React.Component<{}, AppState> {
     const open = Boolean(anchorEl);
 
     return (
-        <div>
-          <AppBar position="static" color="primary" >
-            <Toolbar>
-              <Typography variant="title" color="inherit">
-                StaMIAGE
+      <div>
+        <AppBar position="static" color="primary" >
+          <Toolbar>
+            <Typography variant="title" color="inherit">
+              StaMIAGE
               </Typography>
-              {admin && (
+            {admin && (
               <div>
                 <IconButton
                   aria-owns={open ? 'menu-appbar' : ''}
@@ -121,59 +121,59 @@ class App extends React.Component<{}, AppState> {
                   <MenuItem onClick={this._handleDisconnect}>Déconnexion</MenuItem>
                 </Menu>
               </div>
-              )}
-            </Toolbar>
-          </AppBar>
-          {admin && (
-            <AdminPage />
-          )}
-          {!admin && (
-            <StudentPage />
-          )}
-          <Dialog
-            open={this.state.login}
-            TransitionComponent={this.Transition}
-            keepMounted={true}
-            onClose={this._handleClose}
-          >
-            <DialogTitle id="alert-dialog-slide-title">
-              Connexion
+            )}
+          </Toolbar>
+        </AppBar>
+        {admin && (
+          <AdminPage />
+        )}
+        {!admin && (
+          <StudentPage />
+        )}
+        <Dialog
+          open={this.state.login}
+          TransitionComponent={this.Transition}
+          keepMounted={true}
+          onClose={this._handleClose}
+        >
+          <DialogTitle id="alert-dialog-slide-title">
+            Connexion
             </DialogTitle>
-            <DialogContent>
-              <FormControl required={true} error={this.state.loginError}>
-                <InputLabel>Utilisateur</InputLabel>
-                <Input id="username" onChange={this._handleLoginChange}/>
-              </FormControl>
-              <FormControl required={true} error={this.state.loginError}>
-                <InputLabel htmlFor="password">Mot de passe</InputLabel>
-                <Input
-                  id="password"
-                  type={this.state.showPassword ? 'text' : 'password'}
-                  onChange={this._handleLoginChange}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="Afficher le mot de passe"
-                        onClick={this._handleClickShowPassword}
-                        onMouseDown={this._handleMouseDownPassword}
-                      >
-                        {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={this._handleClose} color="primary">
-                Annuler
+          <DialogContent>
+            <FormControl required={true} error={this.state.loginError}>
+              <InputLabel>Utilisateur</InputLabel>
+              <Input id="username" onChange={this._handleLoginChange} />
+            </FormControl>
+            <FormControl required={true} error={this.state.loginError}>
+              <InputLabel htmlFor="password">Mot de passe</InputLabel>
+              <Input
+                id="password"
+                type={this.state.showPassword ? 'text' : 'password'}
+                onChange={this._handleLoginChange}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="Afficher le mot de passe"
+                      onClick={this._handleClickShowPassword}
+                      onMouseDown={this._handleMouseDownPassword}
+                    >
+                      {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this._handleClose} color="primary">
+              Annuler
               </Button>
-              <Button onClick={this._handleConnect} color="primary">
-                Connexion
+            <Button onClick={this._handleConnect} color="primary">
+              Connexion
               </Button>
-            </DialogActions>
+          </DialogActions>
         </Dialog>
-        </div>
+      </div>
     );
   }
 
@@ -181,7 +181,7 @@ class App extends React.Component<{}, AppState> {
     event.preventDefault();
   };
 
-  private _handleClickShowPassword(event: any){
+  private _handleClickShowPassword(event: any) {
     this.setState({ showPassword: !this.state.showPassword });
   };
 
@@ -189,12 +189,12 @@ class App extends React.Component<{}, AppState> {
     return <Slide direction="up" {...props} />;
   }
 
-  private _handleLoginChange(event: any){
-    this.setState({[event.target.id]: event.target.value});
+  private _handleLoginChange(event: any) {
+    this.setState({ [event.target.id]: event.target.value });
   }
 
   private async _handleDisconnect(event: any) {
-    this.setState({admin: false});
+    this.setState({ admin: false });
     sessionStorage.removeItem('imsToken');
   }
 
@@ -212,21 +212,21 @@ class App extends React.Component<{}, AppState> {
         password: this.state.password
       })
     } catch {
-      this.setState({loginError: true});
+      this.setState({ loginError: true });
     }
 
     if (res.status === 200) {
       console.log('connected !');
-      this.setState({admin: true, login: false});
+      this.setState({ admin: true, login: false });
       sessionStorage.setItem('imsToken', res.data.result.token);
     }
   }
 
-  private _handleMenu(event: any){
+  private _handleMenu(event: any) {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  private _handleClose(){
+  private _handleClose() {
     this.setState({ anchorEl: undefined, login: false });
   }
 }
