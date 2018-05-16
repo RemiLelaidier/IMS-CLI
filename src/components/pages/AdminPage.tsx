@@ -30,11 +30,11 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
 
     public render (){
         const data = [
-            this.createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-            this.createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-            this.createData('Eclair', 262, 16.0, 24, 6.0),
-            this.createData('Cupcake', 305, 3.7, 67, 4.3),
-            this.createData('Gingerbread', 356, 16.0, 49, 3.9),
+            this.createData('Frozen yoghurt', 'Jean-Luc', 'En attente'),
+            this.createData('Ice cream sandwich', 'Jean-Martin', 'En cours'),
+            this.createData('Eclair', 'Jean-Michel', 'En attente'),
+            this.createData('Cupcake', 'Jean-Louis', 'En attente'),
+            this.createData('Gingerbread', 'Jean-Philippe', 'En cours'),
         ];
 
         return (
@@ -46,24 +46,18 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             <Table>
                 <TableHead>
                 <TableRow>
-                    <TableCell>Dessert (100g serving)</TableCell>
-                    <TableCell>Calories</TableCell>
-                    <TableCell>Fat (g)</TableCell>
-                    <TableCell>Carbs (g)</TableCell>
-                    <TableCell>Protein (g)</TableCell>
+                    <TableCell>Étudiant</TableCell>
+                    <TableCell>Entreprise</TableCell>
+                    <TableCell>Statut</TableCell>
                 </TableRow>
                 </TableHead>
                 <TableBody>
                 {data.map(n => {
                     return (
                     <TableRow key={n.id}>
-                        <TableCell component="th" scope="row">
-                        {n.name}
-                        </TableCell>
-                        <TableCell>{n.calories}</TableCell>
-                        <TableCell>{n.fat}</TableCell>
-                        <TableCell>{n.carbs}</TableCell>
-                        <TableCell>{n.protein}</TableCell>
+                        <TableCell>{n.etudiant}</TableCell>
+                        <TableCell>{n.entreprise}</TableCell>
+                        <TableCell>{n.statut}</TableCell>
                     </TableRow>
                     );
                 })}
@@ -99,9 +93,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
         console.log('search', event.target.value);
     }
 
-    private createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
-        const nextId = id++;
-
-        return { id: nextId, name, calories, fat, carbs, protein };
+    private createData(entreprise: string, etudiant: string, statut: string) {
+        return { id: id++, entreprise, etudiant, statut };
     }
 }
