@@ -30,17 +30,17 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
 
     public render (){
         const data = [
-            this.createData('Frozen yoghurt', 'Jean-Luc', 'En attente'),
-            this.createData('Ice cream sandwich', 'Jean-Martin', 'En cours'),
-            this.createData('Eclair', 'Jean-Michel', 'En attente'),
-            this.createData('Cupcake', 'Jean-Louis', 'En attente'),
-            this.createData('Gingerbread', 'Jean-Philippe', 'En cours'),
-            this.createData('Cupcake', 'Jean-Louis', 'En attente'),
-            this.createData('Cupcake', 'Jean-Louis', 'En attente'),
-            this.createData('Cupcake', 'Jean-Louis', 'En attente'),
-            this.createData('Cupcake', 'Jean-Louis', 'En attente'),
-            this.createData('Cupcake', 'Jean-Louis', 'En attente'),
-            this.createData('Cupcake', 'Jean-Louis', 'En attente'),
+            this.createData('Frozen yoghurt', 'Jean-Luc', 'En attente', 'xxx1'),
+            this.createData('Ice cream sandwich', 'Jean-Martin', 'En cours', 'xxx2'),
+            this.createData('Eclair', 'Jean-Michel', 'En attente', 'xxx3'),
+            this.createData('Cupcake', 'Jean-Louis', 'En attente', 'xxx4'),
+            this.createData('Gingerbread', 'Jean-Philippe', 'En cours', 'xxx5'),
+            this.createData('Cupcake', 'Jean-Louis', 'En attente', 'xxx6'),
+            this.createData('Cupcake', 'Jean-Louis', 'En attente', 'xxx7'),
+            this.createData('Cupcake', 'Jean-Louis', 'En attente', 'xxx8'),
+            this.createData('Cupcake', 'Jean-Louis', 'En attente', 'xxx9'),
+            this.createData('Cupcake', 'Jean-Louis', 'En attente', 'xxx10'),
+            this.createData('Cupcake', 'Jean-Louis', 'En attente', 'xxx11'),
         ];
 
         return (
@@ -61,10 +61,10 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                 <TableBody>
                 {data.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map(n => {
                     return (
-                    <TableRow key={n.id}>
-                        <TableCell>{n.etudiant}</TableCell>
-                        <TableCell>{n.entreprise}</TableCell>
-                        <TableCell>{n.statut}</TableCell>
+                    <TableRow key={n.rowId} onClick={this._handleRowClick}>
+                        <TableCell id={n.rowId}>{n.etudiant}</TableCell>
+                        <TableCell id={n.rowId}>{n.entreprise}</TableCell>
+                        <TableCell id={n.rowId}>{n.statut}</TableCell>
                     </TableRow>
                     );
                 })}
@@ -100,7 +100,11 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
         console.log('search', event.target.value);
     }
 
-    private createData(entreprise: string, etudiant: string, statut: string) {
-        return { id: id++, entreprise, etudiant, statut };
+    private _handleRowClick(event: any){
+        console.log('rwClick on', event.target.id);
+    }
+
+    private createData(entreprise: string, etudiant: string, statut: string, rowId: string) {
+        return { id: id++, entreprise, etudiant, statut, rowId };
     }
 }
