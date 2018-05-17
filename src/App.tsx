@@ -36,6 +36,7 @@ interface AppState {
   loginError: boolean;
   apiURL: string;
   showPassword: boolean;
+  konami: string | null;
 }
 
 class App extends React.Component<{}, AppState> {
@@ -50,7 +51,8 @@ class App extends React.Component<{}, AppState> {
       password: undefined,
       loginError: false,
       apiURL: 'http://localhost:8080/api/',
-      showPassword: false
+      showPassword: false,
+      konami: null
     }
 
     this._handleClose = this._handleClose.bind(this);
@@ -80,7 +82,24 @@ class App extends React.Component<{}, AppState> {
         admin = true;
       }
     }
-    this.setState({ login, admin });
+    this.setState({login, admin});
+
+
+    document.body.addEventListener('keyup', (event: KeyboardEvent) => {
+      if(this.state.konami && this.state.konami.length === 5 && this.state.konami === 'miage') {
+        this.setState({login: true});
+      } else if(this.state.konami && this.state.konami.length >= 5) {
+        this.setState({konami: null});
+      }
+      if(event.key.length === 1){
+        if(this.state.konami){
+          this.setState({konami: this.state.konami + event.key});
+        } else {
+          this.setState({konami: event.key});
+        }
+      }
+      console.log(this.state.konami);
+    }); 
   }
 
   public render() {
@@ -88,11 +107,11 @@ class App extends React.Component<{}, AppState> {
     const open = Boolean(anchorEl);
 
     return (
-      <div>
-        <AppBar position="static" color="primary" >
-          <Toolbar>
-            <Typography variant="title" color="inherit">
-              StaMIAGE
+        <div>
+          <AppBar position="static" color="primary">
+            <Toolbar>
+              <Typography variant="title" color="inherit">
+                StaMIAGE
               </Typography>
             {admin && (
               <div>
