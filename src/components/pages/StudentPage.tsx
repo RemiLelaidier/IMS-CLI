@@ -1,6 +1,9 @@
 import axios from 'axios';
 import * as React from 'react';
 
+import IconButton from '@material-ui/core/IconButton/IconButton';
+import Snackbar from '@material-ui/core/Snackbar/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
 import Button from 'material-ui/Button';
 
 import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
@@ -30,6 +33,8 @@ interface StudentPageState {
     stepIndex: number;
     steps: any;
     apiURL: string | undefined;
+    snackbar: boolean;
+    snackText: string;
 }
 
 const stepCount = 6;
@@ -46,7 +51,9 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
             inError: validationActivated,
             stepIndex: 0,
             steps: {},
-            apiURL: process.env.REACT_APP_API
+            apiURL: process.env.REACT_APP_API,
+            snackbar: false,
+            snackText: 'Convention envoyée pour validation !'
         }
 
         this._onStepError = this._onStepError.bind(this);
@@ -55,6 +62,7 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
         this._handleField = this._handleField.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleDefaultFields = this._handleDefaultFields.bind(this);
+        this._handleSnackClose = this._handleSnackClose.bind(this);
 
         this._steps = [
             <StudentStep key={0} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>,
@@ -124,6 +132,29 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
                         {this._getSteps()}
                     </MobileStepper>
                 </div>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={this.state.snackbar}
+                    autoHideDuration={6000}
+                    onClose={this._handleSnackClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">{this.state.snackText}</span>}
+                    action={[
+                        <IconButton
+                        key="close"
+                        aria-label="Fermer"
+                        color="inherit"
+                        onClick={this._handleSnackClose}
+                        >
+                            <CloseIcon />
+                        </IconButton>,
+                    ]}
+                    />
             </div>
         );
     }
@@ -145,7 +176,6 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
         }
         this.setState({ steps });
 
-        console.log('valid field change received', { [event.target.id]: event.target.value });
         console.log('steps', steps);
     }
 
@@ -158,7 +188,6 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
     }
 
     private _handleNext(event: any) {
-        console.log('_handleNext');
         if (!this.state.inError) {
             this.setState({
                 stepIndex: this.state.stepIndex + 1,
@@ -183,9 +212,18 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
     }
 
     private async _handleSubmit(event: any) {
-        const create = await axios.post(this.state.apiURL + 'conventions/create', this.state.steps);
-        if (create.status === 200) {
-            console.log('Created !');
+        const mut = { snackbar: true, snackText: this.state.snackText };
+        try {
+            await axios.post(this.state.apiURL + 'conventions/create', this.state.steps);
+            this.setState(mut);
+        } catch {
+            mut.snackText = 'Erreur inconnue, merci de réessayer';
+            this.setState(mut);
         }
+
+    }
+
+    private _handleSnackClose(event: any){
+        this.setState({snackbar: false});
     }
 }

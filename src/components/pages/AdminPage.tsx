@@ -10,7 +10,8 @@ interface AdminPageState {
     rowsPerPage: number;
     apiURL: string | undefined;
     token: string | null;
-    data: any[]
+    data: any[],
+    rows: any[]
 }
 
 // tslint:disable-next-line:no-empty-interface
@@ -25,7 +26,8 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             rowsPerPage: 25,
             apiURL: process.env.REACT_APP_API,
             token: sessionStorage.getItem('imsToken'),
-            data: []
+            data: [],
+            rows: []
         }
 
         this._handleChangePage = this._handleChangePage.bind(this);
@@ -47,7 +49,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                 const row = this.createData(convention.entreprise.nomEntreprise, convention.etudiant.nom, '', convention.id);
                 rows.push(row);
             });
-            this.setState({data:rows});
+            this.setState({data:rows, rows: conventions});
         } else {
             console.log('erf');
         }
