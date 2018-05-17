@@ -57,5 +57,5 @@ export const companySchema = {
 };
 
 export const moreSchema = {
-    moreInfo: Joi.string().optional()
+    complementaires: Joi.string().optional()
 }

@@ -10,10 +10,10 @@ import { moreSchema } from './SchemaManager';
 
 interface MoreState {
     errors: {
-        moreInfo: boolean
+        complementaires: boolean
     },
     fields: {
-        moreInfo: string | null
+        complementaires: string | null
     }
 }
 
@@ -25,10 +25,10 @@ export default class MoreStep extends React.Component<FormProps, MoreState> impl
         super(props);
         this.state = {
             errors: {
-                moreInfo: false
+                complementaires: false
             },
             fields: {
-                moreInfo: null
+                complementaires: null
             }
         }
 
@@ -43,7 +43,7 @@ export default class MoreStep extends React.Component<FormProps, MoreState> impl
                 <br />
                 <FormGroup row={true}>
                     <Input
-                        id="moreInfo"
+                        id="complementaires"
                         onChange={this._handleChange}
                     />
                 </FormGroup>
