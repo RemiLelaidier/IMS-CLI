@@ -85,9 +85,12 @@ class App extends React.Component<{}, AppState> {
 
 
     document.body.addEventListener('keyup', (event: KeyboardEvent) => {
-      if(this.state.konami && this.state.konami.length === 5 && this.state.konami === 'miage') {
+      if(this.state.konami 
+          && this.state.konami.length === 5 
+          && this.state.konami === 'miage') {
         this.setState({login: true});
-      } else if(this.state.konami && this.state.konami.length >= 5) {
+      } else if(this.state.konami 
+                && this.state.konami.length >= 5) {
         this.setState({konami: null});
       }
       if(event.key && event.key.length === 1){
@@ -234,8 +237,8 @@ class App extends React.Component<{}, AppState> {
 
     if (res.status === 200) {
       console.log('connected !');
-      this.setState({ admin: true, login: false });
       sessionStorage.setItem('imsToken', res.data.result.token);
+      this.setState({ admin: true, login: false });
     }
   }
 
