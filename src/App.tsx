@@ -34,7 +34,7 @@ interface AppState {
   username: string | undefined,
   password: string | undefined,
   loginError: boolean;
-  apiURL: string;
+  apiURL: string | undefined;
   showPassword: boolean;
   konami: string | null;
 }
@@ -50,7 +50,7 @@ class App extends React.Component<{}, AppState> {
       username: undefined,
       password: undefined,
       loginError: false,
-      apiURL: 'http://localhost:8080/api/',
+      apiURL: process.env.REACT_APP_API,
       showPassword: false,
       konami: null
     }
@@ -74,7 +74,7 @@ class App extends React.Component<{}, AppState> {
     }
     const tokenStored = sessionStorage.getItem('imsToken');
     if (tokenStored !== null) {
-      const isValid = jsrassign.jws.JWS.verifyJWT(tokenStored, process.env.REACT_APP_JWTSecret, { alg: ["HS256"] });
+      const isValid = jsrassign.jws.JWS.verifyJWT(tokenStored, process.env.REACT_APP_JWT, { alg: ["HS256"] });
 
       if (isValid) {
         login = false;

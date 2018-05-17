@@ -1,3 +1,4 @@
+import axios from 'axios';
 import * as React from 'react';
 
 import Button from 'material-ui/Button';
@@ -28,6 +29,7 @@ interface StudentPageState {
     inError: boolean;
     stepIndex: number;
     steps: any;
+    apiURL: string | undefined;
 }
 
 const stepCount = 6;
@@ -43,7 +45,8 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
         this.state = {
             inError: validationActivated,
             stepIndex: 0,
-            steps: {}
+            steps: {},
+            apiURL: process.env.REACT_APP_API
         }
 
         this._onStepError = this._onStepError.bind(this);
@@ -179,7 +182,10 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
         return this._steps[stepIndex];
     }
 
-    private _handleSubmit(event: any) {
-        console.log('Yay !', this.state.steps);
+    private async _handleSubmit(event: any) {
+        const create = await axios.post(this.state.apiURL + 'conventions/create', this.state.steps);
+        if (create.status === 200) {
+            console.log('Created !');
+        }
     }
 }
