@@ -16,6 +16,7 @@ import RecapStep from '../steps/RecapStep';
 import './StudentPage.css';
 
 export interface FormProps {
+    defaultFields: (any);
     onError: (any);
     onFieldChange: (any);
 }
@@ -50,14 +51,15 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
         this._handlePrev = this._handlePrev.bind(this);
         this._handleField = this._handleField.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
+        this._handleDefaultFields = this._handleDefaultFields.bind(this);
 
         this._steps = [
-            <StudentStep key={0} onError={this._onStepError} onFieldChange={this._handleField} />,
-            <CompanyStep key={1} onError={this._onStepError} onFieldChange={this._handleField} />,
-            <InternshipStep key={2} onError={this._onStepError} onFieldChange={this._handleField} />,
-            <ConcernedStep key={3} onError={this._onStepError} onFieldChange={this._handleField} />,
-            <MoreStep key={4} onError={this._onStepError} onFieldChange={this._handleField} />,
-            <RecapStep key={5} onError={this._onStepError} onFieldChange={this._handleField} onSubmit={this._handleSubmit} />
+            <StudentStep key={0} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>,
+            <CompanyStep key={1} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>,
+            <InternshipStep key={2} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>,
+            <ConcernedStep key={3} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>,
+            <MoreStep key={4} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>,
+            <RecapStep key={5} onError={this._onStepError} defaultFields={this._handleDefaultFields} onFieldChange={this._handleField} onSubmit={this._handleSubmit} />
         ];
 
     }
@@ -121,6 +123,12 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
                 </div>
             </div>
         );
+    }
+
+    private _handleDefaultFields(event: any, from: string) {
+        const steps = Object.assign({}, this.state.steps);
+        steps[from] = event;
+        this.setState({steps});
     }
 
     private _handleField(event: any, from: string) {

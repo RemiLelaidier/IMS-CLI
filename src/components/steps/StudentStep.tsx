@@ -56,6 +56,7 @@ export default class StudentStep extends React.Component<FormProps, StudentState
 
         this._handleChange = _handleField.bind(this);
         this.schema = studentSchema;
+        this.props.defaultFields({promotion: 'L3', sexe: 'M'}, this.constructor.name);
     }
     public render() {
         return (

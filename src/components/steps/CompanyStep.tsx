@@ -73,6 +73,7 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
 
         this._handleChange = _handleField.bind(this);
         this.schema = companySchema;
+        this.props.defaultFields({sexeRepresentant: 'M'}, this.constructor.name);
     }
 
     public render() {

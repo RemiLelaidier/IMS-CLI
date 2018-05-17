@@ -90,14 +90,13 @@ class App extends React.Component<{}, AppState> {
       } else if(this.state.konami && this.state.konami.length >= 5) {
         this.setState({konami: null});
       }
-      if(event.key.length === 1){
+      if(event.key && event.key.length === 1){
         if(this.state.konami){
           this.setState({konami: this.state.konami + event.key});
         } else {
           this.setState({konami: event.key});
         }
       }
-      console.log(this.state.konami);
     }); 
   }
 

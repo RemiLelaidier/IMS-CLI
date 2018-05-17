@@ -81,6 +81,7 @@ export default class ConcernedStep extends React.Component<FormProps, ConcernedS
 
         this._handleChange = _handleField.bind(this);
         this.schema = concernedSchema;
+        this.props.defaultFields({sexeEncadrant: 'M', sexeTuteur: 'M'}, this.constructor.name);
     }
 
     public render() {

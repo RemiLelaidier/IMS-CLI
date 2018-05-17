@@ -73,6 +73,7 @@ export default class InternshipStep extends React.Component<FormProps, Internshi
 
         this._handleChange = _handleField.bind(this);
         this.schema = internshipSchema;
+        this.props.defaultFields({typeRemuneration: 'Virement'}, this.constructor.name);
     }
 
     public render() {
