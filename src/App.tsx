@@ -72,10 +72,9 @@ class App extends React.Component<{}, AppState> {
     if (currentURL.indexOf('/!login') !== -1) {
       login = true;
     }
-
     const tokenStored = sessionStorage.getItem('imsToken');
     if (tokenStored !== null) {
-      const isValid = jsrassign.jws.JWS.verifyJWT(tokenStored, 'MiaowMiaow', { alg: ["HS256"] });
+      const isValid = jsrassign.jws.JWS.verifyJWT(tokenStored, process.env.REACT_APP_JWTSecret, { alg: ["HS256"] });
 
       if (isValid) {
         login = false;
