@@ -35,6 +35,7 @@ interface StudentPageState {
     apiURL: string | undefined;
     snackbar: boolean;
     snackText: string;
+    nextLabel: string;
 }
 
 const stepCount = 6;
@@ -51,7 +52,8 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
             steps: {},
             apiURL: process.env.REACT_APP_API,
             snackbar: false,
-            snackText: 'Convention envoyée pour validation !'
+            snackText: 'Convention envoyée pour validation !',
+            nextLabel: 'Suivant'
         }
 
         this._onStepError = this._onStepError.bind(this);
@@ -108,7 +110,7 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
                         activeStep={this.state.stepIndex}
                         nextButton={
                             <Button size="small" variant="raised" onClick={this._handleNext} disabled={this.state.inError}>
-                                Suivant
+                                {this.state.nextLabel}
                             </Button>
                         }
                         backButton={
@@ -177,7 +179,14 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
 
     private _handleNext(event: any) {
         if (!this.state.inError) {
+            let nextLabel = this.state.nextLabel;
+            if(this.state.stepIndex === 4){
+                this._handleNext = this._handleSubmit;
+                nextLabel = 'Envoyer';
+            }
+
             this.setState({
+                nextLabel,
                 stepIndex: this.state.stepIndex + 1,
                 inError: validationActivated ? true : false
             });
@@ -210,8 +219,7 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
                             key={5} 
                             onError={this._onStepError} 
                             defaultFields={this._handleDefaultFields} 
-                            onFieldChange={this._handleField} 
-                            onSubmit={this._handleSubmit}
+                            onFieldChange={this._handleField}
                             currentRow={this.state.steps}
                         />);
             default:

@@ -13,7 +13,6 @@ import { recapSchema } from './SchemaManager';
 
 interface RecapProps extends FormProps {
     currentRow: any;
-    onSubmit: (any);
 }
 
 interface RecapState {
@@ -40,7 +39,6 @@ export default class RecapStep extends React.Component<RecapProps, RecapState> {
         }
         this.schema = recapSchema;
 
-        this._handleSubmit = this._handleSubmit.bind(this);
         this._handleChange = _handleField.bind(this);
         this._handleRecap = this._handleRecap.bind(this);
         this._handleTableChange = this._handleTableChange.bind(this);
@@ -100,19 +98,12 @@ export default class RecapStep extends React.Component<RecapProps, RecapState> {
                         <FormControlLabel value="foreign" control={<Radio id="template" />} label="Stage à l'étranger" />
                     </RadioGroup>
                 </FormControl>
-                <Button size="small" onClick={this._handleSubmit}>
-                    Envoyer
-                </Button>
             </div>
         );
     }
     
     private _handleRecap(event: any) {
         this.setState({recap: !this.state.recap});
-    }
-
-    private _handleSubmit(event: any) {
-        this.props.onSubmit(event);
     }
 
     private _handlePreviewClose(event: any) {
