@@ -69,7 +69,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             const conventions = request.data.data;
             const rows: any[] = [];
             conventions.forEach((convention: any, idx: number) => {
-                const row = this.createData(convention.entreprise.nomEntreprise, convention.etudiant.nom, '', convention.id);
+                const row = this.createData(convention.entreprise.nomEntreprise, convention.etudiant.nom, convention.statut.nom, convention.id);
                 rows.push(row);
             });
             this.setState({data:rows, rows: conventions});
@@ -321,25 +321,29 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                             <ListItem>
                                 <ListItemText primary="Validée" />
                                 <ListItemSecondaryAction>
-                                    <Switch />
+                                    <Switch checked={this.state.currentRow.statut.status >= 1 ? true : false }
+                                            disabled={this.state.currentRow.statut.status > 1 ? true : false } />
                                 </ListItemSecondaryAction>
                             </ListItem>
                             <ListItem>
                                 <ListItemText primary="Envoyée à l'entreprise" />
                                 <ListItemSecondaryAction>
-                                    <Switch />
+                                    <Switch checked={this.state.currentRow.statut.status >= 2 ? true : false } 
+                                            disabled={this.state.currentRow.statut.status > 2 ? true : false } />
                                 </ListItemSecondaryAction>
                             </ListItem>
                             <ListItem>
                                 <ListItemText primary="Signée par l'université" />
                                 <ListItemSecondaryAction>
-                                    <Switch />
+                                    <Switch checked={this.state.currentRow.statut.status >= 3 ? true : false } 
+                                            disabled={this.state.currentRow.statut.status > 3 ? true : false } />
                                 </ListItemSecondaryAction>
                             </ListItem>
                             <ListItem>
                                 <ListItemText primary="Terminée" />
                                 <ListItemSecondaryAction>
-                                    <Switch />
+                                    <Switch checked={this.state.currentRow.statut.status >= 4 ? true : false }
+                                            disabled={this.state.currentRow.statut.status > 4 ? true : false } />
                                 </ListItemSecondaryAction>
                             </ListItem>
                         </List>
@@ -417,7 +421,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
         });
 
         if(target){
-            this.setState({currentRow: target, preview: true});
+            this.setState({currentRow: target, preview: true, previewTab: 0});
         }
     }
 
