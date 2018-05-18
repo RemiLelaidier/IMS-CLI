@@ -74,8 +74,14 @@ class App extends React.Component<{}, AppState> {
     }
     const tokenStored = sessionStorage.getItem('imsToken');
     if (tokenStored !== null) {
-      const isValid = jsrassign.jws.JWS.verifyJWT(tokenStored, process.env.REACT_APP_JWT, { alg: ["HS256"] });
-
+      const IntDate = jsrassign.jws.IntDate;
+      let isValid = jsrassign.jws.JWS.verifyJWT(tokenStored, process.env.REACT_APP_JWT, { alg: ["HS256"], verifyAt: IntDate.getNow() });
+      const tokenInfo = jsrassign.jws.JWS.readSafeJSONString(jsrassign.b64utoutf8(tokenStored.split(".")[1]));
+      const expire = new Date(tokenInfo.expires);
+      const now = new Date();
+      if(now > expire) {
+        isValid = false;
+      }
       if (isValid) {
         login = false;
         admin = true;

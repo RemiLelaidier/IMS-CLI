@@ -69,7 +69,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             const conventions = request.data.data;
             const rows: any[] = [];
             conventions.forEach((convention: any, idx: number) => {
-                const row = this.createData(convention.entreprise.nomEntreprise, convention.etudiant.nom, convention.statut.nom, convention.id);
+                const row = this.createData(convention.entreprise.nomEntreprise, convention.etudiant.nom, convention.statut.nom, convention.id, convention.type.nom);
                 rows.push(row);
             });
             this.setState({data:rows, rows: conventions});
@@ -371,6 +371,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                                         <TableCell id={n.rowId}>{n.etudiant}</TableCell>
                                         <TableCell id={n.rowId}>{n.entreprise}</TableCell>
                                         <TableCell id={n.rowId}>{n.statut}</TableCell>
+                                        <TableCell id={n.rowId}>{n.type}</TableCell>
                                     </TableRow>
                                 );
                             })
@@ -428,7 +429,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
         this.setState({previewTab: value});
     }
 
-    private createData(entreprise: string, etudiant: string, statut: string, rowId: string) {
-        return { entreprise, etudiant, statut, rowId };
+    private createData(entreprise: string, etudiant: string, statut: string, rowId: string, type: string) {
+        return { entreprise, etudiant, statut, rowId, type };
     }
 }
