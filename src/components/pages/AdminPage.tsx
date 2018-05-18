@@ -303,9 +303,8 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                         <List>
                             <ListSubheader>Suivi</ListSubheader>
                             <ListItem>
+                                {/* TODO : Add comment system here */}
                                 <TextField label="Notes internes" placeholder="Information de suivi, déroulement.." fullWidth={true} />
-                                <br />
-                                <Button color="primary">Ajouter</Button>
                             </ListItem>
                             <ListSubheader>Actions rapides</ListSubheader>
                             <ListItem button={true}>
@@ -347,7 +346,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                                 </ListItemSecondaryAction>
                             </ListItem>
                         </List>
-                        <Button style={{float: 'right'}} color="primary">Enregistrer</Button>
+                        <Button style={{float: 'right'}} color="primary">Mettre à jour</Button>
                     </TabContainer>}
                 </Dialog> : null }
                 <Typography variant="title" color="inherit">
