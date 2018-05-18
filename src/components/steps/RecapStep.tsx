@@ -45,7 +45,7 @@ export default class RecapStep extends React.Component<RecapProps, RecapState> {
         this._handleRecap = this._handleRecap.bind(this);
         this._handleTableChange = this._handleTableChange.bind(this);
         this._handlePreviewClose = this._handlePreviewClose.bind(this);
-        
+
         this.props.defaultFields({template: 'france'});
     }
 
@@ -76,7 +76,9 @@ export default class RecapStep extends React.Component<RecapProps, RecapState> {
         return (
             <div>
                 <FormLabel component="legend">Récapitulatif</FormLabel>
-                <Button onClick={this._handleRecap} color='primary'>Afficher</Button>
+                <br />
+                <Button onClick={this._handleRecap} variant="raised" color='primary'>Afficher</Button>
+                <br />
                 <ConventionPreview 
                     opened={this.state.recap} 
                     currentRow={this.state.recapFields} 

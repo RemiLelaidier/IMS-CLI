@@ -107,12 +107,12 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
                         variant="progress"
                         activeStep={this.state.stepIndex}
                         nextButton={
-                            <Button size="small" onClick={this._handleNext} disabled={this.state.inError}>
+                            <Button size="small" variant="raised" onClick={this._handleNext} disabled={this.state.inError}>
                                 Suivant
                             </Button>
                         }
                         backButton={
-                            <Button size="small" onClick={this._handlePrev} disabled={this.state.stepIndex === 0}>
+                            <Button size="small" variant="raised" onClick={this._handlePrev} disabled={this.state.stepIndex === 0}>
                                 Précédent
                         </Button>
                         }
