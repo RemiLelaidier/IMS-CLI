@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as React from 'react';
 
-import { AppBar, Dialog, Divider, IconButton, List, ListItem, ListItemText, Slide, Tab, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Tabs, TextField, Toolbar } from '@material-ui/core';
+import { AppBar, Dialog, Divider, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Slide, Switch, Tab, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Tabs, TextField, Toolbar } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper/Paper';
 import Typography from '@material-ui/core/Typography/Typography';
 import CloseIcon from '@material-ui/icons/Close';
@@ -104,6 +104,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                         <Tab label="Responsables" />
                         <Tab label="Entreprise" />
                         <Tab label="Extras" />
+                        <Tab label="Actions" />
                     </Tabs>
 
                     {this.state.previewTab === 0 && 
@@ -288,7 +289,6 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                         </List>
                     </TabContainer>
                     }
-
                     {this.state.previewTab === 4 && 
                     <TabContainer>
                         <List>
@@ -296,6 +296,46 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                                 <ListItemText primary="Informations supplémentaires" secondary={this.state.currentRow.extras.complementaires} />
                             </ListItem>
                             <Divider />
+                        </List>
+                    </TabContainer>}
+                    {this.state.previewTab === 5 && 
+                    <TabContainer>
+                        <List>
+                            <ListSubheader>Actions rapides</ListSubheader>
+                            <ListItem button={true}>
+                                <ListItemText primary="Générer la convention" secondary="Génère la convention remplie" />
+                            </ListItem>
+                            <ListItem button={true} color='red'>
+                                <ListItemText primary="Supprimer la demande" secondary="Supprime la demande de la base de données" />
+                            </ListItem>
+                            <Divider />
+                        </List>
+                        <List>
+                            <ListSubheader>Statut</ListSubheader>
+                            <ListItem>
+                                <ListItemText primary="Validée" />
+                                <ListItemSecondaryAction>
+                                    <Switch />
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemText primary="Envoyée à l'entreprise" />
+                                <ListItemSecondaryAction>
+                                    <Switch />
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemText primary="Signée par l'université" />
+                                <ListItemSecondaryAction>
+                                    <Switch />
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemText primary="Terminée" />
+                                <ListItemSecondaryAction>
+                                    <Switch />
+                                </ListItemSecondaryAction>
+                            </ListItem>
                         </List>
                     </TabContainer>}
                 </Dialog> : null }
