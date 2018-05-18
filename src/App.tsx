@@ -114,34 +114,34 @@ class App extends React.Component<{}, AppState> {
               <Typography variant="title" color="inherit">
                 StaMIAGE
               </Typography>
-            {admin && (
-              <div>
-                <IconButton
-                  aria-owns={open ? 'menu-appbar' : ''}
-                  aria-haspopup="true"
-                  color="inherit"
-                  onClick={this._handleMenu}
-                >
-                  <AccountCircle />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={open}
-                  onClose={this._handleClose}
-                >
-                  <MenuItem onClick={this._handleDisconnect}>Déconnexion</MenuItem>
-                </Menu>
-              </div>
-            )}
+              {admin && (
+                <div style={{position: 'absolute', right: 0}}>
+                  <IconButton
+                    aria-owns={open ? 'menu-appbar' : ''}
+                    aria-haspopup="true"
+                    color="inherit"
+                    onClick={this._handleMenu}
+                  >
+                    <AccountCircle />
+                  </IconButton>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    open={open}
+                    onClose={this._handleClose}
+                  >
+                    <MenuItem onClick={this._handleDisconnect}>Déconnexion</MenuItem>
+                  </Menu>
+                </div>
+              )}
           </Toolbar>
         </AppBar>
         {admin && (
