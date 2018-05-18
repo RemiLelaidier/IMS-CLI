@@ -121,7 +121,7 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
                         nextButton={
                             <Button size="small" onClick={this._handleNext} disabled={this.state.inError}>
                                 Suivant
-                        </Button>
+                            </Button>
                         }
                         backButton={
                             <Button size="small" onClick={this._handlePrev} disabled={this.state.stepIndex === 0}>

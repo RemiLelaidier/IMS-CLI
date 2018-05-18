@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as React from 'react';
 
-import { AppBar, Dialog, Divider, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Slide, Switch, Tab, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Tabs, TextField, Toolbar } from '@material-ui/core';
+import { AppBar, Button, Dialog, Divider, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, Slide, Switch, Tab, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Tabs, TextField, Toolbar } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper/Paper';
 import Typography from '@material-ui/core/Typography/Typography';
 import CloseIcon from '@material-ui/icons/Close';
@@ -208,7 +208,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                             </ListItem>
                             <Divider />
                             <ListItem>
-                                <ListItemText primary="Nom complet" secondary={this.state.currentRow.responsables.nomEncadrant + "" + this.state.currentRow.responsables.prenomEncadrant} />
+                                <ListItemText primary="Nom complet" secondary={this.state.currentRow.responsables.nomEncadrant + " " + this.state.currentRow.responsables.prenomEncadrant} />
                             </ListItem>
                             <Divider />
                             <ListItem>
@@ -301,6 +301,12 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                     {this.state.previewTab === 5 && 
                     <TabContainer>
                         <List>
+                            <ListSubheader>Suivi</ListSubheader>
+                            <ListItem>
+                                <TextField label="Notes internes" placeholder="Information de suivi, déroulement.." fullWidth={true} />
+                                <br />
+                                <Button color="primary">Ajouter</Button>
+                            </ListItem>
                             <ListSubheader>Actions rapides</ListSubheader>
                             <ListItem button={true}>
                                 <ListItemText primary="Générer la convention" secondary="Génère la convention remplie" />
@@ -337,6 +343,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                                 </ListItemSecondaryAction>
                             </ListItem>
                         </List>
+                        <Button style={{float: 'right'}} color="primary">Enregistrer</Button>
                     </TabContainer>}
                 </Dialog> : null }
                 <Typography variant="title" color="inherit">
