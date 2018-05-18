@@ -69,7 +69,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             const conventions = request.data.data;
             const rows: any[] = [];
             conventions.forEach((convention: any, idx: number) => {
-                const row = this.createData(convention.entreprise.nomEntreprise, convention.etudiant.nom, convention.statut.nom, convention.id, convention.type.nom);
+                const row = this.createData(convention.entreprise.nomEntreprise, convention.etudiant.nom, convention.statut.nom, convention.id, convention.type.name);
                 rows.push(row);
             });
             this.setState({data:rows, rows: conventions});
@@ -359,6 +359,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                         <TableRow>
                             <TableCell>Étudiant</TableCell>
                             <TableCell>Entreprise</TableCell>
+                            <TableCell>Type</TableCell>
                             <TableCell>Statut</TableCell>
                         </TableRow>
                     </TableHead>
@@ -370,8 +371,8 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                                     <TableRow key={n.rowId} onClick={this._handleRowClick}>
                                         <TableCell id={n.rowId}>{n.etudiant}</TableCell>
                                         <TableCell id={n.rowId}>{n.entreprise}</TableCell>
+                                        <TableCell id={n.rowId}>{n.type === 'france' ? 'Stage en France' : 'Stage à l\'étranger'}</TableCell>
                                         <TableCell id={n.rowId}>{n.statut}</TableCell>
-                                        <TableCell id={n.rowId}>{n.type}</TableCell>
                                     </TableRow>
                                 );
                             })
