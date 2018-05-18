@@ -80,8 +80,9 @@ export default class ConventionPreview extends React.Component<ConventionPreview
                     <Tab label="Stage" />
                     <Tab label="Responsables" />
                     <Tab label="Entreprise" />
-                    <Tab label="Extras" />
-                    <Tab label="Actions" />
+                    {this.props.currentRow.extras && <Tab label="Extras" />}
+                    {this.props.isAdmin && <Tab label="Actions" />}
+                    {/*!this.props.isAdmin && <Tab label="Suivi" value={5} />*/}
                 </Tabs>
 
                 {this.props.activeTab === 0 && 
@@ -266,7 +267,7 @@ export default class ConventionPreview extends React.Component<ConventionPreview
                     </List>
                 </TabContainer>
                 }
-                {this.props.activeTab === 4 && 
+                {this.props.currentRow.extras && this.props.activeTab === 4 && 
                 <TabContainer>
                     <List>
                         <ListItem>
@@ -299,32 +300,32 @@ export default class ConventionPreview extends React.Component<ConventionPreview
                             <ListItemText primary="Validée" />
                             <ListItemSecondaryAction>
                                 <Switch checked={this.props.currentRow.statut.status >= 1 ? true : false }
-                                        disabled={!this.props.isAdmin && this.props.currentRow.statut.status > 1 ? true : false } />
+                                        disabled={!this.props.isAdmin || this.props.currentRow.statut.status > 1 ? true : false } />
                             </ListItemSecondaryAction>
                         </ListItem>
                         <ListItem>
                             <ListItemText primary="Envoyée à l'entreprise" />
                             <ListItemSecondaryAction>
                                 <Switch checked={this.props.currentRow.statut.status >= 2 ? true : false } 
-                                        disabled={!this.props.isAdmin && this.props.currentRow.statut.status > 2 ? true : false } />
+                                        disabled={!this.props.isAdmin || this.props.currentRow.statut.status > 2 ? true : false } />
                             </ListItemSecondaryAction>
                         </ListItem>
                         <ListItem>
                             <ListItemText primary="Signée par l'université" />
                             <ListItemSecondaryAction>
                                 <Switch checked={this.props.currentRow.statut.status >= 3 ? true : false } 
-                                        disabled={!this.props.isAdmin && this.props.currentRow.statut.status > 3 ? true : false } />
+                                        disabled={!this.props.isAdmin || this.props.currentRow.statut.status > 3 ? true : false } />
                             </ListItemSecondaryAction>
                         </ListItem>
                         <ListItem>
                             <ListItemText primary="Terminée" />
                             <ListItemSecondaryAction>
                                 <Switch checked={this.props.currentRow.statut.status >= 4 ? true : false }
-                                        disabled={!this.props.isAdmin && this.props.currentRow.statut.status > 4 ? true : false } />
+                                        disabled={!this.props.isAdmin || this.props.currentRow.statut.status > 4 ? true : false } />
                             </ListItemSecondaryAction>
                         </ListItem>
                     </List>
-                    <Button style={{float: 'right'}} color="primary">Mettre à jour</Button>
+                    {this.props.isAdmin && (<Button style={{float: 'right'}} color="primary">Mettre à jour</Button>)}
                 </TabContainer>}
             </Dialog>);
     }

@@ -7,20 +7,21 @@ import FormLabel from '@material-ui/core/FormLabel/FormLabel';
 import Radio from '@material-ui/core/Radio/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup/RadioGroup';
 import { _handleField } from '../../validation/validation';
+import ConventionPreview from '../ConventionPreview';
 import { FormProps } from '../pages/StudentPage';
 import { recapSchema } from './SchemaManager';
 
 interface RecapProps extends FormProps {
+    currentRow: any;
     onSubmit: (any);
 }
 
 interface RecapState {
-    errors: {
-
-    },
-    fields: {
-        template: string
-    }
+    errors: {};
+    fields: { template: string };
+    recap: boolean;
+    recapTab: number;
+    recapFields: any;
 }
 export default class RecapStep extends React.Component<RecapProps, RecapState> {
     public schema: any;
@@ -32,18 +33,58 @@ export default class RecapStep extends React.Component<RecapProps, RecapState> {
             fields: {
                 template: 'france'
             },
-            errors: {}
+            errors: {},
+            recap: false,
+            recapTab: 0,
+            recapFields: null
         }
         this.schema = recapSchema;
+
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleChange = _handleField.bind(this);
+        this._handleRecap = this._handleRecap.bind(this);
+        this._handleTableChange = this._handleTableChange.bind(this);
+        this._handlePreviewClose = this._handlePreviewClose.bind(this);
+        
         this.props.defaultFields({template: 'france'});
+    }
+
+    public componentDidMount() {
+        const mapping: any = {
+            'StudentStep': 'etudiant',
+            'CompanyStep': 'entreprise',
+            'InternshipStep': 'stage',
+            'ConcernedStep': 'responsables',
+            'MoreStep': 'extras'
+        };
+
+        const recapFields = this.renameKeys(this.props.currentRow, mapping);
+        delete recapFields.undefined;
+
+        this.setState({recapFields});
+    }
+
+    public renameKeys(obj: any, newKeys: any) {
+        const keyValues = Object.keys(obj).map(key => {
+          const newKey = newKeys[key] || key;
+          return { [newKey]: obj[key] };
+        });
+        return Object.assign({}, ...keyValues);
     }
 
     public render() {
         return (
             <div>
                 <FormLabel component="legend">Récapitulatif</FormLabel>
+                <Button onClick={this._handleRecap} color='primary'>Afficher</Button>
+                <ConventionPreview 
+                    opened={this.state.recap} 
+                    currentRow={this.state.recapFields} 
+                    activeTab={this.state.recapTab} 
+                    onCloseAction={this._handlePreviewClose}
+                    onTableChange={this._handleTableChange}
+                    isAdmin={false}
+                />
                 <br />
                 <FormControl component="fieldset" required={true}>
                     <FormLabel component="legend">Type de convention demandée :</FormLabel>
@@ -63,8 +104,21 @@ export default class RecapStep extends React.Component<RecapProps, RecapState> {
             </div>
         );
     }
+    
+    private _handleRecap(event: any) {
+        this.setState({recap: !this.state.recap});
+    }
 
     private _handleSubmit(event: any) {
         this.props.onSubmit(event);
     }
+
+    private _handlePreviewClose(event: any) {
+        this.setState({recap: false});
+    }
+
+    private _handleTableChange(event: any, value: any) {
+        this.setState({recapTab: value});
+    }
+
 }

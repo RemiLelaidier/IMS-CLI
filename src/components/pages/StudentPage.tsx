@@ -42,8 +42,6 @@ const stepCount = 6;
 const validationActivated = false;
 
 export class StudentPage extends React.Component<StudentPageProps, StudentPageState> {
-    private _steps: JSX.Element[];
-
     constructor(props: StudentPageProps) {
         super(props);
 
@@ -63,16 +61,6 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
         this._handleSubmit = this._handleSubmit.bind(this);
         this._handleDefaultFields = this._handleDefaultFields.bind(this);
         this._handleSnackClose = this._handleSnackClose.bind(this);
-
-        this._steps = [
-            <StudentStep key={0} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>,
-            <CompanyStep key={1} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>,
-            <InternshipStep key={2} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>,
-            <ConcernedStep key={3} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>,
-            <MoreStep key={4} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>,
-            <RecapStep key={5} onError={this._onStepError} defaultFields={this._handleDefaultFields} onFieldChange={this._handleField} onSubmit={this._handleSubmit} />
-        ];
-
     }
 
     public _getSteps() {
@@ -208,7 +196,27 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
     }
 
     private _stepContent(stepIndex: number) {
-        return this._steps[stepIndex];
+        switch(stepIndex) {
+            case 1:
+                return (<CompanyStep key={1} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>);
+            case 2:
+                return (<InternshipStep key={2} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>);
+            case 3:
+                return (<ConcernedStep key={3} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>);
+            case 4:
+                return (<MoreStep key={4} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>);
+            case 5:
+                return (<RecapStep 
+                            key={5} 
+                            onError={this._onStepError} 
+                            defaultFields={this._handleDefaultFields} 
+                            onFieldChange={this._handleField} 
+                            onSubmit={this._handleSubmit}
+                            currentRow={this.state.steps}
+                        />);
+            default:
+                return (<StudentStep key={0} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>);
+        }
     }
 
     private async _handleSubmit(event: any) {
