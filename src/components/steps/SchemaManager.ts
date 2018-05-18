@@ -59,3 +59,7 @@ export const companySchema = {
 export const moreSchema = {
     complementaires: Joi.string().optional()
 }
+
+export const recapSchema = {
+    complementaires: Joi.string().min(2)
+}
