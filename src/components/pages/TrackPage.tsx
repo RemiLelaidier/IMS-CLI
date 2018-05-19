@@ -1,11 +1,12 @@
-// import axios from 'axios';
 import * as React from 'react';
 
+import Button from '@material-ui/core/Button/Button';
 import Paper from '@material-ui/core/Paper/Paper';
 import Step from '@material-ui/core/Step/Step';
 import StepLabel from '@material-ui/core/StepLabel/StepLabel';
 import Stepper from '@material-ui/core/Stepper/Stepper';
 import Typography from '@material-ui/core/Typography/Typography';
+
 import ConventionPreview from '../ConventionPreview';
 
 interface TrackPageState {
@@ -15,7 +16,6 @@ interface TrackPageState {
     previewTab: number;
 }
 
-// tslint:disable-next-line:no-empty-interface
 interface TrackPageProps { 
     tracked: any;
 }
@@ -31,12 +31,13 @@ export class TrackPage extends React.Component<TrackPageProps, TrackPageState> {
             previewTab: 0
         }
 
+        this._handlePreview = this._handlePreview.bind(this);
         this._handlePreviewClose = this._handlePreviewClose.bind(this);
         this._handleTableChange = this._handleTableChange.bind(this);
     }
 
     public async componentDidMount(){
-        console.log('mounted, tracking', this.props.tracked);
+        console.log('tracking', this.props.tracked);
     }
 
     public render() {
@@ -47,7 +48,7 @@ export class TrackPage extends React.Component<TrackPageProps, TrackPageState> {
                     opened={this.state.preview} 
                     currentRow={this.props.tracked} 
                     activeTab={this.state.previewTab} 
-                    isAdmin={true}
+                    isAdmin={false}
                     onCloseAction={this._handlePreviewClose}
                     onTableChange={this._handleTableChange}
                 />
@@ -58,9 +59,9 @@ export class TrackPage extends React.Component<TrackPageProps, TrackPageState> {
                 <Typography variant="subheading" color="inherit">
                     {this.props.tracked.etudiant.nom + " " + this.props.tracked.etudiant.prenom}
                 </Typography>
-                <Typography variant="subheading">
-                    Entreprise : {this.props.tracked.entreprise.nomEntreprise}
-                </Typography>
+                <br />
+                <Button onClick={this._handlePreview} variant="raised" color='primary'>Prévisualiser</Button>
+                <br />
                 <Stepper activeStep={this.props.tracked.statut.status} alternativeLabel={true}>
                 {steps.map(label => {
                     return (
@@ -72,6 +73,10 @@ export class TrackPage extends React.Component<TrackPageProps, TrackPageState> {
                 </Stepper>
             </Paper>
         );
+    }
+
+    private _handlePreview(event: any){
+        this.setState({preview: true});
     }
 
     private _handlePreviewClose(event: any) {
