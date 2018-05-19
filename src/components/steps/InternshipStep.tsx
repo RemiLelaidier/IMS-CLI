@@ -104,6 +104,7 @@ export default class InternshipStep extends React.Component<FormProps, Internshi
                         <Input
                             id="dateDebutStage"
                             onChange={this._handleChange}
+                            placeholder={"01/02/"+new Date().getFullYear()}
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.dateFinStage}>
@@ -111,6 +112,7 @@ export default class InternshipStep extends React.Component<FormProps, Internshi
                         <Input
                             id="dateFinStage"
                             onChange={this._handleChange}
+                            placeholder={"31/03/"+new Date().getFullYear()}
                         />
                     </FormControl>
                 </FormGroup>
@@ -120,6 +122,7 @@ export default class InternshipStep extends React.Component<FormProps, Internshi
                         <Input
                             id="dureeHebdoStage"
                             onChange={this._handleChange}
+                            placeholder="35 heures"
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.horairesStage}>
@@ -127,6 +130,7 @@ export default class InternshipStep extends React.Component<FormProps, Internshi
                         <Input
                             id="horairesStage"
                             onChange={this._handleChange}
+                            placeholder="Du lundi au vendredi, 8h - 16h"
                         />
                     </FormControl>
                 </FormGroup>
@@ -136,6 +140,7 @@ export default class InternshipStep extends React.Component<FormProps, Internshi
                         <Input
                             id="presenceFree"
                             onChange={this._handleChange}
+                            placeholder="Oui le dimanche / Non jamais"
                         />
                     </FormControl>
                 </FormGroup>

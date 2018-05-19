@@ -157,6 +157,7 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
                         <Input
                             id="telephoneRepresentant"
                             onChange={this._handleChange}
+                            placeholder="+33611223344"
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.qualiteRepresentant}>

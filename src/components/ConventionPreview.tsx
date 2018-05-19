@@ -82,8 +82,7 @@ export default class ConventionPreview extends React.Component<ConventionPreview
                     <Tab label="Responsables" />
                     <Tab label="Entreprise" />
                     {this.props.currentRow.extras && <Tab label="Extras" />}
-                    {this.props.isAdmin && <Tab label="Actions" />}
-                    {/*!this.props.isAdmin && <Tab label="Suivi" value={5} />*/}
+                    {this.props.isAdmin && <Tab label="Gestion" />}
                 </Tabs>
 
                 {this.props.activeTab === 0 && 
@@ -281,9 +280,7 @@ export default class ConventionPreview extends React.Component<ConventionPreview
                 <TabContainer>
                     {this.props.isAdmin && (
                     <List>
-                        <ListSubheader>Suivi</ListSubheader>
                         <ListItem>
-                            {/* TODO : Add comment system here */}
                             <TextField label="Notes internes" placeholder="Information de suivi, déroulement.." fullWidth={true} />
                         </ListItem>
                         <ListSubheader>Actions rapides</ListSubheader>

@@ -131,6 +131,7 @@ export default class ConcernedStep extends React.Component<FormProps, ConcernedS
                         <Input
                             id="telephoneEncadrant"
                             onChange={this._handleChange}
+                            placeholder="+33611223344"
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.qualiteEncadrant}>
@@ -186,6 +187,7 @@ export default class ConcernedStep extends React.Component<FormProps, ConcernedS
                         <Input
                             id="telephoneTuteur"
                             onChange={this._handleChange}
+                            placeholder="+33611223344"
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.qualiteTuteur}>
