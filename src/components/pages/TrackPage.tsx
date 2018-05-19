@@ -36,24 +36,7 @@ export class TrackPage extends React.Component<TrackPageProps, TrackPageState> {
     }
 
     public async componentDidMount(){
-        // todo get with url param (through app ?)
-        /*const request = await axios.get(this.state.apiURL + 'conventions/getAll', {
-            headers: {
-                Authorization: this.state.token
-            }
-        });
-        
-        if(request.status === 200){
-            const conventions = request.data.data;
-            const rows: any[] = [];
-            conventions.forEach((convention: any, idx: number) => {
-                const row = this.createData(convention.entreprise.nomEntreprise, convention.etudiant.nom, convention.statut.nom, convention.id, convention.type.name);
-                rows.push(row);
-            });
-            this.setState({data:rows, rows: conventions});
-        } else {
-            console.log('erf');
-        }*/
+        console.log('mounted, tracking', this.props.tracked);
     }
 
     public render() {
@@ -68,10 +51,17 @@ export class TrackPage extends React.Component<TrackPageProps, TrackPageState> {
                     onCloseAction={this._handlePreviewClose}
                     onTableChange={this._handleTableChange}
                 />
-                <Typography variant="title" color="inherit">
-                    Suivi
+                <Typography variant="headline" color="inherit">
+                    Suivi de convention
                 </Typography>
-                <Stepper activeStep={0} alternativeLabel={true}>
+                <br />
+                <Typography variant="subheading" color="inherit">
+                    {this.props.tracked.etudiant.nom + " " + this.props.tracked.etudiant.prenom}
+                </Typography>
+                <Typography variant="subheading">
+                    Entreprise : {this.props.tracked.entreprise.nomEntreprise}
+                </Typography>
+                <Stepper activeStep={this.props.tracked.statut.status} alternativeLabel={true}>
                 {steps.map(label => {
                     return (
                     <Step key={label}>
