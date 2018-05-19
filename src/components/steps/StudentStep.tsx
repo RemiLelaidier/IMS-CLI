@@ -141,6 +141,7 @@ export default class StudentStep extends React.Component<FormProps, StudentState
                         <Input
                             id="dateNaissance"
                             onChange={this._handleChange}
+                            placeholder="20/03/1993"
                         />
                     </FormControl>
                     <FormControl required={true} error={this.state.errors.telephone}>
@@ -148,6 +149,7 @@ export default class StudentStep extends React.Component<FormProps, StudentState
                         <Input
                             id="telephone"
                             onChange={this._handleChange}
+                            placeholder="+33611223344"
                         />
                     </FormControl>
                 </FormGroup>
