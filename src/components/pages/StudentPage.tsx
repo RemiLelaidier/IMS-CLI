@@ -43,6 +43,8 @@ const stepCount = 6;
 const validationActivated = false;
 
 export class StudentPage extends React.Component<StudentPageProps, StudentPageState> {
+    private _handleNext: (any);
+
     constructor(props: StudentPageProps) {
         super(props);
 
@@ -57,7 +59,7 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
         }
 
         this._onStepError = this._onStepError.bind(this);
-        this._handleNext = this._handleNext.bind(this);
+        this._handleNext = this._doNext.bind(this);
         this._handlePrev = this._handlePrev.bind(this);
         this._handleField = this._handleField.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
@@ -171,13 +173,20 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
 
     private _handlePrev(event: any) {
         if (this.state.stepIndex > 0) {
+            let nextLabel = this.state.nextLabel;
+            if(this.state.stepIndex !== 4){
+                this._handleNext = this._doNext.bind(this);
+                nextLabel = 'Suivant';
+            }
+
             this.setState({
+                nextLabel,
                 stepIndex: this.state.stepIndex - 1
             })
         }
     }
 
-    private _handleNext(event: any) {
+    private _doNext(event: any) {
         if (!this.state.inError) {
             let nextLabel = this.state.nextLabel;
             if(this.state.stepIndex === 4){
