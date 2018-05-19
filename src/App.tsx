@@ -70,6 +70,7 @@ class App extends React.Component<{}, AppState> {
     this._handleClickShowPassword = this._handleClickShowPassword.bind(this);
     this._handleMouseDownPassword = this._handleMouseDownPassword.bind(this);
     this._checkTokenValidity = this._checkTokenValidity.bind(this);
+    this._startRefresh = this._startRefresh.bind(this);
   }
 
   public async componentDidMount() {
@@ -99,8 +100,7 @@ class App extends React.Component<{}, AppState> {
       }
       if (isValid) {
         admin = true;
-        const refresh = setInterval(this._checkTokenValidity, 3000);
-        this.setState({refresh});
+        this._startRefresh();
       }
     }
 
@@ -222,6 +222,15 @@ class App extends React.Component<{}, AppState> {
     );
   }
 
+  private _startRefresh(){
+    const refresh = setInterval(this._checkTokenValidity, 3000);
+    this.setState({refresh});
+  }
+
+  private _stopRefresh(){
+    clearInterval(this.state.refresh);
+  }
+
   private _checkTokenValidity(event: any) {
     const tokenStored = sessionStorage.getItem('imsToken');
     if(!tokenStored) {
@@ -259,6 +268,7 @@ class App extends React.Component<{}, AppState> {
   private async _handleDisconnect(event: any) {
     this.setState({ admin: false });
     sessionStorage.removeItem('imsToken');
+    this._stopRefresh();
   }
 
   private async _handleConnect(event: any) {
@@ -281,6 +291,7 @@ class App extends React.Component<{}, AppState> {
     if (res.status === 200) {
       console.log('connected !');
       sessionStorage.setItem('imsToken', res.data.result.token);
+      this._startRefresh();
       this.setState({ admin: true, login: false });
     }
   }
