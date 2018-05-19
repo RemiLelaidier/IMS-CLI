@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as React from 'react';
 
-import { Table, TableBody, TableCell, TableHead, TablePagination, TableRow, TextField  } from '@material-ui/core';
+import { Snackbar, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, TextField  } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper/Paper';
 import Typography from '@material-ui/core/Typography/Typography';
 import ConventionPreview from '../ConventionPreview';
@@ -17,6 +17,8 @@ interface AdminPageState {
     currentRow: any;
     previewTab: number;
     statusList: any[];
+    snackOpen: boolean;
+    snackMessage: string;
 }
 
 // tslint:disable-next-line:no-empty-interface
@@ -36,7 +38,9 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             preview: false,
             currentRow: null,
             previewTab: 0,
-            statusList: []
+            statusList: [],
+            snackOpen: false,
+            snackMessage: ''
         }
 
         this._handleChangePage = this._handleChangePage.bind(this);
@@ -47,16 +51,13 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
         this._handleTableChange = this._handleTableChange.bind(this);
         this._handlePreviewAction = this._handlePreviewAction.bind(this);
         this._loadConventions = this._loadConventions.bind(this);
+        this._loadStatusList = this._loadStatusList.bind(this);
+        this._handleSnackClose = this._handleSnackClose.bind(this);
     }
 
     public async componentDidMount(){
         await this._loadConventions();
-        const statusList = await axios.get(this.state.apiURL + 'statut/getAll');
-        if(statusList.status === 200){
-            this.setState({statusList: statusList.data.data});
-        } else {
-            console.log('error while loading statusList');
-        }
+        await this._loadStatusList();
     }
 
     public render() {
@@ -116,8 +117,26 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                     onChangePage={this._handleChangePage}
                     onChangeRowsPerPage={this._handleChangeRowsPerPage}
                 />
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                    }}
+                    open={this.state.snackOpen}
+                    autoHideDuration={6000}
+                    onClose={this._handleSnackClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">{this.state.snackMessage}</span>}
+                    />
             </Paper>
+            
         );
+    }
+
+    private _handleSnackClose(event: any) {
+        this.setState({snackOpen: false});
     }
 
     private _handleChangePage(event: any, page: any) {
@@ -197,9 +216,18 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                 const row = this.createData(convention.entreprise.nomEntreprise, convention.etudiant.nom, convention.statut.nom, convention.id, convention.type.name);
                 rows.push(row);
             });
-            this.setState({data:rows, rows: conventions});
+            this.setState({data:rows, rows: conventions, snackOpen: true, snackMessage: 'Conventions chargées'});
         } else {
-            console.log('erf');
+            this.setState({snackOpen: true, snackMessage: 'Erreur pendant le chargement des conventions'});
+        }
+    }
+
+    private async _loadStatusList(){
+        const statusList = await axios.get(this.state.apiURL + 'statut/getAll');
+        if(statusList.status === 200){
+            this.setState({statusList: statusList.data.data});
+        } else {
+            this.setState({snackOpen: true, snackMessage: 'Erreur de chargement'});
         }
     }
 }
