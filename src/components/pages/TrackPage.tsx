@@ -75,17 +75,19 @@ export class TrackPage extends React.Component<TrackPageProps, TrackPageState> {
                             {this.props.tracked.etudiant.nom + " " + this.props.tracked.etudiant.prenom}
                         </Typography>
                         <br />
-                        <Button onClick={this._handlePreview} variant="raised" color='primary'>Prévisualiser</Button>
+                        <Button onClick={this._handlePreview} variant="raised" color='primary' disabled={this.props.tracked.statut.status === 5}>Prévisualiser</Button>
                         <br /><br />
-                        <Stepper activeStep={this.props.tracked.statut.status} alternativeLabel={true}>
-                            {steps.map(step => {
-                                return (
-                                <Step key={step.idx}>
-                                    <StepLabel>{step.label}</StepLabel>
-                                </Step>
-                                );
-                            })}
-                        </Stepper>
+                        {this.props.tracked.statut.status !== 5 && (
+                            <Stepper activeStep={this.props.tracked.statut.status} alternativeLabel={true}>
+                                {steps.map(step => {
+                                    return (
+                                    <Step key={step.idx}>
+                                        <StepLabel>{step.label}</StepLabel>
+                                    </Step>
+                                    );
+                                })}
+                            </Stepper>
+                        )}
                         <Typography key={steps[this.props.tracked.statut.status].idx + steps[this.props.tracked.statut.status].label} variant="body1" color="inherit">
                             {steps[this.props.tracked.statut.status].explain}
                         </Typography>
