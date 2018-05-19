@@ -44,7 +44,7 @@ export default class RecapStep extends React.Component<RecapProps, RecapState> {
         this._handleTableChange = this._handleTableChange.bind(this);
         this._handlePreviewClose = this._handlePreviewClose.bind(this);
 
-        this.props.defaultFields({template: 'france'});
+        this.props.defaultFields({template: 'france'}, this.constructor.name);
     }
 
     public componentDidMount() {
