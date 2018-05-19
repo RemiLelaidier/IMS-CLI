@@ -53,6 +53,9 @@ export default class ConventionPreview extends React.Component<ConventionPreview
         this._handleCloseAction = this._handleCloseAction.bind(this);
         this._handleTableChange = this._handleTableChange.bind(this);
         this._handleSwitch = this._handleSwitch.bind(this);
+        this._handleGenerate = this._handleGenerate.bind(this);
+        this._handleCancel = this._handleCancel.bind(this);
+        this._handleDelete = this._handleDelete.bind(this);
     }
 
     public render() {
@@ -284,13 +287,13 @@ export default class ConventionPreview extends React.Component<ConventionPreview
                             <TextField label="Notes internes" placeholder="Information de suivi, déroulement.." fullWidth={true} />
                         </ListItem>
                         <ListSubheader>Actions rapides</ListSubheader>
-                        <ListItem button={true}>
+                        <ListItem button={true} onClick={this._handleGenerate}>
                             <ListItemText primary="Générer la convention" secondary="Génère la convention remplie" />
                         </ListItem>
-                        <ListItem button={true} color='red'>
+                        <ListItem button={true} color='red' onClick={this._handleCancel}>
                             <ListItemText primary="Annuler la demande" secondary="Annule la demande, l'étudiant est tenu au courant sur son suivi" />
                         </ListItem>
-                        <ListItem button={true} color='red'>
+                        <ListItem button={true} color='red' onClick={this._handleDelete}>
                             <ListItemText primary="Supprimer la demande" secondary="Supprime complètement la demande" />
                         </ListItem>
                         <Divider />
@@ -352,5 +355,20 @@ export default class ConventionPreview extends React.Component<ConventionPreview
 
     private _handleTableChange(event: any, value: any) {
         this.props.onTableChange(event, value);
+    }
+    
+    private _handleGenerate(event: any) {
+        console.log('generate', this.props.currentRow.id);
+        this.props.onAction('generate', this.props.currentRow.id);
+    }
+
+    private _handleCancel(event: any) {
+        console.warn('cancel', this.props.currentRow.id);
+        this.props.onAction('cancel', this.props.currentRow.id);
+    }
+
+    private _handleDelete(event: any) {
+        console.warn('delete', this.props.currentRow.id);
+        this.props.onAction('delete', this.props.currentRow.id);
     }
 }

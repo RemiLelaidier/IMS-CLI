@@ -177,9 +177,31 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
         return { entreprise, etudiant, statut, rowId, type };
     }
 
-    private async _handlePreviewAction(statusId: number){
+    private async _handlePreviewAction(statusIdOrAction: any, rowId: any){
+        if(rowId) {
+            switch(statusIdOrAction){
+                case 'generate':
+                    this.setState({snackOpen: true, snackMessage: 'Génération en cours', snackHorizontal: 'right'});
+                    const response = await axios.post(this.state.apiURL + 'conventions/generate/' + this.state.currentRow.id, null, { 
+                        headers: {
+                            Authorization: this.state.token
+                        },
+                        responseType: 'blob'
+                    });
+                    this.setState({snackOpen: true, snackMessage: 'Convention générée avec succès', snackHorizontal: 'right'});
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', this.state.currentRow.etudiant.nom + '-convention.pdf');
+                    document.body.appendChild(link);
+                    link.click();
+                    return;
+                case 'cancel':
+                case 'delete':
+            }
+        }
         const state = this.state.statusList.filter((status) => {
-            if(status.status === statusId){
+            if(status.status === statusIdOrAction){
                 return status;
             }
         });
