@@ -19,6 +19,7 @@ interface AdminPageState {
     statusList: any[];
     snackOpen: boolean;
     snackMessage: string;
+    snackHorizontal: number | "left" | "center" | "right" | undefined;
 }
 
 // tslint:disable-next-line:no-empty-interface
@@ -40,7 +41,8 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             previewTab: 0,
             statusList: [],
             snackOpen: false,
-            snackMessage: ''
+            snackMessage: '',
+            snackHorizontal: 'right'
         }
 
         this._handleChangePage = this._handleChangePage.bind(this);
@@ -120,7 +122,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'bottom',
-                        horizontal: 'right',
+                        horizontal: this.state.snackHorizontal,
                     }}
                     open={this.state.snackOpen}
                     autoHideDuration={6000}
@@ -198,7 +200,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                 }
                 return false;
             })
-            this.setState({currentRow: updatedRow});
+            this.setState({currentRow: updatedRow, snackOpen: true, snackMessage: 'Convention mise à jour', snackHorizontal: 'left'});
         }
     }
 
@@ -216,9 +218,9 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                 const row = this.createData(convention.entreprise.nomEntreprise, convention.etudiant.nom, convention.statut.nom, convention.id, convention.type.name);
                 rows.push(row);
             });
-            this.setState({data:rows, rows: conventions, snackOpen: true, snackMessage: 'Conventions chargées'});
+            this.setState({data:rows, rows: conventions, snackOpen: true, snackMessage: 'Conventions chargées', snackHorizontal: 'right'});
         } else {
-            this.setState({snackOpen: true, snackMessage: 'Erreur pendant le chargement des conventions'});
+            this.setState({snackOpen: true, snackMessage: 'Erreur pendant le chargement des conventions', snackHorizontal: 'right'});
         }
     }
 
@@ -227,7 +229,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
         if(statusList.status === 200){
             this.setState({statusList: statusList.data.data});
         } else {
-            this.setState({snackOpen: true, snackMessage: 'Erreur de chargement'});
+            this.setState({snackOpen: true, snackMessage: 'Erreur de chargement', snackHorizontal: 'right'});
         }
     }
 }
