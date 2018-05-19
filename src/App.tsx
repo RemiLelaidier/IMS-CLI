@@ -21,11 +21,12 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Input } from 'material-ui';
 
 import { AdminPage } from './components/pages/AdminPage';
+import { SignPage } from './components/pages/SignPage';
 import { StudentPage } from './components/pages/StudentPage';
+import { TrackPage } from './components/pages/TrackPage';
 import { Pages } from './components/types';
 
 import './App.css';
-import { TrackPage } from './components/pages/TrackPage';
 
 interface AppState {
   admin: boolean;
@@ -41,6 +42,8 @@ interface AppState {
   konami: string | null;
   tracked: any;
   refresh: any;
+  signing: any;
+  signed: any;
 }
 
 class App extends React.Component<{}, AppState> {
@@ -59,7 +62,9 @@ class App extends React.Component<{}, AppState> {
       showPassword: false,
       konami: null,
       tracked: null,
-      refresh: null
+      refresh: null,
+      signing: false,
+      signed: null
     }
 
     this._handleClose = this._handleClose.bind(this);
@@ -77,6 +82,7 @@ class App extends React.Component<{}, AppState> {
     const currentURL = window.location.pathname;
     let tracking = this.state.tracking;
     let admin = this.state.admin;
+    let signing = this.state.signing;
 
     if (currentURL.indexOf('/tracking/') !== -1) {
       const lastPart = currentURL.match(/([^\/]*)\/*$/);
@@ -85,6 +91,16 @@ class App extends React.Component<{}, AppState> {
         tracking = true;
         const req = await axios.get(this.state.apiURL + 'conventions/get/'+conventionId);
         this.setState({tracked: req.data.data[0]});
+      }
+    }
+
+    if (currentURL.indexOf('/signing/') !== -1) {
+      const lastPart = currentURL.match(/([^\/]*)\/*$/);
+      if(lastPart){
+        const conventionId = lastPart[1];
+        signing = true;
+        const req = await axios.get(this.state.apiURL + 'conventions/get/'+conventionId);
+        this.setState({signed: req.data.data[0]});
       }
     }
 
@@ -104,7 +120,7 @@ class App extends React.Component<{}, AppState> {
       }
     }
 
-    this.setState({admin, tracking});
+    this.setState({admin, tracking, signing});
 
     document.body.addEventListener('keyup', (event: KeyboardEvent) => {
       if(this.state.konami 
@@ -166,13 +182,16 @@ class App extends React.Component<{}, AppState> {
               )}
           </Toolbar>
         </AppBar>
-        {this.state.tracking && (
+        {!this.state.tracking && this.state.signing && (
+          <SignPage signed={this.state.signed} for="Entreprise" />
+        )}
+        {!this.state.signing && this.state.tracking && (
           <TrackPage tracked={this.state.tracked}/>
         )}
         {admin && (
           <AdminPage />
         )}
-        {!this.state.tracking && !admin && (
+        {!this.state.signing && !this.state.tracking && !admin && (
           <StudentPage />
         )}
         <Dialog
