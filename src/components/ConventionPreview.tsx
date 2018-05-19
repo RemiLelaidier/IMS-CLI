@@ -381,7 +381,6 @@ export default class ConventionPreview extends React.Component<ConventionPreview
     }
 
     private _handleDelete(event: any) {
-        console.warn('delete', this.props.currentRow.id);
         this.props.onAction('delete', this.props.currentRow.id);
     }
 }

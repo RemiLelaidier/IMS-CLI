@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as React from 'react';
 
-import { Snackbar, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, TextField  } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, TextField  } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper/Paper';
 import Typography from '@material-ui/core/Typography/Typography';
 import ConventionPreview from '../ConventionPreview';
@@ -20,6 +20,10 @@ interface AdminPageState {
     snackOpen: boolean;
     snackMessage: string;
     snackHorizontal: number | "left" | "center" | "right" | undefined;
+    dialogOpen: false;
+    dialogTitle: string | null;
+    dialogMessage: string | null;
+    dialogAction: (any);
 }
 
 // tslint:disable-next-line:no-empty-interface
@@ -42,7 +46,11 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             statusList: [],
             snackOpen: false,
             snackMessage: '',
-            snackHorizontal: 'right'
+            snackHorizontal: 'right',
+            dialogOpen: false,
+            dialogAction: null,
+            dialogMessage: null,
+            dialogTitle: null
         }
 
         this._handleChangePage = this._handleChangePage.bind(this);
@@ -56,6 +64,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
         this._loadStatusList = this._loadStatusList.bind(this);
         this._handleSnackClose = this._handleSnackClose.bind(this);
         this._updateCurrentRow = this._updateCurrentRow.bind(this);
+        this._handleDialogClose = this._handleDialogClose.bind(this);
     }
 
     public async componentDidMount(){
@@ -133,6 +142,22 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                     }}
                     message={<span id="message-id">{this.state.snackMessage}</span>}
                     />
+                <Dialog onClose={this._handleDialogClose} open={this.state.dialogOpen}>
+                    <DialogTitle>{this.state.dialogTitle}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                        {this.state.dialogMessage}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this._handleDialogClose} color="primary">
+                        Annuler
+                        </Button>
+                        <Button onClick={this.state.dialogAction} color="primary" autoFocus={true}>
+                        Continuer
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Paper>
             
         );
@@ -176,6 +201,10 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
 
     private createData(entreprise: string, etudiant: string, statut: string, rowId: string, type: string) {
         return { entreprise, etudiant, statut, rowId, type };
+    }
+
+    private _handleDialogClose(event: any) {
+        this.setState({dialogOpen: false});
     }
 
     private async _handlePreviewAction(statusIdOrAction: any, rowId: any){
@@ -245,6 +274,19 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                     await this._updateCurrentRow();
                     return;
                 case 'delete':
+                    try {
+                        await axios.post(this.state.apiURL + 'conventions/delete/' + this.state.currentRow.id, null, { 
+                            headers: {
+                                Authorization: this.state.token
+                            }
+                        });
+                        this.setState({preview: false});
+                        await this._loadConventions();
+                        this.setState({snackOpen: true, snackMessage: 'Convention supprimée', snackHorizontal: 'right'});
+                    } catch {
+                        this.setState({snackOpen: true, snackMessage: 'Erreur pendant la suppression', snackHorizontal: 'right'});
+                    }
+                    return;
             }
         }
         const state = this.state.statusList.filter((status) => {
