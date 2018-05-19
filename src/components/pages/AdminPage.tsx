@@ -212,7 +212,6 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                             Authorization: this.state.token
                         }
                     });
-                    this.setState({snackOpen: true, snackMessage: 'Convention annulée', snackHorizontal: 'right'});
                     await this._updateCurrentRow();
                     return;
                 case 'enable':
@@ -230,7 +229,6 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                             Authorization: this.state.token
                         }
                     });
-                    this.setState({snackOpen: true, snackMessage: 'Convention réactivée', snackHorizontal: 'right'});
                     await this._updateCurrentRow();
                     return;
                 case 'delete':
@@ -263,7 +261,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             }
             return false;
         })
-        this.setState({currentRow: updatedRow, snackOpen: true, snackMessage: 'Convention mise à jour', snackHorizontal: 'left'});
+        this.setState({currentRow: updatedRow, snackOpen: true, snackMessage: 'Convention mise à jour', snackHorizontal: 'right'});
     } 
 
     private async _loadConventions(){
