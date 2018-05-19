@@ -75,7 +75,7 @@ export class TrackPage extends React.Component<TrackPageProps, TrackPageState> {
                         <br />
                         <Button onClick={this._handlePreview} variant="raised" color='primary'>Prévisualiser</Button>
                         <br /><br />
-                        <Typography key={steps[this.props.tracked.statut.status].label} variant="display1" color="inherit">
+                        <Typography key={steps[this.props.tracked.statut.status].label} variant="body1" color="inherit">
                             {steps[this.props.tracked.statut.status].explain}
                         </Typography>
 
