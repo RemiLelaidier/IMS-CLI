@@ -226,7 +226,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                         link.setAttribute('download', this.state.currentRow.etudiant.nom + '-convention.pdf');
                         document.body.appendChild(link);
                         link.click();
-                    } catch {
+                    } catch (error) {
                         this.setState({snackOpen: true, snackMessage: 'Erreur pendant la génération', snackHorizontal: 'right'});
                     }
 
@@ -247,7 +247,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                                 Authorization: this.state.token
                             }
                         });
-                    } catch {
+                    } catch (error) {
                         this.setState({snackOpen: true, snackMessage: 'Erreur pendant l\'annulation', snackHorizontal: 'right'});
                     }
                     await this._updateCurrentRow();
@@ -268,7 +268,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                                 Authorization: this.state.token
                             }
                         });
-                    } catch {
+                    } catch (error) {
                         this.setState({snackOpen: true, snackMessage: 'Erreur pendant l\'activation', snackHorizontal: 'right'});
                     }
                     await this._updateCurrentRow();
@@ -283,7 +283,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                         this.setState({preview: false});
                         await this._loadConventions();
                         this.setState({snackOpen: true, snackMessage: 'Convention supprimée', snackHorizontal: 'right'});
-                    } catch {
+                    } catch (error) {
                         this.setState({snackOpen: true, snackMessage: 'Erreur pendant la suppression', snackHorizontal: 'right'});
                     }
                     return;
@@ -307,7 +307,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             if(update.status === 200) {
                 await this._updateCurrentRow();
             }
-        } catch {
+        } catch (error)  {
             this.setState({snackOpen: true, snackMessage: 'Erreur pendant la mise à jour du statut', snackHorizontal: 'right'});
         }
     }

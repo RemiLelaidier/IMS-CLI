@@ -40,6 +40,7 @@ interface AppState {
   showPassword: boolean;
   konami: string | null;
   tracked: any;
+  refresh: any;
 }
 
 class App extends React.Component<{}, AppState> {
@@ -57,7 +58,8 @@ class App extends React.Component<{}, AppState> {
       apiURL: process.env.REACT_APP_API,
       showPassword: false,
       konami: null,
-      tracked: null
+      tracked: null,
+      refresh: null
     }
 
     this._handleClose = this._handleClose.bind(this);
@@ -67,6 +69,7 @@ class App extends React.Component<{}, AppState> {
     this._handleDisconnect = this._handleDisconnect.bind(this);
     this._handleClickShowPassword = this._handleClickShowPassword.bind(this);
     this._handleMouseDownPassword = this._handleMouseDownPassword.bind(this);
+    this._checkTokenValidity = this._checkTokenValidity.bind(this);
   }
 
   public async componentDidMount() {
@@ -96,8 +99,11 @@ class App extends React.Component<{}, AppState> {
       }
       if (isValid) {
         admin = true;
+        const refresh = setInterval(this._checkTokenValidity, 3000);
+        this.setState({refresh});
       }
     }
+
     this.setState({admin, tracking});
 
     document.body.addEventListener('keyup', (event: KeyboardEvent) => {
@@ -214,6 +220,24 @@ class App extends React.Component<{}, AppState> {
         </Dialog>
       </div>
     );
+  }
+
+  private _checkTokenValidity(event: any) {
+    const tokenStored = sessionStorage.getItem('imsToken');
+    if(!tokenStored) {
+      return;
+    }
+
+    let isValid = false;
+    const tokenInfo = jsrassign.jws.JWS.readSafeJSONString(jsrassign.b64utoutf8(tokenStored.split(".")[1]));
+    const expire = + new Date(tokenInfo.expires);
+    const now = + new Date();
+    if(now < expire) {
+      isValid = true;
+    }
+    if (!isValid) {
+      this.setState({admin: false, login: true});
+    }
   }
 
   private _handleMouseDownPassword(event: any) {
