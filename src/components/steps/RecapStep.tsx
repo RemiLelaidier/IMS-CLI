@@ -83,6 +83,7 @@ export default class RecapStep extends React.Component<RecapProps, RecapState> {
                     activeTab={this.state.recapTab} 
                     onCloseAction={this._handlePreviewClose}
                     onTableChange={this._handleTableChange}
+                    onAction={null}
                     isAdmin={false}
                 />
                 <br />

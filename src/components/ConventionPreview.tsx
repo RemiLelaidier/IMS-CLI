@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import AppBar from '@material-ui/core/AppBar/AppBar';
-import Button from '@material-ui/core/Button/Button';
 import Dialog from '@material-ui/core/Dialog/Dialog';
 import Divider from '@material-ui/core/Divider/Divider';
 import IconButton from '@material-ui/core/IconButton/IconButton';
@@ -30,6 +29,7 @@ interface ConventionPreviewProps {
     isAdmin: boolean;
     onCloseAction: (any);
     onTableChange: (any);
+    onAction: (any);
 }
 
 function TabContainer(props: any) {
@@ -52,6 +52,7 @@ export default class ConventionPreview extends React.Component<ConventionPreview
         this.state = {};
         this._handleCloseAction = this._handleCloseAction.bind(this);
         this._handleTableChange = this._handleTableChange.bind(this);
+        this._handleSwitch = this._handleSwitch.bind(this);
     }
 
     public render() {
@@ -299,35 +300,50 @@ export default class ConventionPreview extends React.Component<ConventionPreview
                         <ListItem>
                             <ListItemText primary="Validée" />
                             <ListItemSecondaryAction>
-                                <Switch checked={this.props.currentRow.statut.status >= 1 ? true : false }
+                                <Switch id="1"
+                                        onClick={this._handleSwitch}
+                                        checked={this.props.currentRow.statut.status >= 1 ? true : false }
                                         disabled={!this.props.isAdmin || this.props.currentRow.statut.status > 1 ? true : false } />
                             </ListItemSecondaryAction>
                         </ListItem>
                         <ListItem>
                             <ListItemText primary="Envoyée à l'entreprise" />
                             <ListItemSecondaryAction>
-                                <Switch checked={this.props.currentRow.statut.status >= 2 ? true : false } 
+                                <Switch id="2"
+                                        onClick={this._handleSwitch}
+                                        checked={this.props.currentRow.statut.status >= 2 ? true : false } 
                                         disabled={!this.props.isAdmin || this.props.currentRow.statut.status > 2 ? true : false } />
                             </ListItemSecondaryAction>
                         </ListItem>
                         <ListItem>
                             <ListItemText primary="Signée par l'université" />
                             <ListItemSecondaryAction>
-                                <Switch checked={this.props.currentRow.statut.status >= 3 ? true : false } 
+                                <Switch id="3"
+                                        onClick={this._handleSwitch}
+                                        checked={this.props.currentRow.statut.status >= 3 ? true : false } 
                                         disabled={!this.props.isAdmin || this.props.currentRow.statut.status > 3 ? true : false } />
                             </ListItemSecondaryAction>
                         </ListItem>
                         <ListItem>
                             <ListItemText primary="Terminée" />
                             <ListItemSecondaryAction>
-                                <Switch checked={this.props.currentRow.statut.status >= 4 ? true : false }
+                                <Switch id="4"
+                                        onClick={this._handleSwitch}
+                                        checked={this.props.currentRow.statut.status >= 4 ? true : false }
                                         disabled={!this.props.isAdmin || this.props.currentRow.statut.status > 4 ? true : false } />
                             </ListItemSecondaryAction>
                         </ListItem>
                     </List>
-                    {this.props.isAdmin && (<Button style={{float: 'right'}} color="primary">Mettre à jour</Button>)}
                 </TabContainer>}
             </Dialog>);
+    }
+
+    private _handleSwitch(event: any){
+        let statusIndex = parseInt(event.target.id, 10);
+        if(statusIndex === this.props.currentRow.statut.status) {
+            statusIndex = statusIndex - 1;
+        }
+        this.props.onAction(statusIndex);
     }
 
     private _handleCloseAction(event: any){

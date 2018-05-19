@@ -16,6 +16,7 @@ interface AdminPageState {
     preview: boolean;
     currentRow: any;
     previewTab: number;
+    statusList: any[];
 }
 
 // tslint:disable-next-line:no-empty-interface
@@ -34,7 +35,8 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             rows: [],
             preview: false,
             currentRow: null,
-            previewTab: 0
+            previewTab: 0,
+            statusList: []
         }
 
         this._handleChangePage = this._handleChangePage.bind(this);
@@ -43,25 +45,17 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
         this._handleRowClick = this._handleRowClick.bind(this);
         this._handlePreviewClose = this._handlePreviewClose.bind(this);
         this._handleTableChange = this._handleTableChange.bind(this);
+        this._handlePreviewAction = this._handlePreviewAction.bind(this);
+        this._loadConventions = this._loadConventions.bind(this);
     }
 
     public async componentDidMount(){
-        const request = await axios.get(this.state.apiURL + 'conventions/getAll', {
-            headers: {
-                Authorization: this.state.token
-            }
-        });
-        
-        if(request.status === 200){
-            const conventions = request.data.data;
-            const rows: any[] = [];
-            conventions.forEach((convention: any, idx: number) => {
-                const row = this.createData(convention.entreprise.nomEntreprise, convention.etudiant.nom, convention.statut.nom, convention.id, convention.type.name);
-                rows.push(row);
-            });
-            this.setState({data:rows, rows: conventions});
+        await this._loadConventions();
+        const statusList = await axios.get(this.state.apiURL + 'statut/getAll');
+        if(statusList.status === 200){
+            this.setState({statusList: statusList.data.data});
         } else {
-            console.log('erf');
+            console.log('error while loading statusList');
         }
     }
 
@@ -75,6 +69,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                     isAdmin={true}
                     onCloseAction={this._handlePreviewClose}
                     onTableChange={this._handleTableChange}
+                    onAction={this._handlePreviewAction}
                 />
                 <Typography variant="title" color="inherit">
                     Administration
@@ -159,5 +154,52 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
 
     private createData(entreprise: string, etudiant: string, statut: string, rowId: string, type: string) {
         return { entreprise, etudiant, statut, rowId, type };
+    }
+
+    private async _handlePreviewAction(statusId: number){
+        const state = this.state.statusList.filter((status) => {
+            if(status.status === statusId){
+                return status;
+            }
+        });
+        
+        const update = await axios.post(this.state.apiURL + 'conventions/update/' + this.state.currentRow.id, {
+            statutId: state[0].id
+        }, { 
+            headers: {
+                Authorization: this.state.token
+            }
+        });
+
+        if(update.status === 200) {
+            await this._loadConventions();
+            const updatedRow = this.state.rows.find((row) => {
+                if(row.id === this.state.currentRow.id){
+                    return true;
+                }
+                return false;
+            })
+            this.setState({currentRow: updatedRow});
+        }
+    }
+
+    private async _loadConventions(){
+        const request = await axios.get(this.state.apiURL + 'conventions/getAll', {
+            headers: {
+                Authorization: this.state.token
+            }
+        });
+        
+        if(request.status === 200){
+            const conventions = request.data.data;
+            const rows: any[] = [];
+            conventions.forEach((convention: any, idx: number) => {
+                const row = this.createData(convention.entreprise.nomEntreprise, convention.etudiant.nom, convention.statut.nom, convention.id, convention.type.name);
+                rows.push(row);
+            });
+            this.setState({data:rows, rows: conventions});
+        } else {
+            console.log('erf');
+        }
     }
 }

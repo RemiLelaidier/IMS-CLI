@@ -59,6 +59,7 @@ export class TrackPage extends React.Component<TrackPageProps, TrackPageState> {
                         isAdmin={false}
                         onCloseAction={this._handlePreviewClose}
                         onTableChange={this._handleTableChange}
+                        onAction={null}
                     />
                 )}
                 
