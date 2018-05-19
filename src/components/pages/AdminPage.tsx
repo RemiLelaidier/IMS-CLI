@@ -55,6 +55,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
         this._loadConventions = this._loadConventions.bind(this);
         this._loadStatusList = this._loadStatusList.bind(this);
         this._handleSnackClose = this._handleSnackClose.bind(this);
+        this._updateCurrentRow = this._updateCurrentRow.bind(this);
     }
 
     public async componentDidMount(){
@@ -182,14 +183,14 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             switch(statusIdOrAction){
                 case 'generate':
                     this.setState({snackOpen: true, snackMessage: 'Génération en cours', snackHorizontal: 'right'});
-                    const response = await axios.post(this.state.apiURL + 'conventions/generate/' + this.state.currentRow.id, null, { 
+                    const generate = await axios.post(this.state.apiURL + 'conventions/generate/' + this.state.currentRow.id, null, { 
                         headers: {
                             Authorization: this.state.token
                         },
                         responseType: 'blob'
                     });
                     this.setState({snackOpen: true, snackMessage: 'Convention générée avec succès', snackHorizontal: 'right'});
-                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const url = window.URL.createObjectURL(new Blob([generate.data]));
                     const link = document.createElement('a');
                     link.href = url;
                     link.setAttribute('download', this.state.currentRow.etudiant.nom + '-convention.pdf');
@@ -197,6 +198,23 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                     link.click();
                     return;
                 case 'cancel':
+                    this.setState({snackOpen: true, snackMessage: 'Annulation de la convention', snackHorizontal: 'right'});
+                    const cancelled = this.state.statusList.filter((status: any) => {
+                        if(status.status === 5){
+                            return true;
+                        }
+                        return false;
+                    })
+                    await axios.post(this.state.apiURL + 'conventions/update/' + this.state.currentRow.id, {
+                        statutId: cancelled[0].id
+                    }, { 
+                        headers: {
+                            Authorization: this.state.token
+                        }
+                    });
+                    this.setState({snackOpen: true, snackMessage: 'Convention annulée', snackHorizontal: 'right'});
+                    await this._updateCurrentRow();
+                    return;
                 case 'delete':
             }
         }
@@ -215,16 +233,20 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
         });
 
         if(update.status === 200) {
-            await this._loadConventions();
-            const updatedRow = this.state.rows.find((row) => {
-                if(row.id === this.state.currentRow.id){
-                    return true;
-                }
-                return false;
-            })
-            this.setState({currentRow: updatedRow, snackOpen: true, snackMessage: 'Convention mise à jour', snackHorizontal: 'left'});
+            await this._updateCurrentRow();
         }
     }
+
+    private async _updateCurrentRow() {
+        await this._loadConventions();
+        const updatedRow = this.state.rows.find((row) => {
+            if(row.id === this.state.currentRow.id){
+                return true;
+            }
+            return false;
+        })
+        this.setState({currentRow: updatedRow, snackOpen: true, snackMessage: 'Convention mise à jour', snackHorizontal: 'left'});
+    } 
 
     private async _loadConventions(){
         const request = await axios.get(this.state.apiURL + 'conventions/getAll', {

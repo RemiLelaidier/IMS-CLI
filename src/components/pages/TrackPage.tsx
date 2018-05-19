@@ -46,7 +46,8 @@ export class TrackPage extends React.Component<TrackPageProps, TrackPageState> {
             { idx: 1, label: "Validée", estimated: '2 semaines', explain: "Les points clés de votre convention ont été validés, elle sera prochainement envoyée à l'entreprise." },
             { idx: 2, label: "Envoyée à l'entreprise", estimated: '2 semaines', explain: 'Votre convention a été envoyée à l\'entreprise, elle sera prochainement envoyée pour signature à l\'université.' }, 
             { idx: 3, label: "Signée par l'université", estimated: null, explain: 'Votre convention a été signée par l\'université, elle est en attente de téléchargement par vos soins.' }, 
-            { idx: 4, label: "Terminée", estimated: null, explain: 'Merci !' }
+            { idx: 4, label: "Terminée", estimated: null, explain: 'Merci !' },
+            { idx: 5, label: "Annulée", estimated: null, explain: 'Une erreur a été détectée dans votre convention, merci de réitérer votre demande.' }
         ];
 
         return (
