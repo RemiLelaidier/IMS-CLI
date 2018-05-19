@@ -215,6 +215,24 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                     this.setState({snackOpen: true, snackMessage: 'Convention annulée', snackHorizontal: 'right'});
                     await this._updateCurrentRow();
                     return;
+                case 'enable':
+                    this.setState({snackOpen: true, snackMessage: 'Activation de la convention', snackHorizontal: 'right'});
+                    const enabled = this.state.statusList.filter((status: any) => {
+                        if(status.status === 0){
+                            return true;
+                        }
+                        return false;
+                    })
+                    await axios.post(this.state.apiURL + 'conventions/update/' + this.state.currentRow.id, {
+                        statutId: enabled[0].id
+                    }, { 
+                        headers: {
+                            Authorization: this.state.token
+                        }
+                    });
+                    this.setState({snackOpen: true, snackMessage: 'Convention réactivée', snackHorizontal: 'right'});
+                    await this._updateCurrentRow();
+                    return;
                 case 'delete':
             }
         }

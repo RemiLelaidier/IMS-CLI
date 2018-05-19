@@ -56,6 +56,7 @@ export default class ConventionPreview extends React.Component<ConventionPreview
         this._handleGenerate = this._handleGenerate.bind(this);
         this._handleCancel = this._handleCancel.bind(this);
         this._handleDelete = this._handleDelete.bind(this);
+        this._handleEnable = this._handleEnable.bind(this);
     }
 
     public render() {
@@ -290,16 +291,23 @@ export default class ConventionPreview extends React.Component<ConventionPreview
                         <ListItem button={true} onClick={this._handleGenerate}>
                             <ListItemText primary="Générer la convention" secondary="Génère la convention remplie" />
                         </ListItem>
-                        <ListItem button={true} color='red' onClick={this._handleCancel}>
+                        {this.props.currentRow.statut.status !== 5 && (
+                            <ListItem button={this.props.currentRow.status !== 5} color='red' onClick={this._handleCancel}>
                             <ListItemText primary="Annuler la demande" secondary="Annule la demande, l'étudiant est tenu au courant sur son suivi" />
-                        </ListItem>
+                            </ListItem>
+                        )}
+                        {this.props.currentRow.statut.status === 5 && (
+                            <ListItem button={this.props.currentRow.status !== 5} color='red' onClick={this._handleEnable}>
+                            <ListItemText primary="Réactiver la demande" secondary="Réactive la demande et la place en attente" />
+                            </ListItem>
+                        )}
                         <ListItem button={true} color='red' onClick={this._handleDelete}>
                             <ListItemText primary="Supprimer la demande" secondary="Supprime complètement la demande" />
                         </ListItem>
                         <Divider />
                     </List>)}
                     <List>
-                        <ListSubheader>Statut</ListSubheader>
+                        <ListSubheader>Statut {this.props.currentRow.statut.status === 5 && ": Convention annulée"}</ListSubheader>
                         <ListItem>
                             <ListItemText primary="Validée" />
                             <ListItemSecondaryAction>
@@ -363,8 +371,14 @@ export default class ConventionPreview extends React.Component<ConventionPreview
     }
 
     private _handleCancel(event: any) {
-        console.warn('cancel', this.props.currentRow.id);
+        if(this.props.currentRow.statut.status === 5){
+            return;
+        }
         this.props.onAction('cancel', this.props.currentRow.id);
+    }
+
+    private _handleEnable(event: any) {
+        this.props.onAction('enable', this.props.currentRow.id);
     }
 
     private _handleDelete(event: any) {
