@@ -291,7 +291,10 @@ export default class ConventionPreview extends React.Component<ConventionPreview
                             <ListItemText primary="Générer la convention" secondary="Génère la convention remplie" />
                         </ListItem>
                         <ListItem button={true} color='red'>
-                            <ListItemText primary="Supprimer la demande" secondary="Supprime la demande de la base de données" />
+                            <ListItemText primary="Annuler la demande" secondary="Annule la demande, l'étudiant est tenu au courant sur son suivi" />
+                        </ListItem>
+                        <ListItem button={true} color='red'>
+                            <ListItemText primary="Supprimer la demande" secondary="Supprime complètement la demande" />
                         </ListItem>
                         <Divider />
                     </List>)}
