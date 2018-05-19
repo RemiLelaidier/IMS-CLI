@@ -42,11 +42,11 @@ export class TrackPage extends React.Component<TrackPageProps, TrackPageState> {
 
     public render() {
         const steps = [
-            { label: "Soumise", explain: "Votre convention est en attente de traitement" },
-            { label: "Validée", explain: "Les points clés de votre convention ont été validés, elle sera prochainement envoyée à l'entreprise" },
-            { label: "Envoyée à l'entreprise", explain: 'Votre convention a été envoyée à l\'entreprise, elle sera envoyée pour signature à l\'université dès son retour' }, 
-            { label: "Signée par l'université", explain: 'Votre convention a été signée par l\'université, elle est en attente de téléchargement par vos soins.' }, 
-            { label: "Terminée", explain: 'Merci !' }
+            { label: "Soumise", estimated: '1 semaine', explain: "Votre convention est en attente de traitement." },
+            { label: "Validée", estimated: '2 semaines', explain: "Les points clés de votre convention ont été validés, elle sera prochainement envoyée à l'entreprise." },
+            { label: "Envoyée à l'entreprise", estimated: '2 semaines', explain: 'Votre convention a été envoyée à l\'entreprise, elle sera prochainement envoyée pour signature à l\'université.' }, 
+            { label: "Signée par l'université", estimated: null, explain: 'Votre convention a été signée par l\'université, elle est en attente de téléchargement par vos soins.' }, 
+            { label: "Terminée", estimated: null, explain: 'Merci !' }
         ];
 
         return (
@@ -75,10 +75,6 @@ export class TrackPage extends React.Component<TrackPageProps, TrackPageState> {
                         <br />
                         <Button onClick={this._handlePreview} variant="raised" color='primary'>Prévisualiser</Button>
                         <br /><br />
-                        <Typography key={steps[this.props.tracked.statut.status].label} variant="body1" color="inherit">
-                            {steps[this.props.tracked.statut.status].explain}
-                        </Typography>
-
                         <Stepper activeStep={this.props.tracked.statut.status} alternativeLabel={true}>
                             {steps.map(step => {
                                 return (
@@ -88,6 +84,15 @@ export class TrackPage extends React.Component<TrackPageProps, TrackPageState> {
                                 );
                             })}
                         </Stepper>
+                        <Typography key={steps[this.props.tracked.statut.status].label} variant="body1" color="inherit">
+                            {steps[this.props.tracked.statut.status].explain}
+                        </Typography>
+                        <br />
+                        {steps[this.props.tracked.statut.status].estimated && (
+                            <Typography key={steps[this.props.tracked.statut.status].label} variant="body1" color="inherit">
+                                Temps estimé : {steps[this.props.tracked.statut.status].estimated}
+                            </Typography>
+                        )}
                     </div>
                 )}
 
