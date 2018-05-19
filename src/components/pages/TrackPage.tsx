@@ -41,36 +41,60 @@ export class TrackPage extends React.Component<TrackPageProps, TrackPageState> {
     }
 
     public render() {
-        const steps = ["Soumise", "Validée", "Envoyée à l'entreprise", "Signée par l'université", "Terminée"]
+        const steps = [
+            { label: "Soumise", explain: "Votre convention est en attente de traitement" },
+            { label: "Validée", explain: "Les points clés de votre convention ont été validés, elle sera prochainement envoyée à l'entreprise" },
+            { label: "Envoyée à l'entreprise", explain: 'Votre convention a été envoyée à l\'entreprise, elle sera envoyée pour signature à l\'université dès son retour' }, 
+            { label: "Signée par l'université", explain: 'Votre convention a été signée par l\'université, elle est en attente de téléchargement par vos soins.' }, 
+            { label: "Terminée", explain: 'Merci !' }
+        ];
+
         return (
             <Paper style={{ margin: 10, padding: 10 }}>
-                <ConventionPreview 
-                    opened={this.state.preview} 
-                    currentRow={this.props.tracked} 
-                    activeTab={this.state.previewTab} 
-                    isAdmin={false}
-                    onCloseAction={this._handlePreviewClose}
-                    onTableChange={this._handleTableChange}
-                />
+                {this.props.tracked && (
+                    <ConventionPreview 
+                        opened={this.state.preview} 
+                        currentRow={this.props.tracked} 
+                        activeTab={this.state.previewTab} 
+                        isAdmin={false}
+                        onCloseAction={this._handlePreviewClose}
+                        onTableChange={this._handleTableChange}
+                    />
+                )}
+                
                 <Typography variant="headline" color="inherit">
                     Suivi de convention
                 </Typography>
                 <br />
-                <Typography variant="subheading" color="inherit">
-                    {this.props.tracked.etudiant.nom + " " + this.props.tracked.etudiant.prenom}
-                </Typography>
-                <br />
-                <Button onClick={this._handlePreview} variant="raised" color='primary'>Prévisualiser</Button>
-                <br />
-                <Stepper activeStep={this.props.tracked.statut.status} alternativeLabel={true}>
-                {steps.map(label => {
-                    return (
-                    <Step key={label}>
-                        <StepLabel>{label}</StepLabel>
-                    </Step>
-                    );
-                })}
-                </Stepper>
+
+                {this.props.tracked && (
+                    <div>
+                        <Typography variant="subheading" color="inherit">
+                            {this.props.tracked.etudiant.nom + " " + this.props.tracked.etudiant.prenom}
+                        </Typography>
+                        <br />
+                        <Button onClick={this._handlePreview} variant="raised" color='primary'>Prévisualiser</Button>
+                        <br /><br />
+                        <Typography key={steps[this.props.tracked.statut.status].label} variant="display1" color="inherit">
+                            {steps[this.props.tracked.statut.status].explain}
+                        </Typography>
+
+                        <Stepper activeStep={this.props.tracked.statut.status} alternativeLabel={true}>
+                            {steps.map(step => {
+                                return (
+                                <Step key={step.label}>
+                                    <StepLabel>{step.label}</StepLabel>
+                                </Step>
+                                );
+                            })}
+                        </Stepper>
+                    </div>
+                )}
+
+                {!this.props.tracked && (
+                    <Typography variant="subheading" color="inherit">
+                        Aucune convention trouvée
+                    </Typography>)}
             </Paper>
         );
     }
