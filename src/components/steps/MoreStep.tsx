@@ -47,8 +47,8 @@ export default class MoreStep extends React.Component<FormProps, MoreState> impl
                         onChange={this._handleChange}
                     />
                 </FormGroup>
-                <p>Un récapitulatif vous sera fourni afin que vous validiez les informations</p>
-                <p>A la fin du processus, votre convention de stage vous sera envoyée et envoyée à l'entreprise</p>
+                <p>Un récapitulatif vous sera fourni afin que vous validiez les informations.</p>
+                <p>Une fois validée, un lien de suivi vous sera fourni</p>
             </div>
         );
     }

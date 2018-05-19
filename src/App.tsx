@@ -25,11 +25,13 @@ import { StudentPage } from './components/pages/StudentPage';
 import { Pages } from './components/types';
 
 import './App.css';
+import { TrackPage } from './components/pages/TrackPage';
 
 interface AppState {
   admin: boolean;
   page: Pages;
   login: boolean;
+  tracking: boolean;
   anchorEl: HTMLElement | undefined;
   username: string | undefined,
   password: string | undefined,
@@ -37,12 +39,14 @@ interface AppState {
   apiURL: string | undefined;
   showPassword: boolean;
   konami: string | null;
+  tracked: any;
 }
 
 class App extends React.Component<{}, AppState> {
   constructor(props: any) {
     super(props);
     this.state = {
+      tracking: false,
       admin: false,
       login: false,
       page: Pages.home,
@@ -52,7 +56,8 @@ class App extends React.Component<{}, AppState> {
       loginError: false,
       apiURL: process.env.REACT_APP_API,
       showPassword: false,
-      konami: null
+      konami: null,
+      tracked: null
     }
 
     this._handleClose = this._handleClose.bind(this);
@@ -64,14 +69,21 @@ class App extends React.Component<{}, AppState> {
     this._handleMouseDownPassword = this._handleMouseDownPassword.bind(this);
   }
 
-  public componentDidMount() {
+  public async componentDidMount() {
     const currentURL = window.location.pathname;
-    let login = this.state.login;
+    let tracking = this.state.tracking;
     let admin = this.state.admin;
 
-    if (currentURL.indexOf('/!login') !== -1) {
-      login = true;
+    if (currentURL.indexOf('/tracking/') !== -1) {
+      const lastPart = currentURL.match(/([^\/]*)\/*$/);
+      if(lastPart){
+        const conventionId = lastPart[1];
+        tracking = true;
+        const req = await axios.get(this.state.apiURL + 'conventions/get/'+conventionId);
+        this.setState({tracked: req.data.data[0]});
+      }
     }
+
     const tokenStored = sessionStorage.getItem('imsToken');
     if (tokenStored !== null) {
       const IntDate = jsrassign.jws.IntDate;
@@ -83,12 +95,10 @@ class App extends React.Component<{}, AppState> {
         isValid = false;
       }
       if (isValid) {
-        login = false;
         admin = true;
       }
     }
-    this.setState({login, admin});
-
+    this.setState({admin, tracking});
 
     document.body.addEventListener('keyup', (event: KeyboardEvent) => {
       if(this.state.konami 
@@ -150,10 +160,13 @@ class App extends React.Component<{}, AppState> {
               )}
           </Toolbar>
         </AppBar>
+        {this.state.tracking && (
+          <TrackPage tracked={this.state.tracked}/>
+        )}
         {admin && (
           <AdminPage />
         )}
-        {!admin && (
+        {!this.state.tracking && !admin && (
           <StudentPage />
         )}
         <Dialog
