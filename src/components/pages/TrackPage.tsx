@@ -80,6 +80,9 @@ export class TrackPage extends React.Component<TrackPageProps, TrackPageState> {
                         {this.props.tracked.statut.status !== 5 && (
                             <Stepper activeStep={this.props.tracked.statut.status} alternativeLabel={true}>
                                 {steps.map(step => {
+                                    if(step.idx === 5){
+                                        return;
+                                    }
                                     return (
                                     <Step key={step.idx}>
                                         <StepLabel>{step.label}</StepLabel>
