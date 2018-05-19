@@ -366,7 +366,6 @@ export default class ConventionPreview extends React.Component<ConventionPreview
     }
     
     private _handleGenerate(event: any) {
-        console.log('generate', this.props.currentRow.id);
         this.props.onAction('generate', this.props.currentRow.id);
     }
 

@@ -183,19 +183,24 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             switch(statusIdOrAction){
                 case 'generate':
                     this.setState({snackOpen: true, snackMessage: 'Génération en cours', snackHorizontal: 'right'});
-                    const generate = await axios.post(this.state.apiURL + 'conventions/generate/' + this.state.currentRow.id, null, { 
-                        headers: {
-                            Authorization: this.state.token
-                        },
-                        responseType: 'blob'
-                    });
-                    this.setState({snackOpen: true, snackMessage: 'Convention générée avec succès', snackHorizontal: 'right'});
-                    const url = window.URL.createObjectURL(new Blob([generate.data]));
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.setAttribute('download', this.state.currentRow.etudiant.nom + '-convention.pdf');
-                    document.body.appendChild(link);
-                    link.click();
+                    try {
+                        const generate = await axios.post(this.state.apiURL + 'conventions/generate/' + this.state.currentRow.id, null, { 
+                            headers: {
+                                Authorization: this.state.token
+                            },
+                            responseType: 'blob'
+                        });
+                        this.setState({snackOpen: true, snackMessage: 'Convention générée avec succès', snackHorizontal: 'right'});
+                        const url = window.URL.createObjectURL(new Blob([generate.data]));
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', this.state.currentRow.etudiant.nom + '-convention.pdf');
+                        document.body.appendChild(link);
+                        link.click();
+                    } catch {
+                        this.setState({snackOpen: true, snackMessage: 'Erreur pendant la génération', snackHorizontal: 'right'});
+                    }
+
                     return;
                 case 'cancel':
                     this.setState({snackOpen: true, snackMessage: 'Annulation de la convention', snackHorizontal: 'right'});
@@ -205,13 +210,17 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                         }
                         return false;
                     })
-                    await axios.post(this.state.apiURL + 'conventions/update/' + this.state.currentRow.id, {
-                        statutId: cancelled[0].id
-                    }, { 
-                        headers: {
-                            Authorization: this.state.token
-                        }
-                    });
+                    try {
+                        await axios.post(this.state.apiURL + 'conventions/update/' + this.state.currentRow.id, {
+                            statutId: cancelled[0].id
+                        }, { 
+                            headers: {
+                                Authorization: this.state.token
+                            }
+                        });
+                    } catch {
+                        this.setState({snackOpen: true, snackMessage: 'Erreur pendant l\'annulation', snackHorizontal: 'right'});
+                    }
                     await this._updateCurrentRow();
                     return;
                 case 'enable':
@@ -221,14 +230,18 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                             return true;
                         }
                         return false;
-                    })
-                    await axios.post(this.state.apiURL + 'conventions/update/' + this.state.currentRow.id, {
-                        statutId: enabled[0].id
-                    }, { 
-                        headers: {
-                            Authorization: this.state.token
-                        }
                     });
+                    try {
+                        await axios.post(this.state.apiURL + 'conventions/update/' + this.state.currentRow.id, {
+                            statutId: enabled[0].id
+                        }, { 
+                            headers: {
+                                Authorization: this.state.token
+                            }
+                        });
+                    } catch {
+                        this.setState({snackOpen: true, snackMessage: 'Erreur pendant l\'activation', snackHorizontal: 'right'});
+                    }
                     await this._updateCurrentRow();
                     return;
                 case 'delete':
@@ -240,16 +253,20 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             }
         });
         
-        const update = await axios.post(this.state.apiURL + 'conventions/update/' + this.state.currentRow.id, {
-            statutId: state[0].id
-        }, { 
-            headers: {
-                Authorization: this.state.token
-            }
-        });
+        try {
+            const update = await axios.post(this.state.apiURL + 'conventions/update/' + this.state.currentRow.id, {
+                statutId: state[0].id
+            }, { 
+                headers: {
+                    Authorization: this.state.token
+                }
+            });
 
-        if(update.status === 200) {
-            await this._updateCurrentRow();
+            if(update.status === 200) {
+                await this._updateCurrentRow();
+            }
+        } catch {
+            this.setState({snackOpen: true, snackMessage: 'Erreur pendant la mise à jour du statut', snackHorizontal: 'right'});
         }
     }
 
