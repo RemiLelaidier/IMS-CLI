@@ -97,13 +97,17 @@ class App extends React.Component<{}, AppState> {
       }
     }
 
-    if (currentURL.indexOf('/signing/') !== -1) {
+    if (currentURL.indexOf('/link/') !== -1) {
       const lastPart = currentURL.match(/([^\/]*)\/*$/);
       if(lastPart){
-        const conventionId = lastPart[1];
+        const shortId = lastPart[1];
         signing = true;
+        const isValidLink = await axios.get(this.state.apiURL + 'signlinks/short/'+shortId);
+        const conventionId = isValidLink.data.data[0].conventionId;
         const req = await axios.get(this.state.apiURL + 'conventions/get/'+conventionId);
-        this.setState({signed: req.data.data[0]});
+        if(isValidLink.data.data.length > 0 && req.data.data.length > 0){
+          this.setState({signed: req.data.data[0], signingFor: isValidLink.data.data[0].for});
+        }
       }
     }
 
