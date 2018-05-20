@@ -274,7 +274,9 @@ class App extends React.Component<{}, AppState> {
   private async _handleReadyToSign(isReady: boolean, conventionId: any) {
     if(isReady){
       const req = await axios.get(this.state.apiURL + 'conventions/get/' + conventionId);
-      window.location.href = window.location.href + "/signing/" + conventionId;
+      const currentState = window.history.state;
+      window.history.replaceState(currentState, "Signature de convention", "signing/" + conventionId);
+
       this.setState({signing: true, signingFor: 'Étudiant', signed: req.data.data[0]});
     }
   }
