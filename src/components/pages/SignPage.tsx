@@ -1,3 +1,4 @@
+import axios from 'axios';
 import * as React from 'react';
 import SignaturePad from 'react-signature-pad-wrapper'
 
@@ -19,11 +20,15 @@ interface SignPageState {
     confirm: boolean;
     previewTab: number;
     image: string | undefined;
+    snackOpen: boolean;
+    snackMessage: string;
+    done: boolean;
 }
 
 interface SignPageProps {
     signed: any;
     for: string | undefined;
+    isSigned: boolean;
 }
 
 export class SignPage extends React.Component<SignPageProps, SignPageState> {
@@ -37,6 +42,9 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
             preview: false,
             signing: false,
             confirm: false,
+            snackOpen: false,
+            done: false,
+            snackMessage: '',
             previewTab: 0,
             image: undefined
         }
@@ -80,24 +88,30 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                             Étudiant : {this.props.signed.etudiant.nom + " " + this.props.signed.etudiant.prenom}
                         </Typography>
                         <br />                       
-                        <Typography variant="body1" color="inherit">
+                        {!this.state.done || !Boolean(this.props.isSigned) && (<Typography variant="body1" color="inherit">
                             Une fois validée, une preuve de signature contenant les informations de base de la convention vous sera fournie.<br />
                             Vous pourrez télécharger la convention quand elle aura été signée par toutes les parties.<br />
                             Votre signature est supprimée une fois la convention générée.
-                        </Typography>
+                        </Typography>)}
+                        {this.state.done || Boolean(this.props.isSigned) && (<Typography variant="body1" color="inherit">
+                            Votre signature a été inscrite, vous pourrez télécharger la convention ici quand toutes les parties auront signé.
+                        </Typography>)}
                         <br />
                         <Button onClick={this._handlePreview} variant="raised" color='primary'>Prévisualiser la convention</Button>
-                        <Button onClick={this._handleConfirm} variant="raised" color='primary' style={{float: 'right'}}>Valider la signature</Button>                        
+                        <Button onClick={this._handleConfirm} variant="raised" color='primary' style={{float: 'right'}} disabled={this.state.done || Boolean(this.props.isSigned)}>Valider la signature</Button>                        
                         <div style={{clear: 'both', marginTop: 10}} />
-                        <div style={{float: 'right'}}>
-                            <Typography variant="subheading" color="inherit">
-                                Signez ci-dessous
-                            </Typography>
-                            <div style={{border: '1px dashed black', width: 350, height: 200}}>
-                                <SignaturePad ref={(ref: any) => this.signaturePad = ref}/>
+                        {!this.state.done || !Boolean(this.props.isSigned) && (
+                            <div style={{float: 'right'}}>
+                                <Typography variant="subheading" color="inherit">
+                                    Signez ci-dessous
+                                </Typography>
+                                <div style={{border: '1px dashed black', width: 350, height: 200}}>
+                                    <SignaturePad ref={(ref: any) => this.signaturePad = ref}/>
+                                </div>
+                                <Button onClick={this._handleClear} color='primary' style={{float: 'right'}}>Vider la zone</Button> 
                             </div>
-                            <Button onClick={this._handleClear} color='primary' style={{float: 'right'}}>Vider la zone</Button> 
-                        </div>
+                        )}
+                        
                         <div style={{clear: 'both'}} />
                         <Dialog
                             open={this.state.confirm}
@@ -141,8 +155,15 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
         this.signaturePad.clear();
     }
 
-    private _handleSign(event: any) {
-        console.log(this.signaturePad.toDataURL());
+    private async _handleSign(event: any) {
+        try {
+            await axios.post(this.state.apiURL + 'signlinks/fill/' + this._getShortId(), {
+                data: this.signaturePad.toDataURL()
+            });
+            this.setState({confirm: false, snackOpen: true, snackMessage: 'Signé avec succès !', done: true});
+        } catch (error) {
+            this.setState({confirm: true, snackOpen: true, snackMessage: 'Erreur pendant la signature, merci de réessayer'});
+        }
     }
 
     private _handlePreview(event: any){
@@ -155,5 +176,15 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
 
     private _handleTableChange(event: any, value: any) {
         this.setState({previewTab: value});
+    }
+
+    private _getShortId(){
+        const currentURL = window.location.pathname;
+        const lastPart = currentURL.match(/([^\/]*)\/*$/);
+        if(lastPart){
+          return lastPart[1];
+        }
+
+        return null;
     }
 }

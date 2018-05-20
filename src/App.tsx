@@ -45,6 +45,7 @@ interface AppState {
   signing: any;
   signingFor: string | undefined;
   signed: any;
+  isAlreadySigned: boolean;
 }
 
 class App extends React.Component<{}, AppState> {
@@ -66,7 +67,8 @@ class App extends React.Component<{}, AppState> {
       refresh: null,
       signing: false,
       signed: null,
-      signingFor: undefined
+      signingFor: undefined,
+      isAlreadySigned: false
     }
 
     this._handleClose = this._handleClose.bind(this);
@@ -105,9 +107,10 @@ class App extends React.Component<{}, AppState> {
         const isValidLink = await axios.get(this.state.apiURL + 'signlinks/short/'+shortId);
         if(isValidLink.status === 200 && isValidLink.data.data.length > 0){
           const conventionId = isValidLink.data.data[0].conventionId;
+          const isSigned = isValidLink.data.data[0].isDone;
           const req = await axios.get(this.state.apiURL + 'conventions/get/'+conventionId);
           if(req.status === 200 && req.data.data.length > 0){
-            this.setState({signed: req.data.data[0], signingFor: isValidLink.data.data[0].for});
+            this.setState({signed: req.data.data[0], signingFor: isValidLink.data.data[0].for, isAlreadySigned: isSigned});
           }
         }
       }
@@ -192,7 +195,7 @@ class App extends React.Component<{}, AppState> {
           </Toolbar>
         </AppBar>
         {!this.state.tracking && this.state.signing && (
-          <SignPage signed={this.state.signed} for={this.state.signingFor} />
+          <SignPage signed={this.state.signed} for={this.state.signingFor} isSigned={this.state.isAlreadySigned} />
         )}
         {!this.state.signing && this.state.tracking && (
           <TrackPage tracked={this.state.tracked} />
