@@ -89,19 +89,8 @@ class App extends React.Component<{}, AppState> {
 
   public async componentDidMount() {
     const currentURL = window.location.pathname;
-    let tracking = this.state.tracking;
     let admin = this.state.admin;
     let signing = this.state.signing;
-
-    if (currentURL.indexOf('/tracking/') !== -1) {
-      const lastPart = currentURL.match(/([^\/]*)\/*$/);
-      if(lastPart){
-        const conventionId = lastPart[1];
-        tracking = true;
-        const req = await axios.get(this.state.apiURL + 'conventions/get/'+conventionId);
-        this.setState({tracked: req.data.data[0]});
-      }
-    }
 
     if (currentURL.indexOf('/link/') !== -1) {
       const lastPart = currentURL.match(/([^\/]*)\/*$/);
@@ -128,7 +117,7 @@ class App extends React.Component<{}, AppState> {
       }
     }
 
-    this.setState({admin, tracking, signing});
+    this.setState({admin, signing});
 
     document.body.addEventListener('keyup', (event: KeyboardEvent) => {
       if(this.state.konami 
