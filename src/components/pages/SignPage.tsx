@@ -31,6 +31,7 @@ interface SignPageProps {
     for: string | undefined;
     isSigned: boolean;
     isCeremonyComplete: boolean;
+    onSigningDone: (any);
 }
 
 export class SignPage extends React.Component<SignPageProps, SignPageState> {
@@ -188,6 +189,7 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                 data: this.signaturePad.toDataURL()
             });
             this.setState({confirm: false, snackOpen: true, snackMessage: 'Signé avec succès !', done: true});
+            this.props.onSigningDone(this._getShortId());
         } catch (error) {
             this.setState({confirm: true, snackOpen: true, snackMessage: 'Erreur pendant la signature, merci de réessayer'});
         }

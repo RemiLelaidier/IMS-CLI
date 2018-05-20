@@ -83,6 +83,8 @@ class App extends React.Component<{}, AppState> {
     this._checkTokenValidity = this._checkTokenValidity.bind(this);
     this._startRefresh = this._startRefresh.bind(this);
     this._handleReadyToSign = this._handleReadyToSign.bind(this);
+    this._handleSigningComplete = this._handleSigningComplete.bind(this);
+    this._loadShortURL = this._loadShortURL.bind(this);
   }
 
   public async componentDidMount() {
@@ -106,16 +108,7 @@ class App extends React.Component<{}, AppState> {
       if(lastPart){
         const shortId = lastPart[1];
         signing = true;
-        const isValidLink = await axios.get(this.state.apiURL + 'signlinks/short/'+shortId);
-        if(isValidLink.status === 200 && isValidLink.data.data.length > 0){
-          const conventionId = isValidLink.data.data[0].conventionId;
-          const isSigned = isValidLink.data.data[0].isDone;
-          const isCeremonyComplete = isValidLink.data.ceremonyDone;
-          const req = await axios.get(this.state.apiURL + 'conventions/get/'+conventionId);
-          if(req.status === 200 && req.data.data.length > 0){
-            this.setState({signed: req.data.data[0], signingFor: isValidLink.data.data[0].for, isAlreadySigned: isSigned, isCeremonyComplete});
-          }
-        }
+        await this._loadShortURL(shortId);
       }
     }
 
@@ -198,7 +191,12 @@ class App extends React.Component<{}, AppState> {
           </Toolbar>
         </AppBar>
         {!this.state.tracking && this.state.signing && (
-          <SignPage signed={this.state.signed} for={this.state.signingFor} isSigned={this.state.isAlreadySigned} isCeremonyComplete={this.state.isCeremonyComplete}/>
+          <SignPage signed={this.state.signed} 
+                    for={this.state.signingFor} 
+                    isSigned={this.state.isAlreadySigned} 
+                    isCeremonyComplete={this.state.isCeremonyComplete}
+                    onSigningDone={this._handleSigningComplete}
+          />
         )}
         {!this.state.signing && this.state.tracking && (
           <TrackPage tracked={this.state.tracked} />
@@ -293,6 +291,10 @@ class App extends React.Component<{}, AppState> {
     }
   }
 
+  private async _handleSigningComplete(shortId: string){
+    await this._loadShortURL(shortId);
+  }
+
   private _handleMouseDownPassword(event: any) {
     event.preventDefault();
   };
@@ -346,6 +348,19 @@ class App extends React.Component<{}, AppState> {
 
   private _handleClose() {
     this.setState({ anchorEl: undefined, login: false });
+  }
+
+  private async _loadShortURL(shortId: string) {
+    const isValidLink = await axios.get(this.state.apiURL + 'signlinks/short/' + shortId);
+    if (isValidLink.status === 200 && isValidLink.data.data.length > 0) {
+      const conventionId = isValidLink.data.data[0].conventionId;
+      const isSigned = isValidLink.data.data[0].isDone;
+      const isCeremonyComplete = isValidLink.data.ceremonyDone;
+      const req = await axios.get(this.state.apiURL + 'conventions/get/' + conventionId);
+      if (req.status === 200 && req.data.data.length > 0) {
+        this.setState({ signed: req.data.data[0], signingFor: isValidLink.data.data[0].for, isAlreadySigned: isSigned, isCeremonyComplete });
+      }
+    }
   }
 }
 
