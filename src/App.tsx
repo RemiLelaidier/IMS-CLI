@@ -46,6 +46,7 @@ interface AppState {
   signingFor: string | undefined;
   signed: any;
   isAlreadySigned: boolean;
+  isCeremonyComplete: boolean;
 }
 
 class App extends React.Component<{}, AppState> {
@@ -68,7 +69,8 @@ class App extends React.Component<{}, AppState> {
       signing: false,
       signed: null,
       signingFor: undefined,
-      isAlreadySigned: false
+      isAlreadySigned: false,
+      isCeremonyComplete: false
     }
 
     this._handleClose = this._handleClose.bind(this);
@@ -108,9 +110,10 @@ class App extends React.Component<{}, AppState> {
         if(isValidLink.status === 200 && isValidLink.data.data.length > 0){
           const conventionId = isValidLink.data.data[0].conventionId;
           const isSigned = isValidLink.data.data[0].isDone;
+          const isCeremonyComplete = isValidLink.data.ceremonyDone;
           const req = await axios.get(this.state.apiURL + 'conventions/get/'+conventionId);
           if(req.status === 200 && req.data.data.length > 0){
-            this.setState({signed: req.data.data[0], signingFor: isValidLink.data.data[0].for, isAlreadySigned: isSigned});
+            this.setState({signed: req.data.data[0], signingFor: isValidLink.data.data[0].for, isAlreadySigned: isSigned, isCeremonyComplete});
           }
         }
       }
@@ -195,7 +198,7 @@ class App extends React.Component<{}, AppState> {
           </Toolbar>
         </AppBar>
         {!this.state.tracking && this.state.signing && (
-          <SignPage signed={this.state.signed} for={this.state.signingFor} isSigned={this.state.isAlreadySigned} />
+          <SignPage signed={this.state.signed} for={this.state.signingFor} isSigned={this.state.isAlreadySigned} isCeremonyComplete={this.state.isCeremonyComplete}/>
         )}
         {!this.state.signing && this.state.tracking && (
           <TrackPage tracked={this.state.tracked} />

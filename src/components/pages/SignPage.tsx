@@ -10,6 +10,7 @@ import DialogContentText from '@material-ui/core/DialogContentText/DialogContent
 import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
 import Paper from '@material-ui/core/Paper/Paper';
 import Typography from '@material-ui/core/Typography/Typography';
+import Save from '@material-ui/icons/Save';
 
 import ConventionPreview from '../ConventionPreview';
 
@@ -29,6 +30,7 @@ interface SignPageProps {
     signed: any;
     for: string | undefined;
     isSigned: boolean;
+    isCeremonyComplete: boolean;
 }
 
 export class SignPage extends React.Component<SignPageProps, SignPageState> {
@@ -75,13 +77,21 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                         onAction={null}
                     />
                 )}
-                
-                <Typography variant="headline" color="inherit">
-                    Signature de convention
-                </Typography>
-                <br />
 
-                {this.props.signed && (
+                {this.props.isCeremonyComplete && (
+                    <Typography variant="headline" color="inherit">
+                        Récupération de la convention
+                    </Typography>
+                )}
+                
+                {!this.props.isCeremonyComplete && (
+                    <Typography variant="headline" color="inherit">
+                        Signature de convention
+                    </Typography>
+                )}
+
+                <br />
+                {!this.props.isCeremonyComplete && this.props.signed && (
                     <div>
                         <Typography variant="subheading" color="inherit">
                             Partie : {this.props.for}<br />
@@ -139,10 +149,27 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                     </div>
                 )}
 
-                {!this.props.signed && (
+                {!this.props.isCeremonyComplete && !this.props.signed && (
                     <Typography variant="subheading" color="inherit">
                         Aucune convention trouvée
                     </Typography>)}
+
+                {this.props.isCeremonyComplete && (
+                    <div>
+                        <Typography variant="subheading" color="inherit">
+                            Partie : {this.props.for}<br />
+                            Étudiant : {this.props.signed.etudiant.nom + " " + this.props.signed.etudiant.prenom}
+                        </Typography>
+                        <br /> <br />
+                        <Typography variant="subheading" color="inherit">
+                            Le processus de signature a été complété, vous pouvez télécharger votre document dès maintenant.
+                        </Typography>
+                        <Button variant="raised" size="medium" color="primary" style={{float: 'right'}}>
+                                <Save /> Télécharger
+                        </Button>
+                        <div style={{clear: 'both'}} />
+                    </div>
+                )}
             </Paper>
         );
     }
