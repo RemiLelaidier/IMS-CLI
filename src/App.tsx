@@ -10,6 +10,7 @@ import DialogActions from '@material-ui/core/DialogActions/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
 import IconButton from '@material-ui/core/IconButton/IconButton';
+import Input from '@material-ui/core/Input';
 import Menu from '@material-ui/core/Menu/Menu';
 import MenuItem from '@material-ui/core/MenuItem/MenuItem';
 import Slide from '@material-ui/core/Slide/Slide';
@@ -18,7 +19,6 @@ import Typography from '@material-ui/core/Typography/Typography';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { Input } from 'material-ui';
 
 import { AdminPage } from './components/pages/AdminPage';
 import { SignPage } from './components/pages/SignPage';

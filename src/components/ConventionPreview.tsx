@@ -8,6 +8,7 @@ import List from '@material-ui/core/List/List';
 import ListItem from '@material-ui/core/ListItem/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import Slide from '@material-ui/core/Slide/Slide';
 import Switch from '@material-ui/core/Switch/Switch';
 import Tab from '@material-ui/core/Tab/Tab';
@@ -16,7 +17,6 @@ import TextField from '@material-ui/core/TextField/TextField';
 import Toolbar from '@material-ui/core/Toolbar/Toolbar';
 import Typography from '@material-ui/core/Typography/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-import { ListSubheader } from 'material-ui';
 
 // tslint:disable-next-line:no-empty-interface
 interface ConventionPreviewState {

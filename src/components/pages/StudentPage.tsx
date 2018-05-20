@@ -1,14 +1,15 @@
 import axios from 'axios';
 import * as React from 'react';
 
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton/IconButton';
 import Snackbar from '@material-ui/core/Snackbar/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
-import Button from 'material-ui/Button';
 
-import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
-
-import MobileStepper from 'material-ui/MobileStepper';
+import MobileStepper from '@material-ui/core/MobileStepper';
+import Step from '@material-ui/core/Step/Step';
+import StepLabel from '@material-ui/core/StepLabel/StepLabel';
+import Stepper from '@material-ui/core/Stepper';
 import CompanyStep from '../steps/CompanyStep';
 import StudentStep from '../steps/StudentStep';
 
