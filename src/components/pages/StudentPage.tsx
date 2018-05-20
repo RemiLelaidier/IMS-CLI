@@ -25,8 +25,9 @@ export interface FormProps {
     onFieldChange: (any);
 }
 
-// tslint:disable-next-line:no-empty-interface
-interface StudentPageProps { }
+interface StudentPageProps { 
+    onReadyToSign: (any);
+}
 
 interface StudentPageState {
     inError: boolean;
@@ -239,11 +240,13 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
     private async _handleSubmit(event: any) {
         const mut = { snackbar: true, snackText: this.state.snackText };
         try {
-            await axios.post(this.state.apiURL + 'conventions/create', this.state.steps);
+            const create = await axios.post(this.state.apiURL + 'conventions/create', this.state.steps);
             this.setState(mut);
+            this.props.onReadyToSign(true, create.data.data);
         } catch {
             mut.snackText = 'Erreur inconnue, merci de réessayer';
             this.setState(mut);
+            this.props.onReadyToSign(false, null);
         }
 
     }

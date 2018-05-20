@@ -43,6 +43,7 @@ interface AppState {
   tracked: any;
   refresh: any;
   signing: any;
+  signingFor: string | undefined;
   signed: any;
 }
 
@@ -64,7 +65,8 @@ class App extends React.Component<{}, AppState> {
       tracked: null,
       refresh: null,
       signing: false,
-      signed: null
+      signed: null,
+      signingFor: undefined
     }
 
     this._handleClose = this._handleClose.bind(this);
@@ -76,6 +78,7 @@ class App extends React.Component<{}, AppState> {
     this._handleMouseDownPassword = this._handleMouseDownPassword.bind(this);
     this._checkTokenValidity = this._checkTokenValidity.bind(this);
     this._startRefresh = this._startRefresh.bind(this);
+    this._handleReadyToSign = this._handleReadyToSign.bind(this);
   }
 
   public async componentDidMount() {
@@ -183,16 +186,16 @@ class App extends React.Component<{}, AppState> {
           </Toolbar>
         </AppBar>
         {!this.state.tracking && this.state.signing && (
-          <SignPage signed={this.state.signed} for="Entreprise" />
+          <SignPage signed={this.state.signed} for={this.state.signingFor} />
         )}
         {!this.state.signing && this.state.tracking && (
-          <TrackPage tracked={this.state.tracked}/>
+          <TrackPage tracked={this.state.tracked} />
         )}
         {admin && (
           <AdminPage />
         )}
         {!this.state.signing && !this.state.tracking && !admin && (
-          <StudentPage />
+          <StudentPage onReadyToSign={this._handleReadyToSign}/>
         )}
         <Dialog
           open={this.state.login}
@@ -265,6 +268,14 @@ class App extends React.Component<{}, AppState> {
     }
     if (!isValid) {
       this.setState({admin: false, login: true});
+    }
+  }
+
+  private async _handleReadyToSign(isReady: boolean, conventionId: any) {
+    if(isReady){
+      const req = await axios.get(this.state.apiURL + 'conventions/get/' + conventionId);
+      window.location.href = window.location.href + "/signing/" + conventionId;
+      this.setState({signing: true, signingFor: 'Étudiant', signed: req.data.data[0]});
     }
   }
 
