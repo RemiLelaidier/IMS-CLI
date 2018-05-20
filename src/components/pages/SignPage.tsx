@@ -58,7 +58,7 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
     }
 
     public async componentDidMount(){
-        console.log('signing', this.props.signed);
+        this.setState({done: Boolean(this.props.isSigned)})
     }
 
     public render() {
@@ -88,19 +88,19 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                             Étudiant : {this.props.signed.etudiant.nom + " " + this.props.signed.etudiant.prenom}
                         </Typography>
                         <br />                       
-                        {!this.state.done || !Boolean(this.props.isSigned) && (<Typography variant="body1" color="inherit">
+                        {!this.state.done && (<Typography variant="body1" color="inherit">
                             Une fois validée, une preuve de signature contenant les informations de base de la convention vous sera fournie.<br />
                             Vous pourrez télécharger la convention quand elle aura été signée par toutes les parties.<br />
                             Votre signature est supprimée une fois la convention générée.
                         </Typography>)}
-                        {this.state.done || Boolean(this.props.isSigned) && (<Typography variant="body1" color="inherit">
+                        {this.state.done && (<Typography variant="body1" color="inherit">
                             Votre signature a été inscrite, vous pourrez télécharger la convention ici quand toutes les parties auront signé.
                         </Typography>)}
                         <br />
                         <Button onClick={this._handlePreview} variant="raised" color='primary'>Prévisualiser la convention</Button>
                         <Button onClick={this._handleConfirm} variant="raised" color='primary' style={{float: 'right'}} disabled={this.state.done || Boolean(this.props.isSigned)}>Valider la signature</Button>                        
                         <div style={{clear: 'both', marginTop: 10}} />
-                        {!this.state.done || !Boolean(this.props.isSigned) && (
+                        {!this.state.done && (
                             <div style={{float: 'right'}}>
                                 <Typography variant="subheading" color="inherit">
                                     Signez ci-dessous
