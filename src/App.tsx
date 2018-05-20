@@ -103,10 +103,12 @@ class App extends React.Component<{}, AppState> {
         const shortId = lastPart[1];
         signing = true;
         const isValidLink = await axios.get(this.state.apiURL + 'signlinks/short/'+shortId);
-        const conventionId = isValidLink.data.data[0].conventionId;
-        const req = await axios.get(this.state.apiURL + 'conventions/get/'+conventionId);
-        if(isValidLink.data.data.length > 0 && req.data.data.length > 0){
-          this.setState({signed: req.data.data[0], signingFor: isValidLink.data.data[0].for});
+        if(isValidLink.status === 200 && isValidLink.data.data.length > 0){
+          const conventionId = isValidLink.data.data[0].conventionId;
+          const req = await axios.get(this.state.apiURL + 'conventions/get/'+conventionId);
+          if(req.status === 200 && req.data.data.length > 0){
+            this.setState({signed: req.data.data[0], signingFor: isValidLink.data.data[0].for});
+          }
         }
       }
     }
