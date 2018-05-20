@@ -2,6 +2,11 @@ import * as React from 'react';
 import SignaturePad from 'react-signature-pad-wrapper'
 
 import Button from '@material-ui/core/Button/Button';
+import Dialog from '@material-ui/core/Dialog/Dialog';
+import DialogActions from '@material-ui/core/DialogActions/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
 import Paper from '@material-ui/core/Paper/Paper';
 import Typography from '@material-ui/core/Typography/Typography';
 
@@ -11,7 +16,9 @@ interface SignPageState {
     apiURL: string | undefined;
     preview: boolean;
     signing: boolean;
+    confirm: boolean;
     previewTab: number;
+    image: string | undefined;
 }
 
 interface SignPageProps {
@@ -29,13 +36,17 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
             apiURL: process.env.REACT_APP_API,
             preview: false,
             signing: false,
-            previewTab: 0
+            confirm: false,
+            previewTab: 0,
+            image: undefined
         }
 
         this._handlePreview = this._handlePreview.bind(this);
         this._handlePreviewClose = this._handlePreviewClose.bind(this);
         this._handleTableChange = this._handleTableChange.bind(this);
+        this._handleConfirm = this._handleConfirm.bind(this);
         this._handleSign = this._handleSign.bind(this);
+        this._handleClear = this._handleClear.bind(this);
     }
 
     public async componentDidMount(){
@@ -76,14 +87,41 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                         </Typography>
                         <br />
                         <Button onClick={this._handlePreview} variant="raised" color='primary'>Prévisualiser la convention</Button>
-                        <Button onClick={this._handleSign} variant="raised" color='primary' style={{float: 'right'}}>Valider la signature</Button>
-                        <br /> <br />
-                        <Typography variant="subheading" color="inherit">
-                            Signez ci-dessous :
-                        </Typography>
-                        <div style={{border: '1px dashed black'}}>
-                            <SignaturePad ref={(ref: any) => this.signaturePad = ref} />
+                        <Button onClick={this._handleConfirm} variant="raised" color='primary' style={{float: 'right'}}>Valider la signature</Button>                        
+                        <div style={{clear: 'both', marginTop: 10}} />
+                        <div style={{float: 'right'}}>
+                            <Typography variant="subheading" color="inherit">
+                                Signez ci-dessous
+                            </Typography>
+                            <div style={{border: '1px dashed black', width: 350, height: 200}}>
+                                <SignaturePad ref={(ref: any) => this.signaturePad = ref}/>
+                            </div>
+                            <Button onClick={this._handleClear} color='primary' style={{float: 'right'}}>Vider la zone</Button> 
                         </div>
+                        <div style={{clear: 'both'}} />
+                        <Dialog
+                            open={this.state.confirm}
+                            onClose={this._handlePreviewClose}
+                            >
+                            <DialogTitle>
+                                Êtes-vous sûr ?
+                            </DialogTitle>
+                            <DialogContent>
+                                <DialogContentText>
+                                En signant, vous consentez à cette convention de stage.<br /><br />
+                                Prévisualisation : <br />
+                                <img style={{width: 350, height: 200}} src={this.state.image} />
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={this._handlePreviewClose} color="primary">
+                                Annuler
+                                </Button>
+                                <Button onClick={this._handleSign} color="primary">
+                                Continuer
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
                     </div>
                 )}
 
@@ -95,16 +133,24 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
         );
     }
 
+    private _handleConfirm(event: any) {
+        this.setState({image: this.signaturePad.toDataURL(), confirm: true});
+    }
+
+    private _handleClear(event: any) {
+        this.signaturePad.clear();
+    }
+
     private _handleSign(event: any) {
         console.log(this.signaturePad.toDataURL());
     }
 
     private _handlePreview(event: any){
-        this.setState({preview: true});
+        this.setState({preview: true, confirm: false});
     }
 
     private _handlePreviewClose(event: any) {
-        this.setState({preview: false});
+        this.setState({preview: false, confirm: false});
     }
 
     private _handleTableChange(event: any, value: any) {
