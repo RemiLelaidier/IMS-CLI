@@ -23,7 +23,7 @@ interface SignPageState {
 
 interface SignPageProps {
     signed: any;
-    for: string;
+    for: string | undefined;
 }
 
 export class SignPage extends React.Component<SignPageProps, SignPageState> {
