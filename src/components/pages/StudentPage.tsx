@@ -243,7 +243,7 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
         try {
             const create = await axios.post(this.state.apiURL + 'conventions/create', this.state.steps);
             this.setState(mut);
-            this.props.onReadyToSign(true, create.data.data);
+            this.props.onReadyToSign(true, create.data.data, create.data.links[0]);
         } catch {
             mut.snackText = 'Erreur inconnue, merci de réessayer';
             this.setState(mut);
