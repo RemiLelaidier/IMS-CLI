@@ -58,15 +58,21 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                 )}
                 
                 <Typography variant="headline" color="inherit">
-                    Signature de convention<br />
-                    Partie : {this.props.for}
+                    Signature de convention
                 </Typography>
                 <br />
 
                 {this.props.signed && (
                     <div>
                         <Typography variant="subheading" color="inherit">
-                            {this.props.signed.etudiant.nom + " " + this.props.signed.etudiant.prenom}
+                            Partie : {this.props.for}<br />
+                            Étudiant : {this.props.signed.etudiant.nom + " " + this.props.signed.etudiant.prenom}
+                        </Typography>
+                        <br />                       
+                        <Typography variant="body1" color="inherit">
+                            Une fois validée, une preuve de signature contenant les informations de base de la convention vous sera fournie.<br />
+                            Vous pourrez télécharger la convention quand elle aura été signée par toutes les parties.<br />
+                            Votre signature est supprimée une fois la convention générée.
                         </Typography>
                         <br />
                         <Button onClick={this._handlePreview} variant="raised" color='primary'>Prévisualiser la convention</Button>
@@ -75,7 +81,9 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                         <Typography variant="subheading" color="inherit">
                             Signez ci-dessous :
                         </Typography>
-                        <SignaturePad ref={(ref: any) => this.signaturePad = ref} />
+                        <div style={{border: '1px dashed black'}}>
+                            <SignaturePad ref={(ref: any) => this.signaturePad = ref} />
+                        </div>
                     </div>
                 )}
 
