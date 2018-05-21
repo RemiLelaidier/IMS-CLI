@@ -17,6 +17,7 @@ import TextField from '@material-ui/core/TextField/TextField';
 import Toolbar from '@material-ui/core/Toolbar/Toolbar';
 import Typography from '@material-ui/core/Typography/Typography';
 import CloseIcon from '@material-ui/icons/Close';
+import { unCrappify } from '../utils/string';
 
 // tslint:disable-next-line:no-empty-interface
 interface ConventionPreviewState {
@@ -52,7 +53,6 @@ export default class ConventionPreview extends React.Component<ConventionPreview
         this.state = {};
         this._handleCloseAction = this._handleCloseAction.bind(this);
         this._handleTableChange = this._handleTableChange.bind(this);
-        this._handleSwitch = this._handleSwitch.bind(this);
         this._handleGenerate = this._handleGenerate.bind(this);
         this._handleCancel = this._handleCancel.bind(this);
         this._handleDelete = this._handleDelete.bind(this);
@@ -63,6 +63,50 @@ export default class ConventionPreview extends React.Component<ConventionPreview
         if(!this.props.currentRow){
             return (null);
         }
+        const signers = [
+            "Étudiant",
+            "Entreprise",
+            "Université",
+            "Enseignant",
+            "Tuteur"
+        ];
+
+        const signersState = {
+            etudiant: {
+                done: false,
+                link: null
+            },
+            entreprise: {
+                done: false,
+                link: null
+            },
+            universite: {
+                done: false,
+                link: null
+            },
+            enseignant: {
+                done: false,
+                link: null
+            },
+            tuteur: {
+                done: false,
+                link: null
+            }
+        }
+
+        if(this.props.currentRow.signLinks && this.props.currentRow.signLinks.length > 0) {
+            this.props.currentRow.signLinks.map((link: any) => {
+                if(link.isDone) {
+                    if (signers.indexOf(link.for) !== -1) {
+                        signersState[unCrappify(link.for)].link = `${window.location.origin}/link/${link.shortId}`;
+                        signersState[unCrappify(link.for)].done = true;
+                    } else {
+                        console.warn('unknown sign link');
+                    }
+                }
+            });
+        }
+
         return (
                 <Dialog
                     fullScreen={true}
@@ -307,54 +351,50 @@ export default class ConventionPreview extends React.Component<ConventionPreview
                         <Divider />
                     </List>)}
                     <List>
-                        <ListSubheader>Statut {this.props.currentRow.statut.status === 5 && ": Convention annulée"}</ListSubheader>
+                        <ListSubheader>Signatures {this.props.currentRow.statut.status === 5 && ": Convention annulée"}</ListSubheader>
                         <ListItem>
-                            <ListItemText primary="Validée" />
+                            <ListItemText primary="Étudiant" secondary={signersState.etudiant.link}/>
                             <ListItemSecondaryAction>
                                 <Switch id="1"
-                                        onClick={this._handleSwitch}
-                                        checked={this.props.currentRow.statut.status >= 1 ? true : false }
-                                        disabled={!this.props.isAdmin || this.props.currentRow.statut.status > 1 ? true : false } />
+                                        checked={signersState.etudiant.done}
+                                        disabled={true} />
                             </ListItemSecondaryAction>
                         </ListItem>
                         <ListItem>
-                            <ListItemText primary="Envoyée à l'entreprise" />
+                            <ListItemText primary="Entreprise" secondary={signersState.entreprise.link}/>
                             <ListItemSecondaryAction>
                                 <Switch id="2"
-                                        onClick={this._handleSwitch}
-                                        checked={this.props.currentRow.statut.status >= 2 ? true : false } 
-                                        disabled={!this.props.isAdmin || this.props.currentRow.statut.status > 2 ? true : false } />
+                                        checked={signersState.entreprise.done} 
+                                        disabled={true} />
                             </ListItemSecondaryAction>
                         </ListItem>
                         <ListItem>
-                            <ListItemText primary="Signée par l'université" />
+                            <ListItemText primary="Université" secondary={signersState.universite.link}/>
                             <ListItemSecondaryAction>
                                 <Switch id="3"
-                                        onClick={this._handleSwitch}
-                                        checked={this.props.currentRow.statut.status >= 3 ? true : false } 
-                                        disabled={!this.props.isAdmin || this.props.currentRow.statut.status > 3 ? true : false } />
+                                        checked={signersState.universite.done} 
+                                        disabled={true} />
                             </ListItemSecondaryAction>
                         </ListItem>
                         <ListItem>
-                            <ListItemText primary="Terminée" />
+                            <ListItemText primary="Enseignant" secondary={signersState.enseignant.link}/>
                             <ListItemSecondaryAction>
                                 <Switch id="4"
-                                        onClick={this._handleSwitch}
-                                        checked={this.props.currentRow.statut.status >= 4 ? true : false }
-                                        disabled={!this.props.isAdmin || this.props.currentRow.statut.status > 4 ? true : false } />
+                                        checked={signersState.enseignant.done}
+                                        disabled={true} />
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemText primary="Tuteur" secondary={signersState.tuteur.link}/>
+                            <ListItemSecondaryAction>
+                                <Switch id="4"
+                                        checked={signersState.tuteur.done}
+                                        disabled={true} />
                             </ListItemSecondaryAction>
                         </ListItem>
                     </List>
                 </TabContainer>}
             </Dialog>);
-    }
-
-    private _handleSwitch(event: any){
-        let statusIndex = parseInt(event.target.id, 10);
-        if(statusIndex === this.props.currentRow.statut.status) {
-            statusIndex = statusIndex - 1;
-        }
-        this.props.onAction(statusIndex);
     }
 
     private _handleCloseAction(event: any){
@@ -383,4 +423,5 @@ export default class ConventionPreview extends React.Component<ConventionPreview
     private _handleDelete(event: any) {
         this.props.onAction('delete', this.props.currentRow.id);
     }
+
 }

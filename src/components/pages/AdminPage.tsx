@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, TextField  } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper/Paper';
 import Typography from '@material-ui/core/Typography/Typography';
+import { unCrappify } from '../../utils/string';
 import ConventionPreview from '../ConventionPreview';
 
 interface AdminPageState {
@@ -107,7 +108,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                                         <TableCell id={n.rowId}>{n.etudiant}</TableCell>
                                         <TableCell id={n.rowId}>{n.entreprise}</TableCell>
                                         <TableCell id={n.rowId}>{n.type === 'france' ? 'Stage en France' : 'Stage à l\'étranger'}</TableCell>
-                                        <TableCell id={n.rowId}>{n.statut}</TableCell>
+                                        <TableCell id={n.rowId}>{n.signed ? 'Signée' : 'En attente de signatures'}</TableCell>
                                     </TableRow>
                                 );
                             })
@@ -199,8 +200,8 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
         this.setState({previewTab: value});
     }
 
-    private createData(entreprise: string, etudiant: string, statut: string, rowId: string, type: string) {
-        return { entreprise, etudiant, statut, rowId, type };
+    private createData(entreprise: string, etudiant: string, statut: string, rowId: string, type: string, signed: boolean) {
+        return { entreprise, etudiant, statut, rowId, type, signed };
     }
 
     private _handleDialogClose(event: any) {
@@ -289,27 +290,6 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                     return;
             }
         }
-        const state = this.state.statusList.filter((status) => {
-            if(status.status === statusIdOrAction){
-                return status;
-            }
-        });
-        
-        try {
-            const update = await axios.post(this.state.apiURL + 'conventions/update/' + this.state.currentRow.id, {
-                statutId: state[0].id
-            }, { 
-                headers: {
-                    Authorization: this.state.token
-                }
-            });
-
-            if(update.status === 200) {
-                await this._updateCurrentRow();
-            }
-        } catch (error)  {
-            this.setState({snackOpen: true, snackMessage: 'Erreur pendant la mise à jour du statut', snackHorizontal: 'right'});
-        }
     }
 
     private async _updateCurrentRow() {
@@ -334,7 +314,53 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             const conventions = request.data.data;
             const rows: any[] = [];
             conventions.forEach((convention: any, idx: number) => {
-                const row = this.createData(convention.entreprise.nomEntreprise, convention.etudiant.nom, convention.statut.nom, convention.id, convention.type.name);
+                const signers = [
+                    "Étudiant",
+                    "Entreprise",
+                    "Université",
+                    "Enseignant",
+                    "Tuteur"
+                ];
+        
+                const signersState = {
+                    etudiant: {
+                        done: false,
+                        link: null
+                    },
+                    entreprise: {
+                        done: false,
+                        link: null
+                    },
+                    universite: {
+                        done: false,
+                        link: null
+                    },
+                    enseignant: {
+                        done: false,
+                        link: null
+                    },
+                    tuteur: {
+                        done: false,
+                        link: null
+                    }
+                }
+
+                let isDocDone = true;
+                if(convention.signLinks && convention.signLinks.length > 0) {
+                    convention.signLinks.map((link: any) => {
+                        if(link.isDone) {
+                            if (signers.indexOf(link.for) !== -1) {
+                                signersState[unCrappify(link.for)].link = `${window.location.origin}/link/${link.shortId}`;
+                                signersState[unCrappify(link.for)].done = true;
+                            } else {
+                                console.warn('unknown sign link');
+                            }
+                        } else {
+                            isDocDone = false;
+                        }
+                    });
+                }
+                const row = this.createData(convention.entreprise.nomEntreprise, convention.etudiant.nom, convention.statut.nom, convention.id, convention.type.name, isDocDone);
                 rows.push(row);
             });
             this.setState({data:rows, rows: conventions, snackOpen: true, snackMessage: 'Conventions chargées', snackHorizontal: 'right'});
