@@ -185,9 +185,26 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
 
     private async _handleSign(event: any) {
         try {
-            await axios.post(this.state.apiURL + 'signlinks/fill/' + this._getShortId(), {
+            const proof = await axios.post(this.state.apiURL + 'signlinks/fill/' + this._getShortId(), {
                 data: this.signaturePad.toDataURL()
+            },
+            {
+                responseType: 'arraybuffer',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/pdf'
+                }
             });
+            console.log(proof);
+            const url = window.URL.createObjectURL(new Blob([proof.data], {type: 'application/pdf'}));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', this.props.for + '-signature.pdf');
+            document.body.appendChild(link);
+            link.click();
+            window.URL.revokeObjectURL(url);
+            link.remove();
+
             this.setState({confirm: false, snackOpen: true, snackMessage: 'Signé avec succès !', done: true});
             this.props.onSigningDone(this._getShortId());
         } catch (error) {
