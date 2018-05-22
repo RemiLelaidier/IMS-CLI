@@ -81,16 +81,19 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
     }
 
     public render() {
-        const signersState = makeSignersDatasource(this.props.signed);
         const lines = [];
-        // tslint:disable-next-line:forin
-        for (const signer in signersState) {
-            const him = signersState[signer];
-            lines.push({
-                key: signer,
-                crappy: him.crappy,
-                done: him.done
-            });
+
+        if(this.props.signed) {
+            const signersState = makeSignersDatasource(this.props.signed);
+            // tslint:disable-next-line:forin
+            for (const signer in signersState) {
+                const him = signersState[signer];
+                lines.push({
+                    key: signer,
+                    crappy: him.crappy,
+                    done: him.done
+                });
+            }
         }
         
         return (
@@ -289,7 +292,7 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                     'Accept': 'application/pdf'
                 }
             });
-            
+
             downloadBlobData(proof.data, this.props.for + '-signature.pdf');
 
             this.setState({confirm: false, snackOpen: true, snackMessage: 'Signé avec succès !', done: true});
