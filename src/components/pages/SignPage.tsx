@@ -250,7 +250,7 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
             link.click();
             this.setState({snackOpen: true, snackMessage: 'Récupérée avec succès !'});
         } catch (error) {
-            console.warn('error while generate');
+            this.setState({snackOpen: true, snackMessage: 'Erreur pendant la récupération'});
         }
     }
 
@@ -268,7 +268,7 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                     'Accept': 'application/pdf'
                 }
             });
-            // console.log(proof);
+            
             const url = window.URL.createObjectURL(new Blob([proof.data], {type: 'application/pdf'}));
             const link = document.createElement('a');
             link.href = url;
