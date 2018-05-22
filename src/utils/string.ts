@@ -8,3 +8,48 @@ export function unCrappify(forName: string) {
      
     return forName;
 }
+
+export function makeSignersDatasource(row: any) {
+    const signers = [
+        "Étudiant",
+        "Entreprise",
+        "Université",
+        "Enseignant",
+        "Tuteur"
+    ];
+
+    const signersState = {
+        etudiant: {
+            done: false,
+            link: null
+        },
+        entreprise: {
+            done: false,
+            link: null
+        },
+        universite: {
+            done: false,
+            link: null
+        },
+        enseignant: {
+            done: false,
+            link: null
+        },
+        tuteur: {
+            done: false,
+            link: null
+        }
+    }
+
+    if(row.signLinks && row.signLinks.length > 0) {
+        row.signLinks.map((link: any) => {
+            signersState[unCrappify(link.for)].done = link.isDone ? true : false;
+
+            if (signers.indexOf(link.for) !== -1) {
+                signersState[unCrappify(link.for)].link = `${window.location.origin}/link/${link.shortId}`;
+            }
+        });
+    }
+
+    return signersState;
+}

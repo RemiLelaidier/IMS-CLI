@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, TextField  } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper/Paper';
 import Typography from '@material-ui/core/Typography/Typography';
-import { unCrappify } from '../../utils/string';
+import { makeSignersDatasource } from '../../utils/string';
 import ConventionPreview from '../ConventionPreview';
 
 interface AdminPageState {
@@ -314,51 +314,13 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             const conventions = request.data.data;
             const rows: any[] = [];
             conventions.forEach((convention: any, idx: number) => {
-                const signers = [
-                    "Étudiant",
-                    "Entreprise",
-                    "Université",
-                    "Enseignant",
-                    "Tuteur"
-                ];
-        
-                const signersState = {
-                    etudiant: {
-                        done: false,
-                        link: null
-                    },
-                    entreprise: {
-                        done: false,
-                        link: null
-                    },
-                    universite: {
-                        done: false,
-                        link: null
-                    },
-                    enseignant: {
-                        done: false,
-                        link: null
-                    },
-                    tuteur: {
-                        done: false,
-                        link: null
-                    }
-                }
-
+                
+                const signersState = makeSignersDatasource(convention);
                 let isDocDone = true;
-                if(convention.signLinks && convention.signLinks.length > 0) {
-                    convention.signLinks.map((link: any) => {
-                        if(link.isDone) {
-                            if (signers.indexOf(link.for) !== -1) {
-                                signersState[unCrappify(link.for)].link = `${window.location.origin}/link/${link.shortId}`;
-                                signersState[unCrappify(link.for)].done = true;
-                            } else {
-                                console.warn('unknown sign link');
-                            }
-                        } else {
-                            isDocDone = false;
-                        }
-                    });
+                for (const signer in signersState) {
+                    if(!signersState[signer].done) {
+                        isDocDone = false;
+                    }
                 }
                 const row = this.createData(convention.entreprise.nomEntreprise, convention.etudiant.nom, convention.statut.nom, convention.id, convention.type.name, isDocDone);
                 rows.push(row);

@@ -17,7 +17,7 @@ import TextField from '@material-ui/core/TextField/TextField';
 import Toolbar from '@material-ui/core/Toolbar/Toolbar';
 import Typography from '@material-ui/core/Typography/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-import { unCrappify } from '../utils/string';
+import { makeSignersDatasource } from '../utils/string';
 
 // tslint:disable-next-line:no-empty-interface
 interface ConventionPreviewState {
@@ -63,46 +63,8 @@ export default class ConventionPreview extends React.Component<ConventionPreview
         if(!this.props.currentRow){
             return (null);
         }
-        const signers = [
-            "Étudiant",
-            "Entreprise",
-            "Université",
-            "Enseignant",
-            "Tuteur"
-        ];
 
-        const signersState = {
-            etudiant: {
-                done: false,
-                link: null
-            },
-            entreprise: {
-                done: false,
-                link: null
-            },
-            universite: {
-                done: false,
-                link: null
-            },
-            enseignant: {
-                done: false,
-                link: null
-            },
-            tuteur: {
-                done: false,
-                link: null
-            }
-        }
-
-        if(this.props.currentRow.signLinks && this.props.currentRow.signLinks.length > 0) {
-            this.props.currentRow.signLinks.map((link: any) => {
-                signersState[unCrappify(link.for)].done = link.isDone ? true : false;
-
-                if (signers.indexOf(link.for) !== -1) {
-                    signersState[unCrappify(link.for)].link = `${window.location.origin}/link/${link.shortId}`;
-                }
-            });
-        }
+        const signersState = makeSignersDatasource(this.props.currentRow);
 
         return (
                 <Dialog
