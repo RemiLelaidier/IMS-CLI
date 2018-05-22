@@ -8,7 +8,6 @@ import DialogActions from '@material-ui/core/DialogActions/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
-import Divider from '@material-ui/core/Divider/Divider';
 import FormControl from '@material-ui/core/FormControl/FormControl';
 import Input from '@material-ui/core/Input/Input';
 import InputLabel from '@material-ui/core/InputLabel/InputLabel';
@@ -151,15 +150,12 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                                 <Button onClick={this._handleClear} color='primary' style={{float: 'right'}}>Vider la zone</Button> 
                             </div>
                         )}
-                        <Divider /><br /> 
+                        <br /> 
                         <Typography variant="subheading" color="inherit">
                             Statut des parties : <br />
                             <ul>
                                 {lines.map((line: any, idx: number) => {
-                                    if (line.crappy === this.props.for) {
-                                        return ;
-                                    }
-                                    return <li key={idx}>{line.crappy} {line.done ? 'a signé' : 'n\'a pas signé'}</li>;
+                                    return <li key={idx}>{line.crappy} {line.done ? 'signée' : 'en attente'}</li>;
                                 })}
                             </ul>
                         </Typography>

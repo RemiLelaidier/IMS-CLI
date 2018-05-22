@@ -46,8 +46,10 @@ export function makeSignersDatasource(row: any) {
             const uncrappy = unCrappify(link.for);
             signersState[uncrappy].done = link.isDone ? true : false;
             signersState[uncrappy].crappy = link.for;
+            signersState[uncrappy].name = link.name;
+            signersState[uncrappy].location = link.location;
             if (signers.indexOf(link.for) !== -1) {
-                signersState[unCrappify(link.for)].link = `${window.location.origin}/link/${link.shortId}`;
+                signersState[uncrappy].link = `${window.location.origin}/link/${link.shortId}`;
             }
         });
     }

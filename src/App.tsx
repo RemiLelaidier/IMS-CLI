@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as jsrassign from 'jsrsasign';
 import * as React from 'react';
 
-import { FormControl, InputAdornment, InputLabel } from '@material-ui/core';
+import { CircularProgress, FormControl, InputAdornment, InputLabel } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar/AppBar';
 import Button from '@material-ui/core/Button/Button';
 import Dialog from '@material-ui/core/Dialog/Dialog';
@@ -47,6 +47,7 @@ interface AppState {
   signed: any;
   isAlreadySigned: boolean;
   isCeremonyComplete: boolean;
+  loading: boolean;
 }
 
 class App extends React.Component<{}, AppState> {
@@ -70,7 +71,8 @@ class App extends React.Component<{}, AppState> {
       signed: null,
       signingFor: undefined,
       isAlreadySigned: false,
-      isCeremonyComplete: false
+      isCeremonyComplete: false,
+      loading: false
     }
 
     this._handleClose = this._handleClose.bind(this);
@@ -93,11 +95,13 @@ class App extends React.Component<{}, AppState> {
     let signing = this.state.signing;
 
     if (currentURL.indexOf('/link/') !== -1) {
+      this.setState({loading: true});
       const lastPart = currentURL.match(/([^\/]*)\/*$/);
       if(lastPart){
         const shortId = lastPart[1];
         signing = true;
         await this._loadShortURL(shortId);
+        this.setState({loading: false});
       }
     }
 
@@ -238,6 +242,22 @@ class App extends React.Component<{}, AppState> {
               Connexion
               </Button>
           </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.loading}
+          TransitionComponent={this.Transition}
+          keepMounted={true}
+          onClose={this._handleClose}
+        >
+          <DialogTitle id="alert-dialog-slide-title">
+            Chargement du lien
+          </DialogTitle>
+          <br />
+          <DialogContent style={{textAlign: 'center'}}>
+            <CircularProgress
+              variant="indeterminate"
+            />
+          </DialogContent>
         </Dialog>
       </div>
     );
