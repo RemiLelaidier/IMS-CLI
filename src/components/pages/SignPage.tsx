@@ -156,6 +156,9 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                             Statut des parties : <br />
                             <ul>
                                 {lines.map((line: any, idx: number) => {
+                                    if (line.crappy === this.props.for) {
+                                        return ;
+                                    }
                                     return <li key={idx}>{line.crappy} {line.done ? 'a signé' : 'n\'a pas signé'}</li>;
                                 })}
                             </ul>
