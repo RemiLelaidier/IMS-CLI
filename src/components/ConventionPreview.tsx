@@ -17,7 +17,7 @@ import TextField from '@material-ui/core/TextField/TextField';
 import Toolbar from '@material-ui/core/Toolbar/Toolbar';
 import Typography from '@material-ui/core/Typography/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-import { makeSignersDatasource } from '../utils/string';
+import { makeSignersDatasource } from '../utils/signing';
 
 // tslint:disable-next-line:no-empty-interface
 interface ConventionPreviewState {

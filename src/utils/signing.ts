@@ -9,6 +9,17 @@ export function unCrappify(forName: string) {
     return forName;
 }
 
+export function downloadBlobData(blob: any, filename: string, contentType: string = 'application/pdf') {
+    const url = window.URL.createObjectURL(new Blob([blob], {type: contentType}));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    window.URL.revokeObjectURL(url);
+    link.remove();
+}
+
 export function makeSignersDatasource(row: any) {
     const signers = [
         "Étudiant",

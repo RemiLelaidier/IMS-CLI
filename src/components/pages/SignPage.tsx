@@ -18,7 +18,7 @@ import Save from '@material-ui/icons/Save';
 
 import ConventionPreview from '../ConventionPreview';
 
-import { makeSignersDatasource } from '../../utils/string';
+import { downloadBlobData, makeSignersDatasource } from '../../utils/signing';
 
 interface SignPageState {
     apiURL: string | undefined;
@@ -265,12 +265,9 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
             const generate = await axios.post(this.state.apiURL + 'conventions/generate/' + this.props.signed.id, null, { 
                 responseType: 'blob'
             });
-            const url = window.URL.createObjectURL(new Blob([generate.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'convention-' + this.props.signed.id + '.pdf');
-            document.body.appendChild(link);
-            link.click();
+            
+            downloadBlobData(generate.data, 'convention-' + this.props.signed.id + '.pdf');
+            
             this.setState({snackOpen: true, snackMessage: 'Récupérée avec succès !'});
         } catch (error) {
             this.setState({snackOpen: true, snackMessage: 'Erreur pendant la récupération'});
@@ -292,15 +289,8 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                     'Accept': 'application/pdf'
                 }
             });
-
-            const url = window.URL.createObjectURL(new Blob([proof.data], {type: 'application/pdf'}));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', this.props.for + '-signature.pdf');
-            document.body.appendChild(link);
-            link.click();
-            window.URL.revokeObjectURL(url);
-            link.remove();
+            
+            downloadBlobData(proof.data, this.props.for + '-signature.pdf');
 
             this.setState({confirm: false, snackOpen: true, snackMessage: 'Signé avec succès !', done: true});
             this.props.onSigningDone(this._getShortId());

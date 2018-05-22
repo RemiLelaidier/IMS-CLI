@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, TextField  } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper/Paper';
 import Typography from '@material-ui/core/Typography/Typography';
-import { makeSignersDatasource } from '../../utils/string';
+import { downloadBlobData, makeSignersDatasource } from '../../utils/signing';
 import ConventionPreview from '../ConventionPreview';
 
 interface AdminPageState {
@@ -220,13 +220,9 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                             },
                             responseType: 'blob'
                         });
+                        downloadBlobData(generate.data, this.state.currentRow.etudiant.nom + '-convention.pdf');
+
                         this.setState({snackOpen: true, snackMessage: 'Convention générée avec succès', snackHorizontal: 'right'});
-                        const url = window.URL.createObjectURL(new Blob([generate.data]));
-                        const link = document.createElement('a');
-                        link.href = url;
-                        link.setAttribute('download', this.state.currentRow.etudiant.nom + '-convention.pdf');
-                        document.body.appendChild(link);
-                        link.click();
                     } catch (error) {
                         this.setState({snackOpen: true, snackMessage: 'Erreur pendant la génération', snackHorizontal: 'right'});
                     }
