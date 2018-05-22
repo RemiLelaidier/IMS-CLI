@@ -8,6 +8,9 @@ import DialogActions from '@material-ui/core/DialogActions/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
+import FormControl from '@material-ui/core/FormControl/FormControl';
+import Input from '@material-ui/core/Input/Input';
+import InputLabel from '@material-ui/core/InputLabel/InputLabel';
 import Paper from '@material-ui/core/Paper/Paper';
 import Typography from '@material-ui/core/Typography/Typography';
 import Save from '@material-ui/icons/Save';
@@ -24,6 +27,8 @@ interface SignPageState {
     snackOpen: boolean;
     snackMessage: string;
     done: boolean;
+    currentCity: string;
+    currentSignatory: string;
 }
 
 interface SignPageProps {
@@ -49,13 +54,16 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
             done: false,
             snackMessage: '',
             previewTab: 0,
-            image: undefined
+            image: undefined,
+            currentCity: '',
+            currentSignatory: ''
         }
 
         this._handlePreview = this._handlePreview.bind(this);
         this._handlePreviewClose = this._handlePreviewClose.bind(this);
         this._handleTableChange = this._handleTableChange.bind(this);
         this._handleConfirm = this._handleConfirm.bind(this);
+        this._handleConfirmChange = this._handleConfirmChange.bind(this);
         this._handleSign = this._handleSign.bind(this);
         this._handleClear = this._handleClear.bind(this);
     }
@@ -133,17 +141,34 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                             </DialogTitle>
                             <DialogContent>
                                 <DialogContentText>
-                                En signant, vous consentez à cette convention de stage.<br /><br />
-                                Prévisualisation : <br />
-                                <img style={{width: 350, height: 200}} src={this.state.image} />
+                                    <FormControl required={true} error={false}>
+                                        <InputLabel htmlFor="currentSignatory">Nom complet</InputLabel>
+                                        <Input
+                                            id="currentSignatory"
+                                            value={this.state.currentSignatory}
+                                            onChange={this._handleConfirmChange}
+                                        />
+                                    </FormControl>
+                                    <FormControl required={true} error={false}>
+                                        <InputLabel htmlFor="currentCity">Ville actuelle</InputLabel>
+                                        <Input
+                                            id="currentCity"
+                                            value={this.state.currentCity}
+                                            onChange={this._handleConfirmChange}
+                                        />
+                                    </FormControl>
+                                    <br />
+                                    En signant, vous consentez à cette convention de stage.<br /><br />
+                                    Prévisualisation : <br />
+                                    <img style={{width: 350, height: 200}} src={this.state.image} />
                                 </DialogContentText>
                             </DialogContent>
                             <DialogActions>
                                 <Button onClick={this._handlePreviewClose} color="primary">
-                                Annuler
+                                    Annuler
                                 </Button>
                                 <Button onClick={this._handleSign} color="primary">
-                                Continuer
+                                    Signer
                                 </Button>
                             </DialogActions>
                         </Dialog>
@@ -179,6 +204,10 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
         this.setState({image: this.signaturePad.toDataURL(), confirm: true});
     }
 
+    private _handleConfirmChange(event: any) {
+        this.setState({[event.target.id]: event.target.value});
+    }
+
     private _handleClear(event: any) {
         this.signaturePad.clear();
     }
@@ -186,6 +215,8 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
     private async _handleSign(event: any) {
         try {
             const proof = await axios.post(this.state.apiURL + 'signlinks/fill/' + this._getShortId(), {
+                name: this.state.currentSignatory,
+                location: this.state.currentCity,
                 data: this.signaturePad.toDataURL()
             },
             {
@@ -195,7 +226,7 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                     'Accept': 'application/pdf'
                 }
             });
-            console.log(proof);
+            // console.log(proof);
             const url = window.URL.createObjectURL(new Blob([proof.data], {type: 'application/pdf'}));
             const link = document.createElement('a');
             link.href = url;
