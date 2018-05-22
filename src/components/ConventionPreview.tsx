@@ -84,12 +84,12 @@ export default class ConventionPreview extends React.Component<ConventionPreview
                     </Toolbar>
                 </AppBar>
                 <Tabs value={this.props.activeTab} onChange={this._handleTableChange}>
-                    <Tab label="Étudiant" />
-                    <Tab label="Stage" />
-                    <Tab label="Responsables" />
-                    <Tab label="Entreprise" />
-                    {this.props.currentRow.extras && <Tab label="Extras" />}
-                    {this.props.isAdmin && <Tab label="Gestion" />}
+                    <Tab label="Étudiant" tabIndex={0} />
+                    <Tab label="Stage" tabIndex={1}/>
+                    <Tab label="Responsables" tabIndex={2} />
+                    <Tab label="Entreprise" tabIndex={3} />
+                    <Tab label="Extras" tabIndex={4} />
+                    {this.props.isAdmin && <Tab label="Gestion" tabIndex={5} />}
                 </Tabs>
 
                 {this.props.activeTab === 0 && 
@@ -274,11 +274,11 @@ export default class ConventionPreview extends React.Component<ConventionPreview
                     </List>
                 </TabContainer>
                 }
-                {this.props.currentRow.extras && this.props.activeTab === 4 && 
+                {this.props.activeTab === 4 && 
                 <TabContainer>
                     <List>
                         <ListItem>
-                            <ListItemText primary="Informations supplémentaires" secondary={this.props.currentRow.extras.complementaires} />
+                            <ListItemText primary="Informations supplémentaires" secondary={this.props.currentRow.extras ? this.props.currentRow.extras.complementaires : ''} />
                         </ListItem>
                         <Divider />
                     </List>
