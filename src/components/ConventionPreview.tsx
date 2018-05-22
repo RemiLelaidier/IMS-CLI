@@ -96,13 +96,10 @@ export default class ConventionPreview extends React.Component<ConventionPreview
 
         if(this.props.currentRow.signLinks && this.props.currentRow.signLinks.length > 0) {
             this.props.currentRow.signLinks.map((link: any) => {
-                if(link.isDone) {
-                    if (signers.indexOf(link.for) !== -1) {
-                        signersState[unCrappify(link.for)].link = `${window.location.origin}/link/${link.shortId}`;
-                        signersState[unCrappify(link.for)].done = true;
-                    } else {
-                        console.warn('unknown sign link');
-                    }
+                signersState[unCrappify(link.for)].done = link.isDone ? true : false;
+
+                if (signers.indexOf(link.for) !== -1) {
+                    signersState[unCrappify(link.for)].link = `${window.location.origin}/link/${link.shortId}`;
                 }
             });
         }
