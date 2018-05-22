@@ -66,6 +66,7 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
         this._handleConfirmChange = this._handleConfirmChange.bind(this);
         this._handleSign = this._handleSign.bind(this);
         this._handleClear = this._handleClear.bind(this);
+        this._downloadConvention = this._downloadConvention.bind(this);
     }
 
     public async componentDidMount(){
@@ -190,7 +191,7 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                         <Typography variant="subheading" color="inherit">
                             Le processus de signature a été complété, vous pouvez télécharger votre document dès maintenant.
                         </Typography>
-                        <Button variant="raised" size="medium" color="primary" style={{float: 'right'}}>
+                        <Button variant="raised" size="medium" color="primary" style={{float: 'right'}} onClick={this._downloadConvention}>
                                 <Save /> Télécharger
                         </Button>
                         <div style={{clear: 'both'}} />
@@ -210,6 +211,22 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
 
     private _handleClear(event: any) {
         this.signaturePad.clear();
+    }
+
+    private async _downloadConvention(event: any) {
+        try {
+            const generate = await axios.post(this.state.apiURL + 'conventions/generate/' + this.props.signed.id, null, { 
+                responseType: 'blob'
+            });
+            const url = window.URL.createObjectURL(new Blob([generate.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'convention-' + this.props.signed.id + '.pdf');
+            document.body.appendChild(link);
+            link.click();
+        } catch (error) {
+            console.warn('error while generate');
+        }
     }
 
     private async _handleSign(event: any) {
