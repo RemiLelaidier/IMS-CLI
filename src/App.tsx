@@ -220,6 +220,7 @@ class App extends React.Component<{}, AppState> {
                 id="password"
                 type={this.state.showPassword ? 'text' : 'password'}
                 onChange={this._handleLoginChange}
+                onKeyUp={this._handleLoginChange}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -317,6 +318,9 @@ class App extends React.Component<{}, AppState> {
   }
 
   private _handleLoginChange(event: any) {
+    if(event.keyCode === 13) {
+      this._handleConnect(event);
+    }
     this.setState({ [event.target.id]: event.target.value });
   }
 
