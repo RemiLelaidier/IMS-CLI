@@ -169,24 +169,24 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                                 Êtes-vous sûr ?
                             </DialogTitle>
                             <DialogContent>
+                            <FormControl required={true} error={false}>
+                                    <InputLabel htmlFor="currentSignatory">Nom complet</InputLabel>
+                                    <Input
+                                        id="currentSignatory"
+                                        value={this.state.currentSignatory}
+                                        onChange={this._handleConfirmChange}
+                                    />
+                                </FormControl>
+                                <FormControl required={true} error={false}>
+                                    <InputLabel htmlFor="currentCity">Ville actuelle</InputLabel>
+                                    <Input
+                                        id="currentCity"
+                                        value={this.state.currentCity}
+                                        onChange={this._handleConfirmChange}
+                                    />
+                                </FormControl>
+                                <br />
                                 <DialogContentText>
-                                    <FormControl required={true} error={false}>
-                                        <InputLabel htmlFor="currentSignatory">Nom complet</InputLabel>
-                                        <Input
-                                            id="currentSignatory"
-                                            value={this.state.currentSignatory}
-                                            onChange={this._handleConfirmChange}
-                                        />
-                                    </FormControl>
-                                    <FormControl required={true} error={false}>
-                                        <InputLabel htmlFor="currentCity">Ville actuelle</InputLabel>
-                                        <Input
-                                            id="currentCity"
-                                            value={this.state.currentCity}
-                                            onChange={this._handleConfirmChange}
-                                        />
-                                    </FormControl>
-                                    <br />
                                     En signant, vous consentez à cette convention de stage.<br /><br />
                                     Prévisualisation : <br />
                                     <img style={{width: 350, height: 200}} src={this.state.image} />
