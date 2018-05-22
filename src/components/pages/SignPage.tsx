@@ -12,6 +12,7 @@ import FormControl from '@material-ui/core/FormControl/FormControl';
 import Input from '@material-ui/core/Input/Input';
 import InputLabel from '@material-ui/core/InputLabel/InputLabel';
 import Paper from '@material-ui/core/Paper/Paper';
+import Snackbar, { SnackBarOrigin } from '@material-ui/core/Snackbar/Snackbar';
 import Typography from '@material-ui/core/Typography/Typography';
 import Save from '@material-ui/icons/Save';
 
@@ -24,11 +25,12 @@ interface SignPageState {
     confirm: boolean;
     previewTab: number;
     image: string | undefined;
-    snackOpen: boolean;
-    snackMessage: string;
     done: boolean;
     currentCity: string;
     currentSignatory: string;
+    snackHorizontal: SnackBarOrigin["horizontal"] | undefined;
+    snackOpen: boolean;
+    snackMessage: string;
 }
 
 interface SignPageProps {
@@ -50,13 +52,15 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
             preview: false,
             signing: false,
             confirm: false,
-            snackOpen: false,
             done: false,
-            snackMessage: '',
             previewTab: 0,
             image: undefined,
             currentCity: '',
-            currentSignatory: ''
+            currentSignatory: '',
+            snackOpen: false,
+            // tslint:disable-next-line:no-bitwise
+            snackHorizontal: 'right',
+            snackMessage: ''
         }
 
         this._handlePreview = this._handlePreview.bind(this);
@@ -66,6 +70,7 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
         this._handleConfirmChange = this._handleConfirmChange.bind(this);
         this._handleSign = this._handleSign.bind(this);
         this._handleClear = this._handleClear.bind(this);
+        this._handleSnackClose = this._handleSnackClose.bind(this);
         this._downloadConvention = this._downloadConvention.bind(this);
     }
 
@@ -197,8 +202,25 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                         <div style={{clear: 'both'}} />
                     </div>
                 )}
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: this.state.snackHorizontal,
+                    }}
+                    open={this.state.snackOpen}
+                    autoHideDuration={6000}
+                    onClose={this._handleSnackClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">{this.state.snackMessage}</span>}
+                />
             </Paper>
         );
+    }
+
+    private _handleSnackClose(event: any) {
+        this.setState({snackOpen: false});
     }
 
     private _handleConfirm(event: any) {
@@ -215,6 +237,8 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
 
     private async _downloadConvention(event: any) {
         try {
+            this.setState({snackOpen: true, snackMessage: 'Récupération en cours'});
+
             const generate = await axios.post(this.state.apiURL + 'conventions/generate/' + this.props.signed.id, null, { 
                 responseType: 'blob'
             });
@@ -224,6 +248,7 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
             link.setAttribute('download', 'convention-' + this.props.signed.id + '.pdf');
             document.body.appendChild(link);
             link.click();
+            this.setState({snackOpen: true, snackMessage: 'Récupérée avec succès !'});
         } catch (error) {
             console.warn('error while generate');
         }
