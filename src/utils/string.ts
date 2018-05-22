@@ -43,8 +43,9 @@ export function makeSignersDatasource(row: any) {
 
     if(row.signLinks && row.signLinks.length > 0) {
         row.signLinks.map((link: any) => {
-            signersState[unCrappify(link.for)].done = link.isDone ? true : false;
-
+            const uncrappy = unCrappify(link.for);
+            signersState[uncrappy].done = link.isDone ? true : false;
+            signersState[uncrappy].crappy = link.for;
             if (signers.indexOf(link.for) !== -1) {
                 signersState[unCrappify(link.for)].link = `${window.location.origin}/link/${link.shortId}`;
             }

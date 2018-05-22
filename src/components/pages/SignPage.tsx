@@ -8,6 +8,7 @@ import DialogActions from '@material-ui/core/DialogActions/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
+import Divider from '@material-ui/core/Divider/Divider';
 import FormControl from '@material-ui/core/FormControl/FormControl';
 import Input from '@material-ui/core/Input/Input';
 import InputLabel from '@material-ui/core/InputLabel/InputLabel';
@@ -17,6 +18,8 @@ import Typography from '@material-ui/core/Typography/Typography';
 import Save from '@material-ui/icons/Save';
 
 import ConventionPreview from '../ConventionPreview';
+
+import { makeSignersDatasource } from '../../utils/string';
 
 interface SignPageState {
     apiURL: string | undefined;
@@ -79,6 +82,18 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
     }
 
     public render() {
+        const signersState = makeSignersDatasource(this.props.signed);
+        const lines = [];
+        // tslint:disable-next-line:forin
+        for (const signer in signersState) {
+            const him = signersState[signer];
+            lines.push({
+                key: signer,
+                crappy: him.crappy,
+                done: him.done
+            });
+        }
+        
         return (
             <Paper style={{ margin: 10, padding: 10 }}>
                 {this.props.signed && (
@@ -110,7 +125,7 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                     <div>
                         <Typography variant="subheading" color="inherit">
                             Partie : {this.props.for}<br />
-                            Étudiant : {this.props.signed.etudiant.nom + " " + this.props.signed.etudiant.prenom}
+                            Étudiant : {this.props.signed.etudiant.nom + " " + this.props.signed.etudiant.prenom}<br />
                         </Typography>
                         <br />                       
                         {!this.state.done && (<Typography variant="body1" color="inherit">
@@ -136,6 +151,15 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                                 <Button onClick={this._handleClear} color='primary' style={{float: 'right'}}>Vider la zone</Button> 
                             </div>
                         )}
+                        <Divider /><br /> 
+                        <Typography variant="subheading" color="inherit">
+                            Statut des parties : <br />
+                            <ul>
+                                {lines.map((line: any, idx: number) => {
+                                    return <li key={idx}>{line.crappy} {line.done ? 'a signé' : 'n\'a pas signé'}</li>;
+                                })}
+                            </ul>
+                        </Typography>
                         
                         <div style={{clear: 'both'}} />
                         <Dialog
@@ -268,7 +292,7 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
                     'Accept': 'application/pdf'
                 }
             });
-            
+
             const url = window.URL.createObjectURL(new Blob([proof.data], {type: 'application/pdf'}));
             const link = document.createElement('a');
             link.href = url;
