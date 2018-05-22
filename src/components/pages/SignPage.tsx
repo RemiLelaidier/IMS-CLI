@@ -279,6 +279,7 @@ export class SignPage extends React.Component<SignPageProps, SignPageState> {
 
     private async _handleSign(event: any) {
         try {
+            this.setState({confirm: false, snackOpen: true, snackMessage: 'Signature en cours', done: true});
             const proof = await axios.post(this.state.apiURL + 'signlinks/fill/' + this._getShortId(), {
                 name: this.state.currentSignatory,
                 location: this.state.currentCity,
