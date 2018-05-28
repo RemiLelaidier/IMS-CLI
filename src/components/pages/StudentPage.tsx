@@ -43,7 +43,7 @@ interface StudentPageState {
 
 const stepCount = 6;
 // @Tool : put validationActivated to false to bypass validation logic
-const validationActivated = true;
+const validationActivated = false;
 
 export class StudentPage extends React.Component<StudentPageProps, StudentPageState> {
     private _handleNext: (any);
@@ -254,8 +254,8 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
             const create = await axios.post(this.state.apiURL + 'conventions/create', this.state.steps);
             this.setState(mut);
             this.props.onReadyToSign(true, create.data.data, create.data.links[0].shortId);
-        } catch {
-            mut.snackText = 'Erreur inconnue, merci de réessayer';
+        } catch (error) {
+            mut.snackText = 'Une erreur inconnue s\'est produite. Merci de réessayer dans quelques minutes !';
             this.setState(mut);
             this.props.onReadyToSign(false, null);
         }

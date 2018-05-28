@@ -212,7 +212,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
         if(rowId) {
             switch(statusIdOrAction){
                 case 'generate':
-                    this.setState({snackOpen: true, snackMessage: 'Génération en cours', snackHorizontal: 'right'});
+                    this.setState({snackOpen: true, snackMessage: 'Génération de votre convention en cours...', snackHorizontal: 'right'});
                     try {
                         const generate = await axios.post(this.state.apiURL + 'conventions/generate/' + this.state.currentRow.id, null, { 
                             headers: {
@@ -222,14 +222,14 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                         });
                         downloadBlobData(generate.data, this.state.currentRow.etudiant.nom + '-convention.pdf');
 
-                        this.setState({snackOpen: true, snackMessage: 'Convention générée avec succès', snackHorizontal: 'right'});
+                        this.setState({snackOpen: true, snackMessage: 'Convention générée avec succès !', snackHorizontal: 'right'});
                     } catch (error) {
-                        this.setState({snackOpen: true, snackMessage: 'Erreur pendant la génération', snackHorizontal: 'right'});
+                        this.setState({snackOpen: true, snackMessage: 'Une erreur est survenue pendant la génération de votre convention. Merci de réessayer dans quelques minutes !', snackHorizontal: 'right'});
                     }
 
                     return;
                 case 'cancel':
-                    this.setState({snackOpen: true, snackMessage: 'Annulation de la convention', snackHorizontal: 'right'});
+                    this.setState({snackOpen: true, snackMessage: 'Annulation de cette convention en cours...', snackHorizontal: 'right'});
                     const cancelled = this.state.statusList.filter((status: any) => {
                         if(status.status === 5){
                             return true;
@@ -245,12 +245,12 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                             }
                         });
                     } catch (error) {
-                        this.setState({snackOpen: true, snackMessage: 'Erreur pendant l\'annulation', snackHorizontal: 'right'});
+                        this.setState({snackOpen: true, snackMessage: 'Une erreur est survenue pendant l\'annulation de cette convention. Merci de réessayer dans quelques minutes !', snackHorizontal: 'right'});
                     }
                     await this._updateCurrentRow();
                     return;
                 case 'enable':
-                    this.setState({snackOpen: true, snackMessage: 'Activation de la convention', snackHorizontal: 'right'});
+                    this.setState({snackOpen: true, snackMessage: 'Activation de votre convention en cours...', snackHorizontal: 'right'});
                     const enabled = this.state.statusList.filter((status: any) => {
                         if(status.status === 0){
                             return true;
@@ -266,7 +266,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                             }
                         });
                     } catch (error) {
-                        this.setState({snackOpen: true, snackMessage: 'Erreur pendant l\'activation', snackHorizontal: 'right'});
+                        this.setState({snackOpen: true, snackMessage: 'Une erreur est survenue pendant l\'annulation de votre convention. Merci de réessayer dans quelques minutes !', snackHorizontal: 'right'});
                     }
                     await this._updateCurrentRow();
                     return;
@@ -279,9 +279,9 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
                         });
                         this.setState({preview: false});
                         await this._loadConventions();
-                        this.setState({snackOpen: true, snackMessage: 'Convention supprimée', snackHorizontal: 'right'});
+                        this.setState({snackOpen: true, snackMessage: 'Convention supprimée avec succès !', snackHorizontal: 'right'});
                     } catch (error) {
-                        this.setState({snackOpen: true, snackMessage: 'Erreur pendant la suppression', snackHorizontal: 'right'});
+                        this.setState({snackOpen: true, snackMessage: 'Une erreur est survenue pendant la suppression de cette convention. Merci de réessayer dans quelques minutes !', snackHorizontal: 'right'});
                     }
                     return;
             }
@@ -296,7 +296,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             }
             return false;
         })
-        this.setState({currentRow: updatedRow, snackOpen: true, snackMessage: 'Convention mise à jour', snackHorizontal: 'right'});
+        this.setState({currentRow: updatedRow, snackOpen: true, snackMessage: 'Convention mise à jour avec succès !', snackHorizontal: 'right'});
     } 
 
     private async _loadConventions(){
@@ -323,7 +323,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
             });
             this.setState({data:rows, rows: conventions, snackOpen: true, snackMessage: 'Conventions chargées', snackHorizontal: 'right'});
         } else {
-            this.setState({snackOpen: true, snackMessage: 'Erreur pendant le chargement des conventions', snackHorizontal: 'right'});
+            this.setState({snackOpen: true, snackMessage: 'Une erreur est survenue pendant le chargement de vos conventions. Merci de réessayer dans quelques minutes !', snackHorizontal: 'right'});
         }
     }
 
@@ -332,7 +332,7 @@ export class AdminPage extends React.Component<AdminPageProps, AdminPageState> {
         if(statusList.status === 200){
             this.setState({statusList: statusList.data.data});
         } else {
-            this.setState({snackOpen: true, snackMessage: 'Erreur de chargement', snackHorizontal: 'right'});
+            this.setState({snackOpen: true, snackMessage: 'Une erreur de chargement est survenue. Merci de réessayer dans quelques minutes !', snackHorizontal: 'right'});
         }
     }
 }
