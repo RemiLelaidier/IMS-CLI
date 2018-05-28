@@ -37,14 +37,30 @@ export default class RecapStep extends React.Component<RecapProps, RecapState> {
             recapTab: 0,
             recapFields: null
         }
-        this.schema = recapSchema;
 
         this._handleChange = _handleField.bind(this);
         this._handleRecap = this._handleRecap.bind(this);
         this._handleTableChange = this._handleTableChange.bind(this);
         this._handlePreviewClose = this._handlePreviewClose.bind(this);
 
-        this.props.defaultFields({template: 'france'}, this.constructor.name);
+        this.schema = recapSchema;
+
+        let hasTemplate: boolean = false;
+
+        const lastFields: any = this.props.getLastFields();
+        if (Object.keys(lastFields).length > 0) {
+            if (lastFields.template != null) {
+                this.state.fields.template = lastFields.template;
+                hasTemplate = true;
+
+                // force validation, we consider it's "onError = false" because already checked when submitted (we're in previous situation)
+                this.props.onError(false);
+            }
+        }
+
+        if (!hasTemplate) {
+            this.props.defaultField('template', 'france', this.constructor.name);
+        }
     }
 
     public componentDidMount() {
@@ -59,13 +75,13 @@ export default class RecapStep extends React.Component<RecapProps, RecapState> {
         const recapFields = this.renameKeys(this.props.currentRow, mapping);
         delete recapFields.undefined;
 
-        this.setState({recapFields});
+        this.setState({ recapFields });
     }
 
     public renameKeys(obj: any, newKeys: any) {
         const keyValues = Object.keys(obj).map(key => {
-          const newKey = newKeys[key] || key;
-          return { [newKey]: obj[key] };
+            const newKey = newKeys[key] || key;
+            return { [newKey]: obj[key] };
         });
         return Object.assign({}, ...keyValues);
     }
@@ -77,10 +93,10 @@ export default class RecapStep extends React.Component<RecapProps, RecapState> {
                 <br />
                 <Button onClick={this._handleRecap} variant="raised" color='primary'>Afficher</Button>
                 <br />
-                <ConventionPreview 
-                    opened={this.state.recap} 
-                    currentRow={this.state.recapFields} 
-                    activeTab={this.state.recapTab} 
+                <ConventionPreview
+                    opened={this.state.recap}
+                    currentRow={this.state.recapFields}
+                    activeTab={this.state.recapTab}
                     onCloseAction={this._handlePreviewClose}
                     onTableChange={this._handleTableChange}
                     onAction={null}
@@ -102,17 +118,16 @@ export default class RecapStep extends React.Component<RecapProps, RecapState> {
             </div>
         );
     }
-    
+
     private _handleRecap(event: any) {
-        this.setState({recap: !this.state.recap});
+        this.setState({ recap: !this.state.recap });
     }
 
-    private _handlePreviewClose(event: any) {
-        this.setState({recap: false});
+    private _handlePreviewClose(event: any) {
+        this.setState({ recap: false });
     }
 
     private _handleTableChange(event: any, value: any) {
-        this.setState({recapTab: value});
+        this.setState({ recapTab: value });
     }
-
 }

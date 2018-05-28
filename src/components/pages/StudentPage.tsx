@@ -21,12 +21,13 @@ import RecapStep from '../steps/RecapStep';
 import './StudentPage.css';
 
 export interface FormProps {
-    defaultFields: (any);
+    defaultField: (any);
+    getLastFields: (any);
     onError: (any);
     onFieldChange: (any);
 }
 
-interface StudentPageProps { 
+interface StudentPageProps {
     onReadyToSign: (any);
 }
 
@@ -42,7 +43,7 @@ interface StudentPageState {
 
 const stepCount = 6;
 // @Tool : put validationActivated to false to bypass validation logic
-const validationActivated = false;
+const validationActivated = true;
 
 export class StudentPage extends React.Component<StudentPageProps, StudentPageState> {
     private _handleNext: (any);
@@ -53,7 +54,14 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
         this.state = {
             inError: validationActivated,
             stepIndex: 0,
-            steps: {},
+            steps: {
+                StudentStep: {},
+                CompanyStep: {},
+                InternshipStep: {},
+                ConcernedStep: {},
+                MoreStep: {},
+                RecapStep: {}
+            },
             apiURL: process.env.REACT_APP_API,
             snackbar: false,
             snackText: 'Convention envoyée pour validation !',
@@ -65,8 +73,9 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
         this._handlePrev = this._handlePrev.bind(this);
         this._handleField = this._handleField.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
-        this._handleDefaultFields = this._handleDefaultFields.bind(this);
+        this._handleDefaultField = this._handleDefaultField.bind(this);
         this._handleSnackClose = this._handleSnackClose.bind(this);
+        this._handleGetLastFields = this._handleGetLastFields.bind(this);
     }
 
     public _getSteps() {
@@ -140,23 +149,23 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
                     message={<span id="message-id">{this.state.snackText}</span>}
                     action={[
                         <IconButton
-                        key="close"
-                        aria-label="Fermer"
-                        color="inherit"
-                        onClick={this._handleSnackClose}
+                            key="close"
+                            aria-label="Fermer"
+                            color="inherit"
+                            onClick={this._handleSnackClose}
                         >
                             <CloseIcon />
                         </IconButton>,
                     ]}
-                    />
+                />
             </div>
         );
     }
 
-    private _handleDefaultFields(event: any, from: string) {
+    private _handleDefaultField(key: any, value: any, from: string) {
         const steps = Object.assign({}, this.state.steps);
-        steps[from] = event;
-        this.setState({steps});
+        steps[from][key] = value;
+        this.setState({ steps });
     }
 
     private _handleField(event: any, from: string) {
@@ -176,7 +185,7 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
     private _handlePrev(event: any) {
         if (this.state.stepIndex > 0) {
             let nextLabel = this.state.nextLabel;
-            if(this.state.stepIndex !== 4){
+            if (this.state.stepIndex !== 4) {
                 this._handleNext = this._doNext.bind(this);
                 nextLabel = 'Suivant';
             }
@@ -191,7 +200,7 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
     private _doNext(event: any) {
         if (!this.state.inError) {
             let nextLabel = this.state.nextLabel;
-            if(this.state.stepIndex === 4){
+            if (this.state.stepIndex === 4) {
                 this._handleNext = this._handleSubmit;
                 nextLabel = 'Envoyer';
             }
@@ -216,25 +225,26 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
     }
 
     private _stepContent(stepIndex: number) {
-        switch(stepIndex) {
+        switch (stepIndex) {
             case 1:
-                return (<CompanyStep key={1} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>);
+                return (<CompanyStep key={1} onError={this._onStepError} onFieldChange={this._handleField} defaultField={this._handleDefaultField} getLastFields={this._handleGetLastFields} />);
             case 2:
-                return (<InternshipStep key={2} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>);
+                return (<InternshipStep key={2} onError={this._onStepError} onFieldChange={this._handleField} defaultField={this._handleDefaultField} getLastFields={this._handleGetLastFields} />);
             case 3:
-                return (<ConcernedStep key={3} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>);
+                return (<ConcernedStep key={3} onError={this._onStepError} onFieldChange={this._handleField} defaultField={this._handleDefaultField} getLastFields={this._handleGetLastFields} />);
             case 4:
-                return (<MoreStep key={4} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>);
+                return (<MoreStep key={4} onError={this._onStepError} onFieldChange={this._handleField} defaultField={this._handleDefaultField} getLastFields={this._handleGetLastFields} />);
             case 5:
-                return (<RecapStep 
-                            key={5} 
-                            onError={this._onStepError} 
-                            defaultFields={this._handleDefaultFields} 
-                            onFieldChange={this._handleField}
-                            currentRow={this.state.steps}
-                        />);
+                return (<RecapStep
+                    key={5}
+                    onError={this._onStepError}
+                    defaultField={this._handleDefaultField}
+                    onFieldChange={this._handleField}
+                    currentRow={this.state.steps}
+                    getLastFields={this._handleGetLastFields}
+                />);
             default:
-                return (<StudentStep key={0} onError={this._onStepError} onFieldChange={this._handleField} defaultFields={this._handleDefaultFields}/>);
+                return (<StudentStep key={0} onError={this._onStepError} onFieldChange={this._handleField} defaultField={this._handleDefaultField} getLastFields={this._handleGetLastFields} />);
         }
     }
 
@@ -252,7 +262,24 @@ export class StudentPage extends React.Component<StudentPageProps, StudentPageSt
 
     }
 
-    private _handleSnackClose(event: any){
-        this.setState({snackbar: false});
+    private _handleSnackClose(event: any) {
+        this.setState({ snackbar: false });
+    }
+
+    private _handleGetLastFields(event: any) {
+        switch(this.state.stepIndex) {
+            case 1:
+                return this.state.steps.CompanyStep;
+            case 2:
+                return this.state.steps.InternshipStep;
+            case 3:
+                return this.state.steps.ConcernedStep;
+            case 4:
+                return this.state.steps.MoreStep;
+            case 5:
+                return this.state.steps.RecapStep;
+            default:
+                return this.state.steps.StudentStep;
+        }
     }
 }

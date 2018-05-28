@@ -1,8 +1,8 @@
 import * as Joi from 'joi';
 
 export const studentSchema = {
-    promotion: Joi.string(),
-    sexe: Joi.string(),
+    promotion: Joi.string().valid(['L3', 'M1', 'M2']),
+    sexe: Joi.string().valid(['M', 'F', 'A']),
     nom: Joi.string().min(3).max(30),
     prenom: Joi.string().min(3).max(60),
     securiteSociale: Joi.string().min(13).max(15),
@@ -20,22 +20,22 @@ export const internshipSchema = {
     descriptionStage: Joi.string().min(20),
     dateDebutStage: Joi.string().regex(/^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/\-]\d{4}$/),
     dateFinStage: Joi.string().regex(/^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/\-]\d{4}$/),
-    dureeHebdoStage: Joi.string().min(10),
+    dureeHebdoStage: Joi.string().min(9),
     horairesStage: Joi.string().min(10),
     presenceFree: Joi.string().min(2),
     gratificationStage: Joi.string().min(2),
-    typeRemuneration: Joi.string().min(2),
+    typeRemuneration: Joi.string().valid(['Virement', 'Chèque', 'Autre']),
     avantagesStage: Joi.string().min(2)
 }
 
 export const concernedSchema = {
-    sexeEncadrant: Joi.string(),
+    sexeEncadrant: Joi.string().valid(['M', 'F', 'A']),
     nomEncadrant: Joi.string().min(2),
     prenomEncadrant: Joi.string().min(2),
     emailEncadrant: Joi.string().email(),
     telephoneEncadrant: Joi.string().regex(/^\+(?:[0-9]●?){6,14}[0-9]$/),
     qualiteEncadrant: Joi.string().min(2),
-    sexeTuteur: Joi.string(),
+    sexeTuteur: Joi.string().valid(['M', 'F', 'A']),
     nomTuteur: Joi.string().min(2),
     prenomTuteur: Joi.string().min(2),
     emailTuteur: Joi.string().email(),
@@ -48,7 +48,7 @@ export const companySchema = {
     siteWebEntreprise: Joi.string().min(2),
     siegeEntreprise: Joi.string().min(2),
     adrEntreprise: Joi.string().min(2),
-    sexeRepresentant: Joi.string(),
+    sexeRepresentant: Joi.string().valid(['M', 'F', 'A']),
     nomRepresentant: Joi.string().min(2),
     prenomRepresentant: Joi.string().min(2),
     emailRepresentant: Joi.string().email(),
@@ -57,9 +57,9 @@ export const companySchema = {
 };
 
 export const moreSchema = {
-    complementaires: Joi.string().optional()
+    complementaires: Joi.string().allow('').optional()
 }
 
 export const recapSchema = {
-    complementaires: Joi.string().min(2)
+    template: Joi.string().valid(['france', 'foreign'])
 }

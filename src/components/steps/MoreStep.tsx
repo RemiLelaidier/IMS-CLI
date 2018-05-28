@@ -34,6 +34,16 @@ export default class MoreStep extends React.Component<FormProps, MoreState> impl
 
         this._handleChange = _handleField.bind(this);
         this.schema = moreSchema;
+
+        const lastFields: any = this.props.getLastFields();
+        if (Object.keys(lastFields).length > 0) {
+            if (lastFields.complementaires != null) {
+                this.state.fields.complementaires = lastFields.complementaires;
+            }
+        }
+
+        // force validation, this step is optional
+        this.props.onError(false);
     }
 
     public render() {
@@ -43,6 +53,7 @@ export default class MoreStep extends React.Component<FormProps, MoreState> impl
                 <br />
                 <FormGroup row={true}>
                     <Input
+                        value={this.state.fields.complementaires ? this.state.fields.complementaires : ""}
                         id="complementaires"
                         onChange={this._handleChange}
                     />

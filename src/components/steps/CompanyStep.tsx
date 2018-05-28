@@ -73,7 +73,54 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
 
         this._handleChange = _handleField.bind(this);
         this.schema = companySchema;
-        this.props.defaultFields({sexeRepresentant: 'M'}, this.constructor.name);
+
+        let hasSexeValue: boolean = false;
+
+        const lastFields: any = this.props.getLastFields();
+        if (Object.keys(lastFields).length > 0) {
+            if (lastFields.nomEntreprise != null) {
+                this.state.fields.nomEntreprise = lastFields.nomEntreprise;
+            }
+            if (lastFields.siteWebEntreprise != null) {
+                this.state.fields.siteWebEntreprise = lastFields.siteWebEntreprise;
+            }
+            if (lastFields.siegeEntreprise != null) {
+                this.state.fields.siegeEntreprise = lastFields.siegeEntreprise;
+            }
+            if (lastFields.adrEntreprise != null) {
+                this.state.fields.adrEntreprise = lastFields.adrEntreprise;
+            }
+            if (lastFields.sexeRepresentant != null) {
+                this.state.fields.sexeRepresentant = lastFields.sexeRepresentant;
+                hasSexeValue = true;
+            }
+            if (lastFields.nomRepresentant != null) {
+                this.state.fields.nomRepresentant = lastFields.nomRepresentant;
+            }
+            if (lastFields.prenomRepresentant != null) {
+                this.state.fields.prenomRepresentant = lastFields.prenomRepresentant;
+            }
+            if (lastFields.emailRepresentant != null) {
+                this.state.fields.emailRepresentant = lastFields.emailRepresentant;
+            }
+            if (lastFields.telephoneRepresentant != null) {
+                this.state.fields.telephoneRepresentant = lastFields.telephoneRepresentant;
+            }
+            if (lastFields.qualiteRepresentant != null) {
+                this.state.fields.qualiteRepresentant = lastFields.qualiteRepresentant;
+            }
+
+            if (lastFields.nomEntreprise && lastFields.siteWebEntreprise && lastFields.siegeEntreprise && lastFields.adrEntreprise
+                && lastFields.sexeRepresentant && lastFields.nomRepresentant && lastFields.prenomRepresentant && lastFields.emailRepresentant
+                && lastFields.telephoneRepresentant && lastFields.qualiteRepresentant) {
+                // force validation, we consider it's "onError = false" because already checked when submitted (we're in previous situation)
+                this.props.onError(false);
+            }
+        }
+
+        if (!hasSexeValue) {
+            this.props.defaultField('sexeRepresentant', 'M', this.constructor.name);
+        }
     }
 
     public render() {
@@ -84,6 +131,7 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
                     <FormControl required={true} error={this.state.errors.nomEntreprise}>
                         <InputLabel htmlFor="nomEntreprise">Nom</InputLabel>
                         <Input
+                            value={this.state.fields.nomEntreprise ? this.state.fields.nomEntreprise : ""}
                             id="nomEntreprise"
                             onChange={this._handleChange}
                         />
@@ -91,6 +139,7 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
                     <FormControl required={true} error={this.state.errors.siteWebEntreprise}>
                         <InputLabel htmlFor="siteWebEntreprise">Site web</InputLabel>
                         <Input
+                            value={this.state.fields.siteWebEntreprise ? this.state.fields.siteWebEntreprise : ""}
                             id="siteWebEntreprise"
                             onChange={this._handleChange}
                         />
@@ -100,6 +149,7 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
                     <FormControl required={true} error={this.state.errors.siegeEntreprise}>
                         <InputLabel htmlFor="siegeEntreprise">Siège social</InputLabel>
                         <Input
+                            value={this.state.fields.siegeEntreprise ? this.state.fields.siegeEntreprise : ""}
                             id="siegeEntreprise"
                             onChange={this._handleChange}
                         />
@@ -107,6 +157,7 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
                     <FormControl required={true} error={this.state.errors.adrEntreprise}>
                         <InputLabel htmlFor="adrEntreprise">Adresse du stage</InputLabel>
                         <Input
+                            value={this.state.fields.adrEntreprise ? this.state.fields.adrEntreprise : ""}
                             id="adrEntreprise"
                             onChange={this._handleChange}
                         />
@@ -119,6 +170,7 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
                     <FormControl required={true} error={this.state.errors.sexeRepresentant}>
                         <InputLabel htmlFor="sexeRepresentant">Sexe</InputLabel>
                         <Select
+                            value={this.state.fields.sexeRepresentant ? this.state.fields.sexeRepresentant : undefined}
                             id="sexeRepresentant"
                             native={true}
                             onChange={this._handleChange}
@@ -132,6 +184,7 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
                     <FormControl required={true} error={this.state.errors.nomRepresentant}>
                         <InputLabel htmlFor="nomRepresentant">Nom</InputLabel>
                         <Input
+                            value={this.state.fields.nomRepresentant ? this.state.fields.nomRepresentant : ""}
                             id="nomRepresentant"
                             onChange={this._handleChange}
                         />
@@ -139,6 +192,7 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
                     <FormControl required={true} error={this.state.errors.prenomRepresentant}>
                         <InputLabel htmlFor="prenomRepresentant">Prénom</InputLabel>
                         <Input
+                            value={this.state.fields.prenomRepresentant ? this.state.fields.prenomRepresentant : ""}
                             id="prenomRepresentant"
                             onChange={this._handleChange}
                         />
@@ -148,6 +202,7 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
                     <FormControl required={true} error={this.state.errors.emailRepresentant}>
                         <InputLabel htmlFor="emailRepresentant">Email</InputLabel>
                         <Input
+                            value={this.state.fields.emailRepresentant ? this.state.fields.emailRepresentant : ""}
                             id="emailRepresentant"
                             onChange={this._handleChange}
                         />
@@ -155,6 +210,7 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
                     <FormControl required={true} error={this.state.errors.telephoneRepresentant}>
                         <InputLabel htmlFor="telephoneRepresentant">Téléphone</InputLabel>
                         <Input
+                            value={this.state.fields.telephoneRepresentant ? this.state.fields.telephoneRepresentant : ""}
                             id="telephoneRepresentant"
                             onChange={this._handleChange}
                             placeholder="+33611223344"
@@ -163,6 +219,7 @@ export default class CompanyStep extends React.Component<FormProps, CompanyState
                     <FormControl required={true} error={this.state.errors.qualiteRepresentant}>
                         <InputLabel htmlFor="qualiteRepresentant">En qualité de</InputLabel>
                         <Input
+                            value={this.state.fields.qualiteRepresentant ? this.state.fields.qualiteRepresentant : ""}
                             id="qualiteRepresentant"
                             onChange={this._handleChange}
                         />

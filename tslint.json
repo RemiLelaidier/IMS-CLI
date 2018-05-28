@@ -1,5 +1,9 @@
 {
-  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
+  "extends": [
+    "tslint:recommended",
+    "tslint-react",
+    "tslint-config-prettier"
+  ],
   "rules": {
     "no-console": [
       false,
@@ -10,14 +14,14 @@
       "time",
       "timeEnd",
       "trace"
-  ],
-  "variable-name": [
-    false
-  ],
-  "interface-name": [
-    false
-  ],
-  "object-literal-sort-keys": false
+    ],
+    "variable-name": [
+      false
+    ],
+    "interface-name": [
+      false
+    ],
+    "object-literal-sort-keys": false
   },
   "linterOptions": {
     "exclude": [
