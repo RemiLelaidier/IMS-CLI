@@ -231,7 +231,7 @@ export default class StudentStep extends React.Component<FormProps, StudentState
                         />
                     </FormControl>
                     <p>
-                        Pour votre stage, vous devez être couvert contre le risque "responsabilité civile":
+                        Pour votre stage, vous devez être couvert contre le risque "responsabilité civile" :
                     </p>
                     <FormGroup row={true}>
                         <FormControl required={true} error={this.state.errors.assurance}>

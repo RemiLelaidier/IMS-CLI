@@ -1,4 +1,4 @@
-Gestion des stages | Miage Nice
+Gestion des stages | MIAGE de Nice
 
 ## Structure
 

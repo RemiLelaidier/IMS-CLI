@@ -151,7 +151,7 @@ class App extends React.Component<{}, AppState> {
           <AppBar position="static" color="primary">
             <Toolbar>
               <Typography variant="title" color="inherit">
-                Gestion des stages - Miage Nice
+                Gestion des stages - MIAGE de Nice
               </Typography>
               {admin && (
                 <div style={{position: 'absolute', right: 0}}>
