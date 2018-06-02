@@ -201,7 +201,7 @@ class App extends React.Component<{}, AppState> {
           <StudentPage onReadyToSign={this._handleReadyToSign}/>
         )}
         <Dialog
-          open={this.state.login}
+          open={true}
           TransitionComponent={this.Transition}
           keepMounted={true}
           onClose={this._handleClose}
